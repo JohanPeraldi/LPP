@@ -1,0 +1,140 @@
+/* COLORS */
+/* BORDERS */
+/* SPACING */
+/* TYPOGRAPHY */
+/* BREAKPOINTS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 0 2rem 2rem;
+  font-family: "Lato", sans-serif;
+}
+
+ul {
+  list-style: none;
+}
+
+.button {
+  color: white;
+  border: none;
+  border-radius: 5px;
+  height: 6.9rem;
+  width: 17rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.button--blue {
+  background: #3282f7;
+}
+.button--green {
+  background: #68d9a4;
+}
+.button--red {
+  background: #ed6454;
+}
+
+.recipe {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  column-gap: 3rem;
+}
+.recipe__card {
+  height: 36.4rem;
+  max-width: 38rem;
+  border-radius: 5px;
+}
+.recipe__image {
+  border-radius: 5px 5px 0 0;
+  background: #c7bebe;
+  height: 50%;
+}
+.recipe__text {
+  border-radius: 0 0 5px 5px;
+  background: #e7e7e7;
+  padding: 1rem;
+}
+.recipe__header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.recipe__title {
+  font-size: 1.8rem;
+  font-weight: 400;
+  max-width: 75%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.recipe__time {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+.recipe__details {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.recipe__ingredients {
+  flex: 1 1 0;
+  font-size: 1.2rem;
+  font-weight: 400;
+  max-height: 9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.recipe__ingredients strong {
+  font-weight: 700;
+}
+.recipe__instructions {
+  flex: 1 1 0;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  max-height: 9.8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search__form {
+  margin: 2.4rem 0;
+}
+.search__bar {
+  height: 6.9rem;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  padding: 2.4rem;
+  background: #e7e7e7;
+  font-size: 1.8rem;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header__logo {
+  margin-top: 4.2rem;
+  margin-bottom: 1.7rem;
+}
+
+.search__buttons {
+  display: flex;
+  gap: 2rem;
+  margin: 2.4rem 0;
+}
+
+/*# sourceMappingURL=style.css.map */

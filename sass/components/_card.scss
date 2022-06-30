@@ -1,0 +1,85 @@
+.recipe {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  column-gap: $card-gap;
+
+  &__card {
+    height: 36.4rem;
+    max-width: 38rem;
+    border-radius: $border-radius;
+  }
+
+  &__image {
+    border-radius: $border-radius-top;
+    background: $color-grey-dark;
+    height: 50%;
+  }
+
+  &__text {
+    border-radius: $border-radius-bottom;
+    background: $color-grey-light;
+    padding: 1rem;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  &__title {
+    font-size: 1.8rem;
+    font-weight: 400;
+    max-width: 75%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__time {
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+
+  &__details {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  &__ingredients {
+    flex: 1 1 0;
+    font-size: 1.2rem;
+    font-weight: 400;
+    max-height: 9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    & strong {
+      font-weight: 700;
+    }
+  }
+
+  &__instructions {
+    flex: 1 1 0;
+    font-family: $font-family-secondary;
+    font-size: 1.2rem;
+    font-weight: 400;
+    max-height: 9.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+//@media screen and (max-width: $screen-large) {
+//  .recipe {
+//    grid-template-columns: 1fr 1fr;
+//  }
+//}
+//
+//@media screen and (max-width: $screen-medium) {
+//  .recipe {
+//    grid-template-columns: 1fr;
+//  }
+//}

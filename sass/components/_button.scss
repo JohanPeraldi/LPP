@@ -1,0 +1,22 @@
+.button {
+  color: white;
+  border: none;
+  border-radius: $border-radius;
+  height: 6.9rem;
+  width: 17rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  &--blue {
+    background: $color-blue;
+  }
+
+  &--green {
+    background: $color-green;
+  }
+
+  &--red {
+    background: $color-red;
+  }
+}

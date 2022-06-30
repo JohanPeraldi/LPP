@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  @include page-max-width;
+  padding: 0 2rem 2rem;
+  font-family: $font-family-primary;
+}
+
+ul {
+  list-style: none;
+}
