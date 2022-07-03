@@ -2,10 +2,11 @@
 @import "./utils/mixins";
 
 @import "./base/base";
+@import "./base/reset";
 
-@import "./components/button";
 @import "./components/card";
-@import "./components/searchbar";
+@import "components/search";
+@import "./components/tag";
 
 @import "./layout/header";
 

@@ -24,24 +24,12 @@ ul {
   list-style: none;
 }
 
-.button {
-  color: white;
-  border: none;
-  border-radius: 5px;
-  height: 6.9rem;
-  width: 17rem;
-  font-size: 1.8rem;
-  font-weight: 700;
-  cursor: pointer;
-}
-.button--blue {
-  background: #3282f7;
-}
-.button--green {
-  background: #68d9a4;
-}
-.button--red {
-  background: #ed6454;
+/* clears the 'X' from Chrome */
+input[type=search]::-webkit-search-decoration,
+input[type=search]::-webkit-search-cancel-button,
+input[type=search]::-webkit-search-results-button,
+input[type=search]::-webkit-search-results-decoration {
+  display: none;
 }
 
 .recipe {
@@ -81,8 +69,16 @@ ul {
   white-space: nowrap;
 }
 .recipe__time {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 1rem;
   font-size: 1.8rem;
+}
+.recipe__time strong {
+  margin-left: 0.5rem;
   font-weight: 700;
+  white-space: nowrap;
 }
 .recipe__details {
   display: flex;
@@ -110,17 +106,96 @@ ul {
   text-overflow: ellipsis;
 }
 
+.search__inputs {
+  display: flex;
+  margin-bottom: 2.4rem;
+  gap: 2rem;
+}
 .search__form {
+  position: relative;
+}
+.search__form--default {
   margin: 2.4rem 0;
+  font-size: 3rem;
+}
+.search__form--default i {
+  position: absolute;
+  top: 34%;
+  right: 2%;
+}
+.search__form--category {
+  font-size: 1.8rem;
+}
+.search__form--category input {
+  padding: 1.5rem;
+  width: 17rem;
+  color: white;
+}
+.search__form--category input:focus ~ i {
+  transform: rotate(180deg);
+}
+.search__form--category input::placeholder {
+  color: white;
+  opacity: 1;
+  font-weight: 700;
+}
+.search__form--category i {
+  color: white;
+  position: absolute;
+  top: 34%;
+  right: 10%;
 }
 .search__bar {
   height: 6.9rem;
-  width: 100%;
   border: none;
   border-radius: 5px;
+  font-family: "Lato", sans-serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+.search__bar--default {
+  width: 100%;
   padding: 2.4rem;
   background: #e7e7e7;
-  font-size: 1.8rem;
+}
+.search__bar--blue {
+  background: #3282f7;
+}
+.search__bar--green {
+  background: #68d9a4;
+}
+.search__bar--red {
+  background: #ed6454;
+}
+
+.search__tags {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.tag {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 10.7rem;
+  height: 3.7rem;
+  padding: 1.5rem;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.tag--blue {
+  background: #3282f7;
+}
+.tag--green {
+  background: #68d9a4;
+}
+.tag--red {
+  background: #ed6454;
 }
 
 .header {

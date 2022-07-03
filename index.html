@@ -7,6 +7,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="./css/style.css">
+	<script src="https://kit.fontawesome.com/844797e19e.js" crossorigin="anonymous"></script>
 </head>
 <body>
 	<header class="header">
@@ -18,16 +19,37 @@
 		</div>
 	</header>
 	<article class="search">
-		<form class="search__form" role="search">
-			<input type="search" id="searchbar" class="search__bar" name="q"
+		<form class="search__form search__form--default" role="search">
+			<input type="search" id="searchbar" class="search__bar search__bar--default" name="q"
 			       placeholder="Rechercher une recette"
 			       aria-label="Search through site content">
+			<i class="fa-solid fa-magnifying-glass"></i>
 		</form>
-		<div class="search__tags"></div>
-		<div class="search__buttons">
-			<button class="button button--blue">Ingrédients</button>
-			<button class="button button--green">Appareils</button>
-			<button class="button button--red">Ustensiles</button>
+		<ul class="search__tags">
+			<li class="tag tag--blue">
+				Coco
+				<i class="fa-regular fa-circle-xmark fa-lg"></i>
+			</li>
+		</ul>
+		<div class="search__inputs">
+			<form class="search__form search__form--category" role="search">
+				<input type="search" id="ingredients" class="search__bar search__bar--blue" name="ingredients"
+				       placeholder="Ingrédients"
+				       aria-label="Search ingredients">
+				<i class="fa-solid fa-chevron-down"></i>
+			</form>
+			<form class="search__form search__form--category" role="search">
+				<input type="search" id="appliances" class="search__bar search__bar--green" name="appliances"
+				       placeholder="Appareils"
+				       aria-label="Search appliances">
+				<i class="fa-solid fa-chevron-down"></i>
+			</form>
+			<form class="search__form search__form--category" role="search">
+				<input type="search" id="utensils" class="search__bar search__bar--red" name="utensils"
+				       placeholder="Ustensiles"
+				       aria-label="Search utensils">
+				<i class="fa-solid fa-chevron-down"></i>
+			</form>
 		</div>
 	</article>
 	<main class="recipe">
@@ -36,7 +58,10 @@
 			<div class="recipe__text">
 				<div class="recipe__header">
 					<h2 class="recipe__title">Limonade de Coco</h2>
-					<span class="recipe__time">10 min</span>
+					<span class="recipe__time">
+						<i class="fa-regular fa-clock"></i>
+						<strong>10 min</strong>
+					</span>
 				</div>
 				<div class="recipe__details">
 					<div class="recipe__ingredients">
@@ -57,7 +82,10 @@
 			<div class="recipe__text">
 				<div class="recipe__header">
 					<h2 class="recipe__title">Poisson Cru à la tahitienne</h2>
-					<span class="recipe__time">60 min</span>
+					<span class="recipe__time">
+						<i class="fa-regular fa-clock"></i>
+						<strong>60 min</strong>
+					</span>
 				</div>
 				<div class="recipe__details">
 					<div class="recipe__ingredients">
@@ -79,7 +107,10 @@
 			<div class="recipe__text">
 				<div class="recipe__header">
 					<h2 class="recipe__title">Poulet coco réunionnais</h2>
-					<span class="recipe__time">80 min</span>
+					<span class="recipe__time">
+						<i class="fa-regular fa-clock"></i>
+						<strong>80 min</strong>
+					</span>
 				</div>
 				<div class="recipe__details">
 					<div class="recipe__ingredients">
@@ -101,7 +132,10 @@
 			<div class="recipe__text">
 				<div class="recipe__header">
 					<h2 class="recipe__title">Salade de riz</h2>
-					<span class="recipe__time">50 min</span>
+					<span class="recipe__time">
+						<i class="fa-regular fa-clock"></i>
+						<strong>50 min</strong>
+					</span>
 				</div>
 				<div class="recipe__details">
 					<div class="recipe__ingredients">
@@ -123,7 +157,10 @@
 			<div class="recipe__text">
 				<div class="recipe__header">
 					<h2 class="recipe__title">Tarte au thon</h2>
-					<span class="recipe__time">45 min</span>
+					<span class="recipe__time">
+						<i class="fa-regular fa-clock"></i>
+						<strong>45 min</strong>
+					</span>
 				</div>
 				<div class="recipe__details">
 					<div class="recipe__ingredients">
@@ -145,7 +182,10 @@
 			<div class="recipe__text">
 				<div class="recipe__header">
 					<h2 class="recipe__title">Tarte aux pommes</h2>
-					<span class="recipe__time">50 min</span>
+					<span class="recipe__time">
+						<i class="fa-regular fa-clock"></i>
+						<strong>50 min</strong>
+					</span>
 				</div>
 				<div class="recipe__details">
 					<div class="recipe__ingredients">

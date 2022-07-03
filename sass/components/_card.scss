@@ -40,8 +40,17 @@
   }
 
   &__time {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 1rem;
     font-size: 1.8rem;
-    font-weight: 700;
+
+    & strong {
+      margin-left: 0.5rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
   }
 
   &__details {
