@@ -1,23 +1,34 @@
 const filterRecipes = (filter, recipes) => {
   // Find match between filter and recipe name
-  const recipeNames = recipes.map(recipe => recipe.name.toLowerCase());
+  // const recipeNames = recipes.map(recipe => recipe.name.toLowerCase());
   // or recipe list of ingredients
   const recipeIngredients = recipes.map(recipe => recipe.ingredients); // This is an array containing 50 arrays containing ingredient objects. We are only interested in the 'ingredient' value of each of these objects.
-  console.log(recipeIngredients);
-  // Loop through each array and print the ingredients to the console
+  // console.log(recipeIngredients);
+  // Loop through each array and print the filtered ingredients to the console
   for (let i = 0; i < recipeIngredients.length; i++) {
-    console.group(`List of ingredients of recipe number ${i + 1}`);
     for (let j = 0; j < recipeIngredients[i].length; j++) {
-      console.log(recipeIngredients[i][j].ingredient);
+      for (let k = 0; k < recipeIngredients[i][j].ingredient.length; k++) {
+        for (let l = 0; l < filter.length; l++) {
+          // console.log(filter[l]);
+          // console.log(recipeIngredients[i][j].ingredient[k + l]);
+          if (filter[l] !== recipeIngredients[i][j].ingredient.toLowerCase()[k + l]) break;
+          if (l === filter.length - 1) {
+            console.log(`Matching ingredient of recipe number ${i + 1}`);
+            console.log(recipeIngredients[i][j].ingredient);
+          }
+        }
+        // console.log(recipeIngredients[i][j].ingredient[k].toLowerCase());
+      }
+      // console.log(recipeIngredients[i][j].ingredient); // logs all ingredients for all recipes
     }
-    console.log('------------------');
-    console.groupEnd();
+    // console.log(recipeIngredients[i]);
   }
   // or recipe description
-  const recipeDescriptions = recipes.map(recipe => recipe.description.toLowerCase());
+  // const recipeDescriptions = recipes.map(recipe => recipe.description.toLowerCase());
   /* We look for a match between the user input and a word (or part of
   a word) in the recipe names, lists of ingredients or descriptions */
   // Filter on recipe names
+  /*
   for (let i = 0; i < recipeNames.length; i++) {
     for (let j = 0; j < recipeNames[i].length; j++) {
       for (let k = 0; k < filter.length; k++) {
@@ -28,7 +39,9 @@ const filterRecipes = (filter, recipes) => {
       }
     }
   }
+  */
   // Filter on recipe ingredients
+  /*
   for (let i = 0; i < recipeIngredients.length; i++) {
     for (let j = 0; j < recipeIngredients[i].length; j++) {
       for (let k = 0; k < recipeIngredients[i][j].length; j++) {
@@ -41,7 +54,9 @@ const filterRecipes = (filter, recipes) => {
       }
     }
   }
+  */
   // Filter on recipe names
+  /*
   for (let i = 0; i < recipeDescriptions.length; i++) {
     for (let j = 0; j < recipeDescriptions[i].length; j++) {
       for (let k = 0; k < filter.length; k++) {
@@ -52,6 +67,7 @@ const filterRecipes = (filter, recipes) => {
       }
     }
   }
+  */
 };
 
-export { filterRecipes };
+export {filterRecipes};
