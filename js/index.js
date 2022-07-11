@@ -17,7 +17,7 @@ mainInputElement.addEventListener('input', (event) => {
   const userInput = event.target.value.toLowerCase()
   if (userInput.length > 2) {
     const filteredRecipes = filterRecipes(userInput, recipes)
-    displayRecipes(filteredRecipes);
+    displayRecipes(filteredRecipes)
   }
 })
 
@@ -36,3 +36,9 @@ utensilsInputElement.addEventListener('click', (event) => {
   const elementId = event.target.id
   console.log(`${elementId} tag list should be opened`)
 })
+
+const init = () => {
+  displayRecipes(recipes)
+}
+
+init()

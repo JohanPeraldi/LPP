@@ -1,6 +1,6 @@
 const filterRecipes = (filter, recipes) => {
   // An array to store the ids of all filtered recipes
-  const filteredRecipesIds = [];
+  const filteredRecipesIds = []
   // An array with all the recipe names
   const recipeNames = recipes.map(recipe => recipe.name)
   /* An array of 50 arrays with ingredient objects.
