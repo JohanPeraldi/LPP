@@ -1046,7 +1046,7 @@ export const recipes = [
       }
     ],
     time: 60,
-    description: "Mettre tous les ingrédients dans une cocotte. ajouter de l'eau pour recouvrir l'ensemble et laisser cuirre à petit feur pour 1 heure. Passer au mixer. Salez, poivrez. C'est prêt!",
+    description: "Mettre tous les ingrédients dans une cocotte. Ajouter de l'eau pour recouvrir l'ensemble et laisser cuire à petit feu pour 1 heure. Passer au mixer. Salez, poivrez. C'est prêt!",
     appliance: 'Mixer',
     utensils: ['casserole', 'cuillère en bois']
   },
@@ -1223,7 +1223,7 @@ export const recipes = [
       }
     ],
     time: 25,
-    description: 'Éplucher les légumes, les couper en morceaux et les mettre à cuire dans une cocotte minute environ 15 minutes. Mixer en ajoutant le beurre, la crème. Ajouter le cumun et la noix de muscade.',
+    description: 'Éplucher les légumes, les couper en morceaux et les mettre à cuire dans une cocotte minute environ 15 minutes. Mixer en ajoutant le beurre, la crème. Ajouter le cumin et la noix de muscade.',
     appliance: 'Mixer',
     utensils: ['cocotte minute', 'couteau', 'cuillère en bois']
   },

@@ -17,7 +17,7 @@ mainInputElement.addEventListener('input', (event) => {
   const userInput = event.target.value.toLowerCase()
   if (userInput.length > 2) {
     const filteredRecipes = filterRecipes(userInput, recipes)
-    // displayRecipes(filteredRecipes);
+    displayRecipes(filteredRecipes);
   }
 })
 
