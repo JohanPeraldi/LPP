@@ -88,8 +88,4 @@ const createRecipeCard = (recipe) => {
   return card
 }
 
-const displayTags = (recipes) => {
-  // console.log(recipes)
-}
-
-export { displayRecipes, displayTags }
+export { displayRecipes }

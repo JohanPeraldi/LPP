@@ -1,4 +1,6 @@
 const filterRecipes = (filter, recipes) => {
+  // An array to store the filtered recipes
+  const filteredRecipes = [];
   // An array to store the ids of all filtered recipes
   const filteredRecipesIds = []
   // An array with all the recipe names
@@ -61,8 +63,10 @@ const filterRecipes = (filter, recipes) => {
     }
   }
 
-  // We return the array containing all the ids of the filtered recipes, in ascending order
-  return filteredRecipesIds.sort((a, b) => a - b)
+  // Instead of return an array containing all the ids of the filtered recipes,
+  // we should return an array containing the filtered recipes themselves
+  filteredRecipesIds.sort((a, b) => a - b)
+  return recipes.filter(recipe => filteredRecipesIds.includes(recipe.id))
 }
 
 export { filterRecipes }
