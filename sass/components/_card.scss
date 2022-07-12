@@ -83,6 +83,21 @@
   }
 }
 
+.no-recipe {
+  &__card {
+    position: absolute;
+    margin-right: 1rem;
+  }
+
+  &__infobox {
+    font-size: 2.6rem;
+
+    & span {
+      display: inline-block;
+    }
+  }
+}
+
 //@media screen and (max-width: $screen-large) {
 //  .recipe {
 //    grid-template-columns: 1fr 1fr;

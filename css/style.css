@@ -106,6 +106,17 @@ input[type=search]::-webkit-search-results-decoration {
   text-overflow: ellipsis;
 }
 
+.no-recipe__card {
+  position: absolute;
+  margin-right: 1rem;
+}
+.no-recipe__infobox {
+  font-size: 2.6rem;
+}
+.no-recipe__infobox span {
+  display: inline-block;
+}
+
 .search__inputs {
   display: flex;
   margin-bottom: 2.4rem;

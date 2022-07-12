@@ -1,14 +1,21 @@
+// DOM elements
+const recipeSectionElement = document.querySelector('.recipe');
+
 const displayRecipes = (recipes) => {
   // Remove all recipes from page
-  const recipeSectionElement = document.querySelector('.recipe');
   recipeSectionElement.innerHTML = '';
-  // By default, display first six recipes (change if required)
-  for (let i = 0; i < recipes.length; i++) {
-    // Create recipe cards
-    recipeSectionElement.appendChild(createRecipeCard(recipes[i]));
+  // By default, display all recipes, if any
+  if (recipes) {
+    for (let i = 0; i < recipes.length; i++) {
+      // Create recipe cards
+      recipeSectionElement.appendChild(createRecipeCard(recipes[i]));
+    }
+    // Log to the console an array containing the ids of the recipes to display on the page
+    console.log(recipes);
+  } else {
+    // If no recipes match user search input, display a message to inform her
+    createInfobox();
   }
-  // Log to the console an array containing the ids of the recipes to display on the page
-  console.log(recipes);
 };
 
 const createRecipeCard = (recipe) => {
@@ -87,5 +94,17 @@ const createRecipeCard = (recipe) => {
 
   return card;
 };
+
+// A function to create an information box in case no recipe matches user search input
+const createInfobox = () => {
+  const card = document.createElement('div');
+  card.setAttribute('class', 'no-recipe__card');
+  const informationElement = document.createElement('p');
+  informationElement.setAttribute('class', 'no-recipe__infobox');
+  informationElement.innerHTML = 'Aucune recette ne correspond à votre critère... vous pouvez chercher <span>« tarte aux pommes »,</span> <span>« poisson »,</span> etc.';
+  card.appendChild(informationElement);
+  recipeSectionElement.appendChild(card);
+  console.log('No recipes match your search!');
+}
 
 export { displayRecipes };

@@ -56,10 +56,12 @@ const filterRecipes = (filter, recipes) => {
       }
     }
   }
-  /* Using the array containing all the ids of the filtered recipes,
-  we return an array containing the filtered recipes themselves */
-  filteredRecipesIds.sort((a, b) => a - b);
-  return recipes.filter(recipe => filteredRecipesIds.includes(recipe.id));
+  /* We check that filteredRecipesIds has at least one element. If it does,
+  we return an array containing the filtered recipes. */
+  if (filteredRecipesIds.length > 0) {
+    filteredRecipesIds.sort((a, b) => a - b);
+    return recipes.filter(recipe => filteredRecipesIds.includes(recipe.id));
+  }
 };
 
 export { filterRecipes };
