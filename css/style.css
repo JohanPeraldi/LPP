@@ -142,7 +142,7 @@ input[type=search]::-webkit-search-results-decoration {
 .search__form--category i {
   color: white;
   position: absolute;
-  top: 34%;
+  top: 37%;
   right: 10%;
 }
 .search__bar {
