@@ -2,8 +2,9 @@ import { recipes } from './recipes.js';
 import { filterRecipes } from './filter.js';
 import { displayRecipes } from './display.js';
 
-// A global variable to store filtered recipes
-let filteredRecipes = [];
+/* A global variable to store filtered recipes
+(by default, will be the non filtered original recipes array) */
+let filteredRecipes = recipes;
 
 // DOM elements
 const mainInputElement = document.getElementById('searchbar');
@@ -20,11 +21,23 @@ const advancedSearchInputElements = [
   utensilsInputElement
 ];
 
+// A variable to indicate whether user input has more than 2 characters
+let hasOverTwoChars = false;
 // Display main searchbar user input to the console if it has at least 3 characters
 mainInputElement.addEventListener('input', (event) => {
   const userInput = event.target.value.toLowerCase();
   if (userInput.length > 2) {
+    hasOverTwoChars = true;
     filteredRecipes = filterRecipes(userInput, recipes);
+    displayRecipes(filteredRecipes);
+  }
+  /* If user deletes or modifies input leaving less
+  than 3 characters, displayed recipes must be updated */
+  if (hasOverTwoChars && userInput.length < 3) {
+    /* When tag filtering is added, the following line will
+    need to be modified to avoid removing the tag filters */
+    hasOverTwoChars = false;
+    filteredRecipes = recipes;
     displayRecipes(filteredRecipes);
   }
 });
