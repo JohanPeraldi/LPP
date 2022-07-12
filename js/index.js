@@ -2,7 +2,8 @@ import { recipes } from './recipes.js';
 import { filterRecipes } from './filter.js';
 import { displayRecipes } from './display.js';
 
-// const filteredRecipes = []
+// A global variable to store filtered recipes
+let filteredRecipes = [];
 
 // DOM elements
 const mainInputElement = document.getElementById('searchbar');
@@ -23,7 +24,7 @@ const advancedSearchInputElements = [
 mainInputElement.addEventListener('input', (event) => {
   const userInput = event.target.value.toLowerCase();
   if (userInput.length > 2) {
-    const filteredRecipes = filterRecipes(userInput, recipes); // global -> line 5
+    filteredRecipes = filterRecipes(userInput, recipes);
     displayRecipes(filteredRecipes);
   }
 });
