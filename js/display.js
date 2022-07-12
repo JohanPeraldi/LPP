@@ -104,7 +104,6 @@ const createInfobox = () => {
   informationElement.innerHTML = 'Aucune recette ne correspond à votre critère... vous pouvez chercher <span>« tarte aux pommes »,</span> <span>« poisson »,</span> etc.';
   card.appendChild(informationElement);
   recipeSectionElement.appendChild(card);
-  console.log('No recipes match your search!');
-}
+};
 
 export { displayRecipes };
