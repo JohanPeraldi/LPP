@@ -1723,4 +1723,4 @@ export const recipes = [
     appliance: 'Four',
     utensils: ['rouleau à patisserie', 'fouet']
   }
-]
+];
