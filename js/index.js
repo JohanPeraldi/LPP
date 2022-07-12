@@ -34,9 +34,9 @@ mainInputElement.addEventListener('input', (event) => {
   /* If user deletes or modifies input leaving less
   than 3 characters, displayed recipes must be updated */
   if (hasOverTwoChars && userInput.length < 3) {
+    hasOverTwoChars = false;
     /* When tag filtering is added, the following line will
     need to be modified to avoid removing the tag filters */
-    hasOverTwoChars = false;
     filteredRecipes = recipes;
     displayRecipes(filteredRecipes);
   }
