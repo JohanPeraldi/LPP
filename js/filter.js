@@ -1,3 +1,5 @@
+import { recipes } from './recipes.js';
+
 const filterRecipes = (filter, recipes) => {
   // An array to store the ids of all filtered recipes
   const filteredRecipesIds = [];
@@ -63,5 +65,41 @@ const filterRecipes = (filter, recipes) => {
     return recipes.filter(recipe => filteredRecipesIds.includes(recipe.id));
   }
 };
+
+// Advanced search input fields
+const createTagsList = () => {
+  // Arrays containing all category tags (ingredients, appliances & utensils)
+  const ingredientTags = [];
+  const applianceTags = [];
+  const utensilTags = [];
+  // Loop over recipes array to create lists of category tags
+  recipes.forEach((recipe) => {
+    recipe.ingredients.forEach((ingredient) => {
+      if (ingredientTags.indexOf(ingredient.ingredient) === -1) {
+        ingredientTags.push(ingredient.ingredient);
+      }
+    });
+  });
+  recipes.forEach((recipe) => {
+    if (applianceTags.indexOf(recipe.appliance) === -1) {
+      applianceTags.push(recipe.appliance);
+    }
+  });
+  recipes.forEach((recipe) => {
+    recipe.utensils.forEach((utensil) => {
+      if (utensilTags.indexOf(utensil) === -1) {
+        utensilTags.push(utensil);
+      }
+    });
+  });
+  // Sort all tags by ascending order
+  ingredientTags.sort();
+  applianceTags.sort();
+  utensilTags.sort();
+
+  return { ingredientTags, applianceTags, utensilTags };
+};
+
+console.log(createTagsList());
 
 export { filterRecipes };
