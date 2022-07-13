@@ -180,11 +180,16 @@ input[type=search]::-webkit-search-results-decoration {
 }
 
 .datalist {
-  display: block;
+  display: flex;
+  flex-flow: column wrap;
+  gap: 2rem 6rem;
   position: absolute;
   left: 0;
   color: white;
   padding: 1.5rem;
+  border-radius: 0 0 5px 5px;
+  max-height: 45rem;
+  overflow: hidden;
 }
 .datalist--appliances {
   background: #68d9a4;
@@ -195,7 +200,6 @@ input[type=search]::-webkit-search-results-decoration {
 .datalist--utensils {
   background: #ed6454;
 }
-
 .search__tags {
   display: flex;
   gap: 1.5rem;

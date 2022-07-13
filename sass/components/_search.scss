@@ -78,11 +78,16 @@
 }
 
 .datalist {
-  display: block;
+  display: flex;
+  flex-flow: column wrap;
+  gap: 2rem 6rem;
   position: absolute;
   left: 0;
   color: white;
   padding: 1.5rem;
+  border-radius: $border-radius-bottom;
+  max-height: 45rem;
+  overflow: hidden;
 
   &--appliances {
     background: $color-green;
@@ -94,5 +99,9 @@
 
   &--utensils {
     background: $color-red;
+  }
+
+  & option {
+    //padding: 1rem 0;
   }
 }

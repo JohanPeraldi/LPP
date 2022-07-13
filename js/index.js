@@ -68,7 +68,10 @@ advancedSearchInputElements.forEach(element => element.addEventListener('click',
         createTagsList(el.id);
       }
   }
+  // Add styles to the <form> element
   el.parentElement.style.width = '50%';
+  // Add styles to the <input> element
+  el.style.borderRadius = '5px 5px 0 0';
   el.style.width = '100%';
   el.placeholder = `Rechercher un ${categoryName}`;
   // The following is the chevron (arrow) icon
@@ -103,9 +106,13 @@ advancedSearchInputElements.forEach(element => element.addEventListener('blur', 
         el.parentElement.removeChild(el.parentElement.querySelector('.datalist'));
       }
   }
+  // Reset <form> element styles
   el.parentElement.style.width = '17rem';
+  // Reset <input> element styles
+  el.style.borderRadius = '5px';
   el.style.width = '17rem';
   el.placeholder = `${categoryName}`;
+  // Reset chevron (arrow) icon styles
   el.parentElement.lastElementChild.style.right = '10%';
 }));
 
