@@ -76,3 +76,23 @@
     }
   }
 }
+
+.datalist {
+  display: block;
+  position: absolute;
+  left: 0;
+  color: white;
+  padding: 1.5rem;
+
+  &--appliances {
+    background: $color-green;
+  }
+
+  &--ingredients {
+    background: $color-blue;
+  }
+
+  &--utensils {
+    background: $color-red;
+  }
+}

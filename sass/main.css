@@ -179,6 +179,23 @@ input[type=search]::-webkit-search-results-decoration {
   background: #ed6454;
 }
 
+.datalist {
+  display: block;
+  position: absolute;
+  left: 0;
+  color: white;
+  padding: 1.5rem;
+}
+.datalist--appliances {
+  background: #68d9a4;
+}
+.datalist--ingredients {
+  background: #3282f7;
+}
+.datalist--utensils {
+  background: #ed6454;
+}
+
 .search__tags {
   display: flex;
   gap: 1.5rem;

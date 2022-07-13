@@ -1,6 +1,6 @@
 import { recipes } from './recipes.js';
 import { filterRecipes } from './filter.js';
-import { displayRecipes } from './display.js';
+import { displayRecipes, createTagsList } from './display.js';
 
 /* A global variable to store filtered recipes
 (by default, will be the non filtered original recipes array) */
@@ -49,17 +49,32 @@ advancedSearchInputElements.forEach(element => element.addEventListener('click',
   switch (el.id) {
     case 'ingredients':
       categoryName = 'ingrédient';
+      // We only want to create a tags list if it is not already there
+      if (el.parentElement.querySelector('.datalist') === null) {
+        createTagsList(el.id);
+      }
       break;
     case 'appliances':
       categoryName = 'appareil';
+      // We only want to create a tags list if it is not already there
+      if (el.parentElement.querySelector('.datalist') === null) {
+        createTagsList(el.id);
+      }
       break;
     case 'utensils':
       categoryName = 'ustensile';
+      // We only want to create a tags list if it is not already there
+      if (el.parentElement.querySelector('.datalist') === null) {
+        createTagsList(el.id);
+      }
   }
   el.parentElement.style.width = '50%';
   el.style.width = '100%';
   el.placeholder = `Rechercher un ${categoryName}`;
-  el.parentElement.lastElementChild.style.right = '3%';
+  // The following is the chevron (arrow) icon
+  el.parentElement.lastElementChild.previousElementSibling.style.right = '3%';
+  // The following is the datalist
+  el.parentElement.lastElementChild.style.right = '0';
 }));
 
 // Close tags list
@@ -69,12 +84,24 @@ advancedSearchInputElements.forEach(element => element.addEventListener('blur', 
   switch (el.id) {
     case 'ingredients':
       categoryName = 'Ingrédients';
+      // We want to remove the datalist if it exists
+      if (el.parentElement.querySelector('.datalist') !== null) {
+        el.parentElement.removeChild(el.parentElement.querySelector('.datalist'));
+      }
       break;
     case 'appliances':
       categoryName = 'Appareils';
+      // We want to remove the datalist if it exists
+      if (el.parentElement.querySelector('.datalist') !== null) {
+        el.parentElement.removeChild(el.parentElement.querySelector('.datalist'));
+      }
       break;
     case 'utensils':
       categoryName = 'Ustensiles';
+      // We want to remove the datalist if it exists
+      if (el.parentElement.querySelector('.datalist') !== null) {
+        el.parentElement.removeChild(el.parentElement.querySelector('.datalist'));
+      }
   }
   el.parentElement.style.width = '17rem';
   el.style.width = '17rem';

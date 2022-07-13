@@ -1,3 +1,5 @@
+import { getTags } from './filter.js';
+
 // DOM elements
 const recipeSectionElement = document.querySelector('.recipe');
 
@@ -106,4 +108,20 @@ const createInfobox = () => {
   recipeSectionElement.appendChild(card);
 };
 
-export { displayRecipes };
+// Create category tags drop-down lists
+const createTagsList = (category) => {
+  const formElement = document.getElementById(`search-form-${category}`);
+  const tags = getTags(category);
+  const dataListElement = document.createElement('datalist');
+  dataListElement.id = `datalist-${category}`;
+  dataListElement.classList.add('datalist', `datalist--${category}`);
+  tags.forEach((tag) => {
+    const optionElement = document.createElement('option');
+    optionElement.innerHTML = tag;
+    optionElement.value = tag;
+    dataListElement.appendChild(optionElement);
+  });
+  formElement.appendChild(dataListElement);
+};
+
+export { displayRecipes, createTagsList };

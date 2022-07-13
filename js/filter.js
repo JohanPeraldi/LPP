@@ -67,7 +67,7 @@ const filterRecipes = (filter, recipes) => {
 };
 
 // Advanced search input fields
-const createTagsList = () => {
+const getTags = (category) => {
   // Arrays containing all category tags (ingredients, appliances & utensils)
   const ingredientTags = [];
   const applianceTags = [];
@@ -97,9 +97,17 @@ const createTagsList = () => {
   applianceTags.sort();
   utensilTags.sort();
 
-  return { ingredientTags, applianceTags, utensilTags };
+  switch (category) {
+    case 'ingredients':
+      return ingredientTags;
+    case 'appliances':
+      return applianceTags;
+    case 'utensils':
+      return utensilTags;
+  }
+  // return { ingredientTags, applianceTags, utensilTags };
 };
 
-console.log(createTagsList());
+// console.log(getTags());
 
-export { filterRecipes };
+export { filterRecipes, getTags };
