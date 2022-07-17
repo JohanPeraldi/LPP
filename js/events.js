@@ -28,12 +28,22 @@ const handleMainSearchInputEvents = (e) => {
 
 const handleAdvancedSearchInputsEvents = (e) => {
   // CLICK EVENTS
-  // if (e.type === 'click') {
-  //   console.log(`Click event on ${e.target.outerHTML}`);
-  //   console.log(e);
-  //
-  //   e.stopPropagation();
-  // }
+  if (e.type === 'click') {
+    // We only want to listen for click events when e.target (the element clicked)
+    // !== e.currentTarget (the div.search__inputs on which the event listener is placed)
+    if (e.target !== e.currentTarget) {
+      // We want to listen for click events on <i> elements
+      // but only when their parent <form> element doesn't have the 'datalist-visible' class
+      if (e.target.localName === 'i' && !e.target.parentElement.classList.contains('datalist-visible')) {
+        console.log(`${e.target.previousElementSibling.id} arrow clicked`);
+
+        // Set focus on sibling input element
+        e.target.previousElementSibling.focus();
+      }
+    }
+
+    e.stopPropagation();
+  }
 
   // FOCUS EVENTS
   if (e.type === 'focus') {
