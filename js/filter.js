@@ -1,8 +1,10 @@
 import { filteredRecipes } from './events.js';
+import { updateDataList } from './display.js';
+
+// An array to store the ids of all filtered recipes
+const filteredRecipesIds = [];
 
 const filterRecipes = (filter, recipes) => {
-  // An array to store the ids of all filtered recipes
-  const filteredRecipesIds = [];
   /* We look for a match between the user input and a word (or part of
   a word) in the recipe names, lists of ingredients or descriptions */
   // Filter on recipe names
@@ -105,9 +107,26 @@ const getTags = (category) => {
     case 'utensils':
       return utensilTags;
   }
-  // return { ingredientTags, applianceTags, utensilTags };
+  return { ingredientTags, applianceTags, utensilTags };
 };
 
-// console.log(getTags());
+const filterTags = (filter, category) => {
+  /* We look for a match between the user input and a word
+  (or part of a word) in the ingredients/appliances/utensils keywords */
+  // Filter on recipe ingredients
+  if (category === 'ingredients') {
+    const ingredients = getTags('ingredients');
+    const filteredIngredients = [];
+    for (let i = 0; i < ingredients.length; i++) {
+      if (ingredients[i].toLowerCase().includes(filter.toLowerCase())) {
+        filteredIngredients.push(ingredients[i]);
+      }
+    }
 
-export { filterRecipes, getTags };
+    filteredIngredients.sort();
+    console.log(filteredIngredients);
+    updateDataList(category, filteredIngredients);
+  }
+};
+
+export { filterRecipes, getTags, filterTags };

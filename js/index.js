@@ -24,6 +24,9 @@ advancedSearchInputsElement.addEventListener('focus', handleAdvancedSearchInputs
 // event is dealt with in capture phase.
 advancedSearchInputsElement.addEventListener('blur', handleAdvancedSearchInputsEvents, true);
 
+// Handle input event on input elements
+advancedSearchInputsElement.addEventListener('input', handleAdvancedSearchInputsEvents);
+
 const init = () => {
   displayRecipes(recipes);
 };

@@ -1,5 +1,5 @@
 import { createDataList, removeDataList, displayRecipes } from './display.js';
-import { filterRecipes } from './filter.js';
+import { filterRecipes, filterTags } from './filter.js';
 import { recipes } from './recipes.js';
 
 /* A global variable to store filtered recipes
@@ -27,6 +27,8 @@ const handleMainSearchInputEvents = (e) => {
 };
 
 const handleAdvancedSearchInputsEvents = (e) => {
+  console.log(e);
+
   // CLICK EVENTS
   if (e.type === 'click') {
     /* We only want to listen for click events when e.target (the element clicked)
@@ -35,7 +37,7 @@ const handleAdvancedSearchInputsEvents = (e) => {
       /* We want to listen for click events on <i> elements
       but only when their parent <form> element doesn't have the 'datalist-visible' class */
       if (e.target.localName === 'i' && !e.target.parentElement.classList.contains('datalist-visible')) {
-        console.log(`${e.target.previousElementSibling.id} arrow clicked`);
+        // console.log(`${e.target.previousElementSibling.id} arrow clicked`);
 
         // Set focus on sibling input element
         e.target.previousElementSibling.focus();
@@ -47,8 +49,8 @@ const handleAdvancedSearchInputsEvents = (e) => {
 
   // FOCUS EVENTS
   if (e.type === 'focus') {
-    console.log(`Focus event on ${e.target.outerHTML}`);
-    console.log(e);
+    // console.log(`Focus event on ${e.target.outerHTML}`);
+    // console.log(e);
 
     // When input has focus, add 'datalist-visible' class to parent <form> element
     e.target.parentElement.classList.add('datalist-visible');
@@ -59,8 +61,8 @@ const handleAdvancedSearchInputsEvents = (e) => {
     createDataList(e.target.id);
   }
   if (e.type === 'blur') {
-    console.log(`Blur event on ${e.target.outerHTML}`);
-    console.log(e);
+    // console.log(`Blur event on ${e.target.outerHTML}`);
+    // console.log(e);
 
     // When input loses focus, remove 'datalist-visible' class from parent <form> element
     e.target.parentElement.classList.remove('datalist-visible');
@@ -69,6 +71,15 @@ const handleAdvancedSearchInputsEvents = (e) => {
     e.target.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1) + 's';
     // Remove datalist
     removeDataList(e.target.id);
+  }
+
+  // INPUT EVENTS
+  if (e.type === 'input') {
+    // Compare input with keywords in data list and remove those that don't match
+    const userInput = e.target.value;
+    const category = e.target.id;
+    console.log(userInput, category);
+    filterTags(userInput, category);
   }
 };
 

@@ -108,7 +108,7 @@ const createInfobox = () => {
   recipeSectionElement.appendChild(card);
 };
 
-// Create category datalist
+// Create category data list
 const createDataList = (category) => {
   const formElement = document.getElementById(`search-form-${category}`);
   const tags = getTags(category);
@@ -124,10 +124,30 @@ const createDataList = (category) => {
   formElement.appendChild(dataListElement);
 };
 
-// Remove datalist
+// Remove data list
 const removeDataList = (category) => {
   const dataListElement = document.getElementById(`datalist-${category}`);
   dataListElement.parentElement.removeChild(dataListElement);
 };
 
-export { displayRecipes, createDataList, removeDataList };
+// Update data list after filtering
+const updateDataList = (category, options) => {
+  // Remove existing data list
+  if (document.getElementById(`datalist-${category}`)) {
+    removeDataList(category);
+  }
+  // Create new list
+  const formElement = document.getElementById(`search-form-${category}`);
+  const dataListElement = document.createElement('datalist');
+  dataListElement.id = `datalist-${category}`;
+  dataListElement.classList.add('datalist', `datalist--${category}`);
+  options.forEach((option) => {
+    const optionElement = document.createElement('option');
+    optionElement.innerHTML = option;
+    optionElement.value = option;
+    dataListElement.appendChild(optionElement);
+  });
+  formElement.appendChild(dataListElement);
+};
+
+export { displayRecipes, createDataList, removeDataList, updateDataList };
