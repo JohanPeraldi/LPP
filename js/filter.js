@@ -1,4 +1,4 @@
-import { recipes } from './recipes.js';
+import { filteredRecipes } from './events.js';
 
 const filterRecipes = (filter, recipes) => {
   // An array to store the ids of all filtered recipes
@@ -72,20 +72,20 @@ const getTags = (category) => {
   const ingredientTags = [];
   const applianceTags = [];
   const utensilTags = [];
-  // Loop over recipes array to create lists of category tags
-  recipes.forEach((recipe) => {
+  // Loop over filtered recipes array to create lists of category tags (data lists)
+  filteredRecipes.forEach((recipe) => {
     recipe.ingredients.forEach((ingredient) => {
       if (ingredientTags.indexOf(ingredient.ingredient) === -1) {
         ingredientTags.push(ingredient.ingredient);
       }
     });
   });
-  recipes.forEach((recipe) => {
+  filteredRecipes.forEach((recipe) => {
     if (applianceTags.indexOf(recipe.appliance) === -1) {
       applianceTags.push(recipe.appliance);
     }
   });
-  recipes.forEach((recipe) => {
+  filteredRecipes.forEach((recipe) => {
     recipe.utensils.forEach((utensil) => {
       if (utensilTags.indexOf(utensil) === -1) {
         utensilTags.push(utensil);

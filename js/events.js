@@ -85,4 +85,4 @@ const getInputPlaceholder = (category) => {
   }
 };
 
-export { handleMainSearchInputEvents, handleAdvancedSearchInputsEvents };
+export { filteredRecipes, handleMainSearchInputEvents, handleAdvancedSearchInputsEvents };
