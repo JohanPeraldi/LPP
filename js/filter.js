@@ -122,10 +122,31 @@ const filterTags = (filter, category) => {
         filteredIngredients.push(ingredients[i]);
       }
     }
-
     filteredIngredients.sort();
     console.log(filteredIngredients);
     updateDataList(category, filteredIngredients);
+  } else if (category === 'appliances') {
+    const appliances = getTags('appliances');
+    const filteredAppliances = [];
+    for (let i = 0; i < appliances.length; i++) {
+      if (appliances[i].toLowerCase().includes(filter.toLowerCase())) {
+        filteredAppliances.push(appliances[i]);
+      }
+    }
+    filteredAppliances.sort();
+    console.log(filteredAppliances);
+    updateDataList(category, filteredAppliances);
+  } else {
+    const utensils = getTags('utensils');
+    const filteredUtensils = [];
+    for (let i = 0; i < utensils.length; i++) {
+      if (utensils[i].toLowerCase().includes(filter.toLowerCase())) {
+        filteredUtensils.push(utensils[i]);
+      }
+    }
+    filteredUtensils.sort();
+    console.log(filteredUtensils);
+    updateDataList(category, filteredUtensils);
   }
 };
 
