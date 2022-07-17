@@ -22,16 +22,28 @@
     &--category {
       font-size: 1.8rem;
 
+      &.datalist-visible {
+        width: 50%;
+
+        & input {
+          width: 100%;
+          border-radius: $border-radius-top;
+        }
+
+        & i {
+          transform: rotate(180deg);
+          right: 3%;
+        }
+
+        & datalist {
+          right: 0;
+        }
+      }
+
       & input {
         padding: 1.5rem;
         width: 17rem;
         color: white;
-
-        &:focus {
-          & ~ i {
-            transform: rotate(180deg);
-          }
-        }
 
         &::placeholder {
           color: white;

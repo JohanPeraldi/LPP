@@ -137,13 +137,24 @@ input[type=search]::-webkit-search-results-decoration {
 .search__form--category {
   font-size: 1.8rem;
 }
+.search__form--category.datalist-visible {
+  width: 50%;
+}
+.search__form--category.datalist-visible input {
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+}
+.search__form--category.datalist-visible i {
+  transform: rotate(180deg);
+  right: 3%;
+}
+.search__form--category.datalist-visible datalist {
+  right: 0;
+}
 .search__form--category input {
   padding: 1.5rem;
   width: 17rem;
   color: white;
-}
-.search__form--category input:focus ~ i {
-  transform: rotate(180deg);
 }
 .search__form--category input::placeholder {
   color: white;

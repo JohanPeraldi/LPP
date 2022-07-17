@@ -1,148 +1,28 @@
 import { recipes } from './recipes.js';
-import { filterRecipes } from './filter.js';
-import { displayRecipes, createTagsList } from './display.js';
-
-/* A global variable to store filtered recipes
-(by default, will be the non filtered original recipes array) */
-let filteredRecipes = recipes;
+import { displayRecipes } from './display.js';
+import { handleMainSearchInputEvents, handleAdvancedSearchInputsEvents } from './events.js';
 
 // DOM elements
 const mainInputElement = document.getElementById('searchbar');
-const ingredientsInputElement = document.getElementById('ingredients');
-const appliancesInputElement = document.getElementById('appliances');
-const utensilsInputElement = document.getElementById('utensils');
-const tagElements = document.getElementsByClassName('tag');
-const removeTagIconElements = document.getElementsByClassName('tag__remove-icon');
+const advancedSearchInputsElement = document.querySelector('.search__inputs');
 
-// An array containing all 3 advanced search input elements
-const advancedSearchInputElements = [
-  ingredientsInputElement,
-  appliancesInputElement,
-  utensilsInputElement
-];
+// Display matching recipes if user input has at least 3 characters
+mainInputElement.addEventListener('input', handleMainSearchInputEvents);
 
-// A variable to indicate whether user input has more than 2 characters
-let hasOverTwoChars = false;
-// Display main searchbar user input to the console if it has at least 3 characters
-mainInputElement.addEventListener('input', (event) => {
-  const userInput = event.target.value.toLowerCase();
-  if (userInput.length > 2) {
-    hasOverTwoChars = true;
-    filteredRecipes = filterRecipes(userInput, recipes);
-    displayRecipes(filteredRecipes);
-  }
-  /* If user deletes or modifies input leaving less
-  than 3 characters, displayed recipes must be updated */
-  if (hasOverTwoChars && userInput.length < 3) {
-    hasOverTwoChars = false;
-    /* When tag filtering is added, the following line will
-    need to be modified to avoid removing the tag filters */
-    filteredRecipes = recipes;
-    displayRecipes(filteredRecipes);
-  }
-});
+// Handle clicks inside advanced search section
+advancedSearchInputsElement.addEventListener('click', handleAdvancedSearchInputsEvents);
 
-// Open tags list
-advancedSearchInputElements.forEach(element => element.addEventListener('click', (event) => {
-  const el = event.target;
-  let categoryName;
-  switch (el.id) {
-    case 'ingredients':
-      categoryName = 'ingrédient';
-      // We only want to create a tags list if it is not already there
-      if (el.parentElement.querySelector('.datalist') === null) {
-        createTagsList(el.id);
-      }
-      break;
-    case 'appliances':
-      categoryName = 'appareil';
-      // We only want to create a tags list if it is not already there
-      if (el.parentElement.querySelector('.datalist') === null) {
-        createTagsList(el.id);
-      }
-      break;
-    case 'utensils':
-      categoryName = 'ustensile';
-      // We only want to create a tags list if it is not already there
-      if (el.parentElement.querySelector('.datalist') === null) {
-        createTagsList(el.id);
-      }
-  }
-  // Add styles to the <form> element
-  el.parentElement.style.width = '50%';
-  // Add styles to the <input> element
-  el.style.borderRadius = '5px 5px 0 0';
-  el.style.width = '100%';
-  el.placeholder = `Rechercher un ${categoryName}`;
-  // The following is the chevron (arrow) icon
-  el.parentElement.lastElementChild.previousElementSibling.style.right = '3%';
-  // The following is the datalist
-  el.parentElement.lastElementChild.style.right = '0';
-}));
+// Handle focus event on input elements (to open advanced search menu).
+// Important reminder: since 'focus' events do not bubble up,
+// it is necessary to pass option 'true' as third argument so that
+// event is dealt with in capture phase.
+advancedSearchInputsElement.addEventListener('focus', handleAdvancedSearchInputsEvents, true);
 
-// Close tags list
-advancedSearchInputElements.forEach(element => element.addEventListener('blur', (event) => {
-  const el = event.target;
-  let categoryName;
-  switch (el.id) {
-    case 'ingredients':
-      categoryName = 'Ingrédients';
-      // We want to remove the datalist if it exists
-      if (el.parentElement.querySelector('.datalist') !== null) {
-        el.parentElement.removeChild(el.parentElement.querySelector('.datalist'));
-      }
-      break;
-    case 'appliances':
-      categoryName = 'Appareils';
-      // We want to remove the datalist if it exists
-      if (el.parentElement.querySelector('.datalist') !== null) {
-        el.parentElement.removeChild(el.parentElement.querySelector('.datalist'));
-      }
-      break;
-    case 'utensils':
-      categoryName = 'Ustensiles';
-      // We want to remove the datalist if it exists
-      if (el.parentElement.querySelector('.datalist') !== null) {
-        el.parentElement.removeChild(el.parentElement.querySelector('.datalist'));
-      }
-  }
-  // Reset <form> element styles
-  el.parentElement.style.width = '17rem';
-  // Reset <input> element styles
-  el.style.borderRadius = '5px';
-  el.style.width = '17rem';
-  el.placeholder = `${categoryName}`;
-  // Reset chevron (arrow) icon styles
-  el.parentElement.lastElementChild.style.right = '10%';
-}));
-
-// Hide tags
-// Click event on <li> element
-for (let i = 0; i < tagElements.length; i++) {
-  tagElements[i].addEventListener('click', (event) => {
-    const el = event.target;
-    const elParent = event.target.parentElement;
-    el.remove();
-    /* If <ul> element has no <li> child element (no tags are selected)
-    remove extra margin-bottom */
-    if (elParent.children.length === 0) {
-      elParent.style.marginBottom = '0';
-    }
-  });
-}
-// Click event on <i> element
-for (let i = 0; i < removeTagIconElements.length; i++) {
-  removeTagIconElements[i].addEventListener('click', (event) => {
-    const el = event.target;
-    const elGrandParent = event.target.parentElement.parentElement;
-    el.parentElement.remove();
-    /* If <ul> element has no <li> child element (no tags are selected)
-    remove extra margin-bottom */
-    if (elGrandParent.children.length === 0) {
-      elGrandParent.style.marginBottom = '0';
-    }
-  });
-}
+// Handle blur event on input elements (to close advanced search menu).
+// Important reminder: since 'blur' events do not bubble up,
+// it is necessary to pass option 'true' as third argument so that
+// event is dealt with in capture phase.
+advancedSearchInputsElement.addEventListener('blur', handleAdvancedSearchInputsEvents, true);
 
 const init = () => {
   displayRecipes(recipes);
