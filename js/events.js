@@ -1,4 +1,4 @@
-import { createTagsList, displayRecipes } from './display.js';
+import { createDataList, removeDataList, displayRecipes } from './display.js';
 import { filterRecipes } from './filter.js';
 import { recipes } from './recipes.js';
 
@@ -29,11 +29,11 @@ const handleMainSearchInputEvents = (e) => {
 const handleAdvancedSearchInputsEvents = (e) => {
   // CLICK EVENTS
   if (e.type === 'click') {
-    // We only want to listen for click events when e.target (the element clicked)
-    // !== e.currentTarget (the div.search__inputs on which the event listener is placed)
+    /* We only want to listen for click events when e.target (the element clicked)
+    !== e.currentTarget (the div.search__inputs on which the event listener is placed) */
     if (e.target !== e.currentTarget) {
-      // We want to listen for click events on <i> elements
-      // but only when their parent <form> element doesn't have the 'datalist-visible' class
+      /* We want to listen for click events on <i> elements
+      but only when their parent <form> element doesn't have the 'datalist-visible' class */
       if (e.target.localName === 'i' && !e.target.parentElement.classList.contains('datalist-visible')) {
         console.log(`${e.target.previousElementSibling.id} arrow clicked`);
 
@@ -55,6 +55,8 @@ const handleAdvancedSearchInputsEvents = (e) => {
     // Change input placeholder text
     const placeholder = getInputPlaceholder(e.target.id);
     e.target.placeholder = `Rechercher un ${placeholder}`;
+    // Add datalist
+    createDataList(e.target.id);
   }
   if (e.type === 'blur') {
     console.log(`Blur event on ${e.target.outerHTML}`);
@@ -65,11 +67,13 @@ const handleAdvancedSearchInputsEvents = (e) => {
     // Change input placeholder text back to initial value
     const placeholder = getInputPlaceholder(e.target.id);
     e.target.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1) + 's';
+    // Remove datalist
+    removeDataList(e.target.id);
   }
 };
 
-// A function that returns the category passed as argument
-// in the required format to be used as placeholder text
+/* A function that returns the category passed as argument
+in the required format to be used as placeholder text */
 const getInputPlaceholder = (category) => {
   switch (category) {
     case 'ingredients':

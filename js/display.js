@@ -108,8 +108,8 @@ const createInfobox = () => {
   recipeSectionElement.appendChild(card);
 };
 
-// Create category tags drop-down lists
-const createTagsList = (category) => {
+// Create category datalist
+const createDataList = (category) => {
   const formElement = document.getElementById(`search-form-${category}`);
   const tags = getTags(category);
   const dataListElement = document.createElement('datalist');
@@ -124,4 +124,10 @@ const createTagsList = (category) => {
   formElement.appendChild(dataListElement);
 };
 
-export { displayRecipes, createTagsList };
+// Remove datalist
+const removeDataList = (category) => {
+  const dataListElement = document.getElementById(`datalist-${category}`);
+  dataListElement.parentElement.removeChild(dataListElement);
+};
+
+export { displayRecipes, createDataList, removeDataList };
