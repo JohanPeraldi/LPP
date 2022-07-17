@@ -52,6 +52,9 @@ const handleAdvancedSearchInputsEvents = (e) => {
 
     // When input has focus, add 'datalist-visible' class to parent <form> element
     e.target.parentElement.classList.add('datalist-visible');
+    // Change input placeholder text
+    const placeholder = getInputPlaceholder(e.target.id);
+    e.target.placeholder = `Rechercher un ${placeholder}`;
   }
   if (e.type === 'blur') {
     console.log(`Blur event on ${e.target.outerHTML}`);
@@ -59,6 +62,9 @@ const handleAdvancedSearchInputsEvents = (e) => {
 
     // When input loses focus, remove 'datalist-visible' class from parent <form> element
     e.target.parentElement.classList.remove('datalist-visible');
+    // Change input placeholder text back to initial value
+    const placeholder = getInputPlaceholder(e.target.id);
+    e.target.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1) + 's';
   }
 };
 
