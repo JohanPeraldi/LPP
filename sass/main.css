@@ -214,7 +214,6 @@ input[type=search]::-webkit-search-results-decoration {
 .search__tags {
   display: flex;
   gap: 1.5rem;
-  margin-bottom: 1.5rem;
 }
 
 .tag {
@@ -223,6 +222,7 @@ input[type=search]::-webkit-search-results-decoration {
   align-items: center;
   width: 10.7rem;
   height: 3.7rem;
+  margin-bottom: 1.5rem;
   padding: 1.5rem;
   color: white;
   border: none;

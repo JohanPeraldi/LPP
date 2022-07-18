@@ -96,4 +96,16 @@ const getInputPlaceholder = (category) => {
   }
 };
 
-export { filteredRecipes, handleMainSearchInputEvents, handleAdvancedSearchInputsEvents };
+const handleTagEvents = (e) => {
+  // CLICK EVENTS
+  if (e.type === 'click') {
+    if (e.target !== e.currentTarget) {
+      if (e.target.localName === 'i') {
+        const tag = e.target.parentElement;
+        tag.parentElement.removeChild(tag);
+      }
+    }
+  }
+};
+
+export { filteredRecipes, handleMainSearchInputEvents, handleAdvancedSearchInputsEvents, handleTagEvents };
