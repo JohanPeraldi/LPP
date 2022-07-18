@@ -1,13 +1,14 @@
 .search__tags {
   display: flex;
-  gap: 1.5rem;
+  flex-wrap: wrap;
+  column-gap: 1.5rem;
 }
 
 .tag {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 10.7rem;
+  width: fit-content;
   height: 3.7rem;
   margin-bottom: 1.5rem;
   padding: 1.5rem;
@@ -28,5 +29,9 @@
 
   &--red {
     background: $color-red;
+  }
+
+  & i {
+    margin-left: 1rem;
   }
 }
