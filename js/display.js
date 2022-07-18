@@ -150,4 +150,28 @@ const updateDataList = (category, options) => {
   formElement.appendChild(dataListElement);
 };
 
-export { displayRecipes, createDataList, removeDataList, updateDataList };
+// Create tag
+const createTag = (option, category) => {
+  const tagsListElement = document.querySelector('.search__tags');
+  const tag = document.createElement('li');
+  // Add the corresponding classes
+  let tagClassModifier;
+  switch (category) {
+    case 'ingredients':
+      tagClassModifier = 'blue';
+      break;
+    case 'appliances':
+      tagClassModifier = 'green';
+      break;
+    case 'utensils':
+      tagClassModifier = 'red';
+  }
+  tag.classList.add('tag', `tag--${tagClassModifier}`);
+  tag.innerHTML = `
+    ${option}
+    <i class="fa-regular fa-circle-xmark fa-lg tag__remove-icon"></i>
+  `;
+  tagsListElement.appendChild(tag);
+};
+
+export { displayRecipes, createDataList, removeDataList, updateDataList, createTag };

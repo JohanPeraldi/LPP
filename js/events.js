@@ -1,4 +1,4 @@
-import { createDataList, removeDataList, displayRecipes } from './display.js';
+import { createDataList, removeDataList, displayRecipes, createTag } from './display.js';
 import { filterRecipes, filterTags } from './filter.js';
 import { recipes } from './recipes.js';
 
@@ -37,10 +37,16 @@ const handleAdvancedSearchInputsEvents = (e) => {
       /* We want to listen for click events on <i> elements
       but only when their parent <form> element doesn't have the 'datalist-visible' class */
       if (e.target.localName === 'i' && !e.target.parentElement.classList.contains('datalist-visible')) {
-        // console.log(`${e.target.previousElementSibling.id} arrow clicked`);
-
         // Set focus on sibling input element
         e.target.previousElementSibling.focus();
+      }
+      // We want to listen for click events on <option> elements
+      // CODE BELOW WILL ONLY WORK IF THERE IS NO BLUR EVENT!
+      if (e.target.localName === 'option') {
+        console.log(`${e.target.value} option clicked`);
+        // We want to create a tag with the value of the option
+        const optionCategory = e.target.parentElement.parentElement.firstElementChild.id;
+        createTag(e.target.value, optionCategory);
       }
     }
 
@@ -49,9 +55,6 @@ const handleAdvancedSearchInputsEvents = (e) => {
 
   // FOCUS EVENTS
   if (e.type === 'focus') {
-    // console.log(`Focus event on ${e.target.outerHTML}`);
-    // console.log(e);
-
     // When input has focus, add 'datalist-visible' class to parent <form> element
     e.target.parentElement.classList.add('datalist-visible');
     // Change input placeholder text
@@ -60,18 +63,15 @@ const handleAdvancedSearchInputsEvents = (e) => {
     // Add datalist
     createDataList(e.target.id);
   }
-  if (e.type === 'blur') {
-    // console.log(`Blur event on ${e.target.outerHTML}`);
-    // console.log(e);
-
-    // When input loses focus, remove 'datalist-visible' class from parent <form> element
-    e.target.parentElement.classList.remove('datalist-visible');
-    // Change input placeholder text back to initial value
-    const placeholder = getInputPlaceholder(e.target.id);
-    e.target.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1) + 's';
-    // Remove datalist
-    removeDataList(e.target.id);
-  }
+  // if (e.type === 'blur') {
+  //   // When input loses focus, remove 'datalist-visible' class from parent <form> element
+  //   e.target.parentElement.classList.remove('datalist-visible');
+  //   // Change input placeholder text back to initial value
+  //   const placeholder = getInputPlaceholder(e.target.id);
+  //   e.target.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1) + 's';
+  //   // Remove datalist
+  //   removeDataList(e.target.id);
+  // }
 
   // INPUT EVENTS
   if (e.type === 'input') {
