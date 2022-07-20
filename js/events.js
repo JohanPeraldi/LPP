@@ -127,8 +127,8 @@ const closeOpenMenus = (event) => {
     if (siblingForm !== event.target.parentElement) {
       siblingForm.classList.remove('datalist-visible');
       siblingForm.firstElementChild.blur();
-      siblingForm.firstElementChild.placeholder = placeholder.charAt(0).toUpperCase()
-        + placeholder.slice(1) + 's';
+      siblingForm.firstElementChild.placeholder = placeholder.charAt(0).toUpperCase() +
+        placeholder.slice(1) + 's';
       removeDataList(siblingForm.firstElementChild.id);
     }
   }
