@@ -14,13 +14,11 @@ mainInputElement.addEventListener('input', handleMainSearchInputEvents);
 advancedSearchInputsElement.addEventListener('click', handleAdvancedSearchInputsEvents);
 
 /* Handle focus event on input elements (to open advanced search menu).
-Since 'focus' and 'blur' events do not bubble up,
-it is necessary to pass option 'true' as third argument
-so that event is registered during capture phase. */
+ * Since 'focus' and 'blur' events do not bubble up,
+ * it is necessary to pass option 'true' as third argument
+ * so that event is registered during capture phase.
+ * */
 advancedSearchInputsElement.addEventListener('focus', handleAdvancedSearchInputsEvents, true);
-
-// Handle blur event on input elements (to close advanced search menu).
-advancedSearchInputsElement.addEventListener('blur', handleAdvancedSearchInputsEvents, true);
 
 // Handle input event on input elements
 advancedSearchInputsElement.addEventListener('input', handleAdvancedSearchInputsEvents);
