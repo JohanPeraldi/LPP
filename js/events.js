@@ -32,15 +32,28 @@ const handleAdvancedSearchInputsEvents = (e) => {
   // CLICK EVENTS
   if (e.type === 'click') {
     /* We only want to listen for click events when e.target (the element clicked)
-    !== e.currentTarget (the div.search__inputs on which the event listener is placed) */
+     * !== e.currentTarget (the div.search__inputs on which the event listener is placed)
+     * */
     if (e.target !== e.currentTarget) {
-      /* We want to listen for click events on <i> elements
-      but only when their parent <form> element doesn't have the 'datalist-visible' class */
-      if (e.target.localName === 'i' && !e.target.parentElement.classList.contains('datalist-visible')) {
-        // Set focus on sibling input element
-        e.target.previousElementSibling.focus();
+      /* Click events on <i> elements:
+       * 1) if the parent <form> element doesn't have the 'datalist-visible' class,
+       * the corresponding <input> element should receive focus,
+       * 2) otherwise it should lose focus, the <form> element should lose the
+       * 'datalist-visible' class, the datalist should be removed and the input's
+       * placeholder text be set to its initial value
+       * */
+      if (e.target.localName === 'i') {
+        if (!e.target.parentElement.classList.contains('datalist-visible')) {
+          e.target.previousElementSibling.focus();
+        } else {
+          const placeholder = getInputPlaceholder(e.target.previousElementSibling.id);
+          e.target.parentElement.classList.remove('datalist-visible');
+          e.target.previousElementSibling.blur();
+          e.target.previousElementSibling.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1) + 's';
+          removeDataList(e.target.previousElementSibling.id);
+        }
       }
-      // We want to listen for click events on <option> elements
+      // Click events on <option> elements:
       // CODE BELOW WILL ONLY WORK IF THERE IS NO BLUR EVENT!
       if (e.target.localName === 'option') {
         console.log(`${e.target.value} option clicked`);
