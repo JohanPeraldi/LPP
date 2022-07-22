@@ -10,6 +10,9 @@ const advancedSearchInputsElement = document.querySelector('.search__inputs');
 // Display matching recipes if user input has at least 3 characters
 mainInputElement.addEventListener('input', handleMainSearchInputEvents);
 
+// Close advanced search menus on focus on main search input
+mainInputElement.addEventListener('focus', handleMainSearchInputEvents);
+
 // Handle clicks inside advanced search section
 advancedSearchInputsElement.addEventListener('click', handleAdvancedSearchInputsEvents);
 

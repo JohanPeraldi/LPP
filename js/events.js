@@ -1,6 +1,6 @@
-import { createDataList, removeDataList, displayRecipes, createTag } from './display.js';
-import { filterRecipes, filterTags } from './filter.js';
-import { recipes } from './recipes.js';
+import {createDataList, removeDataList, displayRecipes, createTag} from './display.js';
+import {filterRecipes, filterTags} from './filter.js';
+import {recipes} from './recipes.js';
 
 /* A global variable to store filtered recipes
  * (by default, will be the non filtered original recipes array)
@@ -10,22 +10,30 @@ let filteredRecipes = recipes;
 let hasOverTwoChars = false;
 
 const handleMainSearchInputEvents = (e) => {
-  const userInput = e.target.value.toLowerCase();
-  if (userInput.length > 2) {
-    hasOverTwoChars = true;
-    filteredRecipes = filterRecipes(userInput, recipes);
-    displayRecipes(filteredRecipes);
-  }
-  /* If user deletes or modifies input leaving less
-   * than 3 characters, displayed recipes must be updated
-   * */
-  if (hasOverTwoChars && userInput.length < 3) {
-    hasOverTwoChars = false;
-    /* When tag filtering is added, the following line will
-     * need to be modified to avoid removing the tag filters
+  // INPUT EVENTS
+  if (e.type === 'input') {
+    const userInput = e.target.value.toLowerCase();
+    if (userInput.length > 2) {
+      hasOverTwoChars = true;
+      filteredRecipes = filterRecipes(userInput, recipes);
+      displayRecipes(filteredRecipes);
+    }
+    /* If user deletes or modifies input leaving less
+     * than 3 characters, displayed recipes must be updated
      * */
-    filteredRecipes = recipes;
-    displayRecipes(filteredRecipes);
+    if (hasOverTwoChars && userInput.length < 3) {
+      hasOverTwoChars = false;
+      /* When tag filtering is added, the following line will
+       * need to be modified to avoid removing the tag filters
+       * */
+      filteredRecipes = recipes;
+      displayRecipes(filteredRecipes);
+    }
+  }
+
+  // FOCUS EVENTS
+  if (e.type === 'focus') {
+    closeOpenMenus(e);
   }
 };
 
@@ -119,19 +127,22 @@ const handleTagEvents = (e) => {
   }
 };
 
-// A function that closes any open menus before opening another
-const closeOpenMenus = (event) => {
+// A function that closes any open advanced search menus
+const closeOpenMenus = (e) => {
   if (document.querySelector('.datalist-visible')) {
-    const siblingForm = document.querySelector('.datalist-visible');
-    const placeholder = getInputPlaceholder(siblingForm.firstElementChild.id);
-    if (siblingForm !== event.target.parentElement) {
-      siblingForm.classList.remove('datalist-visible');
-      siblingForm.firstElementChild.blur();
-      siblingForm.firstElementChild.placeholder = placeholder.charAt(0).toUpperCase() +
-        placeholder.slice(1) + 's';
-      removeDataList(siblingForm.firstElementChild.id);
+    const form = document.querySelector('.datalist-visible');
+    // Focus on main input field
+    if (e.target.parentElement.classList.contains('search__form--default')) {
+      removeDataList(form.firstElementChild.id);
+    }
+    // Focus on advanced input field
+    if (e.target.parentElement.classList.contains('search__form--category')) {
+      // Only remove datalist if an unrelated input is focused
+      if (form !== e.target.parentElement) {
+        removeDataList(form.firstElementChild.id);
+      }
     }
   }
 };
 
-export { filteredRecipes, handleMainSearchInputEvents, handleAdvancedSearchInputsEvents, handleTagEvents };
+export { filteredRecipes, handleMainSearchInputEvents, handleAdvancedSearchInputsEvents, getInputPlaceholder, handleTagEvents };

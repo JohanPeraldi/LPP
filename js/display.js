@@ -1,4 +1,5 @@
 import { getTags } from './filter.js';
+import { getInputPlaceholder } from './events.js';
 
 // DOM elements
 const recipeSectionElement = document.querySelector('.recipe');
@@ -108,7 +109,7 @@ const createInfobox = () => {
   recipeSectionElement.appendChild(card);
 };
 
-// Create category data list
+// Create category datalist
 const createDataList = (category) => {
   const formElement = document.getElementById(`search-form-${category}`);
   const tags = getTags(category);
@@ -124,9 +125,14 @@ const createDataList = (category) => {
   formElement.appendChild(dataListElement);
 };
 
-// Remove data list
+// Remove datalist
 const removeDataList = (category) => {
   const dataListElement = document.getElementById(`datalist-${category}`);
+  const placeholder = getInputPlaceholder(dataListElement.parentElement.firstElementChild.id);
+  dataListElement.parentElement.classList.remove('datalist-visible');
+  dataListElement.parentElement.firstElementChild.blur();
+  dataListElement.parentElement.firstElementChild.placeholder = placeholder.charAt(0).toUpperCase() +
+    placeholder.slice(1) + 's';
   dataListElement.parentElement.removeChild(dataListElement);
 };
 
