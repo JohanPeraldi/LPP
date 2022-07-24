@@ -125,6 +125,7 @@ const createDataList = (category) => {
   }
   dataListElement.id = `datalist-${category}`;
   dataListElement.classList.add('datalist', `datalist--${category}`);
+  console.log(tags);
   tags.forEach((tag) => {
     const optionElement = document.createElement('option');
     optionElement.innerHTML = tag;

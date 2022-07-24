@@ -52,7 +52,7 @@ const getTags = (category, recipes) => {
 
     return { tempIngTags, tempAppTags, tempUteTags };
   } else {
-    return 'Unable to find a tag matching current search criteria';
+    return [];
   }
 };
 

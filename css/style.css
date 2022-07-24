@@ -108,6 +108,7 @@ input[type=search]::-webkit-search-results-decoration {
 
 .no-recipe__card {
   position: absolute;
+  margin-top: 5rem;
   margin-right: 1rem;
 }
 .no-recipe__infobox {
