@@ -1,4 +1,4 @@
-import { getTags } from './filter.js';
+import { ingredientTags, applianceTags, utensilTags } from './index.js';
 import { getInputPlaceholder } from './events.js';
 
 // DOM elements
@@ -110,8 +110,19 @@ const createInfobox = () => {
 // Create category datalist
 const createDataList = (category) => {
   const formElement = document.getElementById(`search-form-${category}`);
-  const tags = getTags(category);
   const dataListElement = document.createElement('datalist');
+  let tags;
+  // Tags are imported from the global variables in index.js
+  switch (category) {
+    case 'ingredients':
+      tags = ingredientTags;
+      break;
+    case 'appliances':
+      tags = applianceTags;
+      break;
+    case 'utensils':
+      tags = utensilTags;
+  }
   dataListElement.id = `datalist-${category}`;
   dataListElement.classList.add('datalist', `datalist--${category}`);
   tags.forEach((tag) => {
@@ -136,7 +147,7 @@ const removeDataList = (category) => {
 
 // Update data list after filtering
 const updateDataList = (category, options) => {
-  // Remove existing data list
+  // Remove existing datalist
   if (document.getElementById(`datalist-${category}`)) {
     removeDataList(category);
   }

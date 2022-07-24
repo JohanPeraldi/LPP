@@ -1,4 +1,3 @@
-import { filteredRecipes } from './index.js';
 import { updateDataList } from './display.js';
 
 const filterRecipes = (filter, recipes) => {
@@ -77,48 +76,6 @@ const filterRecipes = (filter, recipes) => {
   }
 };
 
-// Advanced search input fields
-const getTags = (category) => {
-  // Arrays containing all category tags (ingredients, appliances & utensils)
-  const ingredientTags = [];
-  const applianceTags = [];
-  const utensilTags = [];
-  // Loop over filtered recipes array to create lists of category tags (data lists)
-  filteredRecipes.forEach((recipe) => {
-    recipe.ingredients.forEach((ingredient) => {
-      if (ingredientTags.indexOf(ingredient.ingredient) === -1) {
-        ingredientTags.push(ingredient.ingredient);
-      }
-    });
-  });
-  filteredRecipes.forEach((recipe) => {
-    if (applianceTags.indexOf(recipe.appliance) === -1) {
-      applianceTags.push(recipe.appliance);
-    }
-  });
-  filteredRecipes.forEach((recipe) => {
-    recipe.utensils.forEach((utensil) => {
-      if (utensilTags.indexOf(utensil) === -1) {
-        utensilTags.push(utensil);
-      }
-    });
-  });
-  // Sort all tags by ascending order
-  ingredientTags.sort();
-  applianceTags.sort();
-  utensilTags.sort();
-
-  switch (category) {
-    case 'ingredients':
-      return ingredientTags;
-    case 'appliances':
-      return applianceTags;
-    case 'utensils':
-      return utensilTags;
-  }
-  return { ingredientTags, applianceTags, utensilTags };
-};
-
 const filterTags = (filter, category) => {
   /* We look for a match between the user input and a word
    * (or part of a word) in the ingredients/appliances/utensils keywords
@@ -160,4 +117,4 @@ const filterTags = (filter, category) => {
   }
 };
 
-export { filterRecipes, getTags, filterTags };
+export { filterRecipes, filterTags };

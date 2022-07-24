@@ -1,4 +1,4 @@
-import { filteredRecipes } from './index.js';
+import { getTags, updateTags, filteredRecipes } from './index.js';
 import { filterRecipes, filterTags } from './filter.js';
 import { createDataList, removeDataList, displayRecipes, createTag } from './display.js';
 
@@ -21,6 +21,15 @@ const handleMainSearchInputEvents = (e) => {
       // On every input change, compare that input with any matching word in the recipes
       recipesToDisplay = filterRecipes(userInput, filteredRecipes);
       displayRecipes(recipesToDisplay);
+      // We also want to get the tags matching the displayed recipes...
+      const ingredientTags = getTags('ingredients', recipesToDisplay);
+      const applianceTags = getTags('appliances', recipesToDisplay);
+      const utensilTags = getTags('utensils', recipesToDisplay);
+      console.log(ingredientTags);
+      console.log(applianceTags);
+      console.log(utensilTags);
+      // ... and update global tags arrays (index.js)
+      updateTags(recipesToDisplay);
     }
     /* If user deletes or modifies input leaving less than 3 characters,
      * call resetRecipes function so that all recipes are displayed
@@ -29,6 +38,15 @@ const handleMainSearchInputEvents = (e) => {
       hasOverTwoChars = false;
       recipesToDisplay = filterRecipes(null, filteredRecipes);
       displayRecipes(recipesToDisplay);
+      // We also want to get all the tags matching all recipes...
+      const ingredientTags = getTags('ingredients', recipesToDisplay);
+      const applianceTags = getTags('appliances', recipesToDisplay);
+      const utensilTags = getTags('utensils', recipesToDisplay);
+      console.log(ingredientTags);
+      console.log(applianceTags);
+      console.log(utensilTags);
+      // ... and update global tags arrays (index.js)
+      updateTags(recipesToDisplay);
     }
   }
 
@@ -146,4 +164,4 @@ const closeOpenMenus = (e) => {
   }
 };
 
-export { filteredRecipes, handleMainSearchInputEvents, handleAdvancedSearchInputsEvents, handleTagEvents, getInputPlaceholder };
+export { handleMainSearchInputEvents, handleAdvancedSearchInputsEvents, handleTagEvents, getInputPlaceholder };
