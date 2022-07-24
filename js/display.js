@@ -13,8 +13,6 @@ const displayRecipes = (recipes) => {
       // Create recipe cards
       recipeSectionElement.appendChild(createRecipeCard(recipes[i]));
     }
-    // Log to the console an array containing the ids of the recipes to display on the page
-    console.log(recipes);
   } else {
     // If no recipes match user search input, display a message to inform her
     createInfobox();

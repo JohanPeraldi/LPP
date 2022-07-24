@@ -1,33 +1,34 @@
-import {createDataList, removeDataList, displayRecipes, createTag} from './display.js';
-import {filterRecipes, filterTags} from './filter.js';
-import {recipes} from './recipes.js';
+import { filteredRecipes } from './index.js';
+import { filterRecipes, filterTags } from './filter.js';
+import { createDataList, removeDataList, displayRecipes, createTag } from './display.js';
 
-/* A global variable to store filtered recipes
- * (by default, will be the non filtered original recipes array)
- * */
-let filteredRecipes = recipes;
-// A global variable to indicate whether user input has more than 2 characters
+// A variable indicating whether user input has more than 2 characters
 let hasOverTwoChars = false;
 
+/*
+* EVENT HANDLER FUNCTIONS
+* */
 const handleMainSearchInputEvents = (e) => {
   // INPUT EVENTS
   if (e.type === 'input') {
     const userInput = e.target.value.toLowerCase();
+    let recipesToDisplay;
     if (userInput.length > 2) {
-      hasOverTwoChars = true;
-      filteredRecipes = filterRecipes(userInput, recipes);
-      displayRecipes(filteredRecipes);
+      console.log(`User input: ${userInput}`);
+      if (!hasOverTwoChars) {
+        hasOverTwoChars = true;
+      }
+      // On every input change, compare that input with any matching word in the recipes
+      recipesToDisplay = filterRecipes(userInput, filteredRecipes);
+      displayRecipes(recipesToDisplay);
     }
-    /* If user deletes or modifies input leaving less
-     * than 3 characters, displayed recipes must be updated
+    /* If user deletes or modifies input leaving less than 3 characters,
+     * call resetRecipes function so that all recipes are displayed
      * */
     if (hasOverTwoChars && userInput.length < 3) {
       hasOverTwoChars = false;
-      /* When tag filtering is added, the following line will
-       * need to be modified to avoid removing the tag filters
-       * */
-      filteredRecipes = recipes;
-      displayRecipes(filteredRecipes);
+      recipesToDisplay = filterRecipes(null, filteredRecipes);
+      displayRecipes(recipesToDisplay);
     }
   }
 
@@ -101,6 +102,18 @@ const handleAdvancedSearchInputsEvents = (e) => {
   }
 };
 
+const handleTagEvents = (e) => {
+  // CLICK EVENTS
+  if (e.type === 'click') {
+    if (e.target !== e.currentTarget) {
+      if (e.target.localName === 'i') {
+        const tag = e.target.parentElement;
+        tag.parentElement.removeChild(tag);
+      }
+    }
+  }
+};
+
 /* A function that returns the category passed as argument
  * in the required format to be used as placeholder text
  * */
@@ -112,18 +125,6 @@ const getInputPlaceholder = (category) => {
       return 'appareil';
     case 'utensils':
       return 'ustensile';
-  }
-};
-
-const handleTagEvents = (e) => {
-  // CLICK EVENTS
-  if (e.type === 'click') {
-    if (e.target !== e.currentTarget) {
-      if (e.target.localName === 'i') {
-        const tag = e.target.parentElement;
-        tag.parentElement.removeChild(tag);
-      }
-    }
   }
 };
 
@@ -145,4 +146,4 @@ const closeOpenMenus = (e) => {
   }
 };
 
-export { filteredRecipes, handleMainSearchInputEvents, handleAdvancedSearchInputsEvents, getInputPlaceholder, handleTagEvents };
+export { filteredRecipes, handleMainSearchInputEvents, handleAdvancedSearchInputsEvents, handleTagEvents, getInputPlaceholder };

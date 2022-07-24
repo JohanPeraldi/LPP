@@ -1,10 +1,13 @@
-import { filteredRecipes } from './events.js';
+import { filteredRecipes } from './index.js';
 import { updateDataList } from './display.js';
 
-// An array to store the ids of all filtered recipes
-const filteredRecipesIds = [];
-
 const filterRecipes = (filter, recipes) => {
+  // An array to store the ids of all filtered recipes
+  const filteredRecipesIds = [];
+  // If there is no filter, display all recipes
+  if (!filter) {
+    return recipes;
+  }
   /* We look for a match between the user input and a word (or part of
    * a word) in the recipe names, lists of ingredients or descriptions
    * */
@@ -14,7 +17,7 @@ const filterRecipes = (filter, recipes) => {
       for (let k = 0; k < filter.length; k++) {
         if (filter[k] !== recipes[i].name.toLowerCase()[j + k]) break;
         if (k === filter.length - 1) {
-          console.log(`Recipe name: ${recipes[i].name} - recipe id: ${recipes[i].id}`);
+          // console.log(`Recipe name: ${recipes[i].name} - recipe id: ${recipes[i].id}`);
           /* We get the index of the current recipe and push its id
            * to the filteredRecipesIds array if it is not already in the array
            * */
@@ -33,7 +36,7 @@ const filterRecipes = (filter, recipes) => {
         for (let l = 0; l < filter.length; l++) {
           if (filter[l] !== recipes[i].ingredients[j].ingredient.toLowerCase()[k + l]) break;
           if (l === filter.length - 1) {
-            console.log(`Recipe ingredient: ${recipes[i].ingredients[j].ingredient} - recipe id: ${recipes[i].id}`);
+            // console.log(`Recipe ingredient: ${recipes[i].ingredients[j].ingredient} - recipe id: ${recipes[i].id}`);
             /* We get the index of the current recipe and push its id
              * to the filteredRecipesIds array if it is not already in the array
              * */
@@ -52,7 +55,7 @@ const filterRecipes = (filter, recipes) => {
       for (let k = 0; k < filter.length; k++) {
         if (filter[k] !== recipes[i].description.toLowerCase()[j + k]) break;
         if (k === filter.length - 1) {
-          console.log(`Recipe description: ${recipes[i].description} - recipe id: ${recipes[i].id}`);
+          // console.log(`Recipe description: ${recipes[i].description} - recipe id: ${recipes[i].id}`);
           /* We get the index of the current recipe and push its id
            * to the filteredRecipesIds array if it is not already in the array
            * */
@@ -69,6 +72,7 @@ const filterRecipes = (filter, recipes) => {
    * */
   if (filteredRecipesIds.length > 0) {
     filteredRecipesIds.sort((a, b) => a - b);
+    console.log(filteredRecipesIds);
     return recipes.filter(recipe => filteredRecipesIds.includes(recipe.id));
   }
 };

@@ -1,11 +1,40 @@
 import { recipes } from './recipes.js';
 import { displayRecipes } from './display.js';
 import { handleMainSearchInputEvents, handleAdvancedSearchInputsEvents, handleTagEvents } from './events.js';
+// import { getTags } from './filter.js';
 
-// DOM elements
+/*
+ * DOM ELEMENTS
+ * */
 const mainInputElement = document.getElementById('searchbar');
 const searchTagsElement = document.querySelector('.search__tags');
 const advancedSearchInputsElement = document.querySelector('.search__inputs');
+
+/*
+ * GLOBAL VARIABLES
+ * */
+// Filtered recipes (default to all recipes)
+let filteredRecipes = recipes;
+// Filtered tags by category (default to all tags)
+// let filteredIngredientTags = getTags('ingredients');
+// let filteredApplianceTags = getTags('appliances');
+// let filteredUtensilTags = getTags('utensils');
+// console.log(filteredIngredientTags, filteredApplianceTags, filteredUtensilTags);
+
+/* A function to reset filtered recipes back to initial (unfiltered)
+ * recipes and update user interface with all recipes
+ * */
+// const resetRecipes = () => {
+//   displayRecipes(filteredRecipes);
+// };
+
+// A function to update filtered recipes
+// const updateRecipes = (filter) => {
+//   console.log('Recipes should now be updated!');
+//   filteredRecipes = filterRecipes(filter, filteredRecipes); // WRONG!!!
+//   console.log(filteredRecipes);
+//   displayRecipes(filteredRecipes);
+// };
 
 // Display matching recipes if user input has at least 3 characters
 mainInputElement.addEventListener('input', handleMainSearchInputEvents);
@@ -30,7 +59,9 @@ advancedSearchInputsElement.addEventListener('input', handleAdvancedSearchInputs
 searchTagsElement.addEventListener('click', handleTagEvents);
 
 const init = () => {
-  displayRecipes(recipes);
+  displayRecipes(filteredRecipes);
 };
 
 init();
+
+export { filteredRecipes };
