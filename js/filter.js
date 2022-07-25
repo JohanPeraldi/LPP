@@ -106,7 +106,7 @@ const filterKeywords = (filter, category) => {
   console.groupEnd();
   // If filter is an empty string, return all tags
   if (filter.length === 0) {
-    keywords = initialKeywords; // WRONG when removing characters!
+    keywords = initialKeywords;
     // debugger;
     console.group('AFTER advanced filtering (EMPTY input)');
     console.log(keywords);
@@ -118,7 +118,7 @@ const filterKeywords = (filter, category) => {
         filteredKeywords.push(initialKeywords[i]);
       }
     }
-    keywords = filteredKeywords.sort(); // WRONG when removing characters!
+    keywords = filteredKeywords.sort();
     // debugger;
     console.group('AFTER advanced filtering');
     console.log(keywords);
@@ -149,9 +149,8 @@ const filterKeywords = (filter, category) => {
     updateDataList(category, filteredUtensils);
   }
   */
-  // updateKeywordsOnAdvancedSearchInput(category, keywords);
   // debugger;
-  // updateDataList(category, keywords);
+  updateDataList(category, keywords);
 };
 
 export { filterRecipes, filterKeywords };

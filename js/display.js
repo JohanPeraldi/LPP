@@ -146,27 +146,27 @@ const removeDataList = (category) => {
 };
 
 // Update datalist after filtering
-const updateDataList = (category, options) => {
+const updateDataList = (category, keywords) => {
   const dataList = document.getElementById(`datalist-${category}`);
   console.log(dataList);
   // Remove existing datalist
-  // if () {
-  //   removeDataList(category);
-  // }
+  if (dataList) {
+    removeDataList(category);
+  }
   // Create new list
-  // const formElement = document.getElementById(`search-form-${category}`);
-  // const dataListElement = document.createElement('datalist');
-  // formElement.classList.add('datalist-visible');
-  // formElement.firstElementChild.focus();
-  // dataListElement.id = `datalist-${category}`;
-  // dataListElement.classList.add('datalist', `datalist--${category}`);
-  // options.forEach((option) => {
-  //   const optionElement = document.createElement('option');
-  //   optionElement.innerHTML = option;
-  //   optionElement.value = option;
-  //   dataListElement.appendChild(optionElement);
-  // });
-  // formElement.appendChild(dataListElement);
+  const formElement = document.getElementById(`search-form-${category}`);
+  const dataListElement = document.createElement('datalist');
+  formElement.classList.add('datalist-visible');
+  formElement.firstElementChild.focus();
+  dataListElement.id = `datalist-${category}`;
+  dataListElement.classList.add('datalist', `datalist--${category}`);
+  keywords.forEach((keyword) => {
+    const optionElement = document.createElement('option');
+    optionElement.innerHTML = keyword;
+    optionElement.value = keyword;
+    dataListElement.appendChild(optionElement);
+  });
+  formElement.appendChild(dataListElement);
 };
 
 // Create tag
