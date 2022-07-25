@@ -1,3 +1,4 @@
+import { ingredientKeywords, applianceKeywords, utensilKeywords } from './index.js';
 import { updateDataList } from './display.js';
 
 const filterRecipes = (filter, recipes) => {
@@ -76,23 +77,55 @@ const filterRecipes = (filter, recipes) => {
   }
 };
 
-const filterTags = (filter, category) => {
-  /* We look for a match between the user input and a word
-   * (or part of a word) in the ingredients/appliances/utensils keywords
+const filterKeywords = (filter, category) => {
+  const filteredKeywords = [];
+  let initialKeywords;
+  let keywords;
+
+  // Determine which options category to process
+  switch (category) {
+    case 'ingredients':
+      initialKeywords = ingredientKeywords;
+      // debugger;
+      break;
+    case 'appliances':
+      initialKeywords = applianceKeywords;
+      // debugger;
+      break;
+    case 'utensils':
+      initialKeywords = utensilKeywords;
+      // debugger;
+  }
+  /* We look for a match between the user input (filter) and the
+   * characters in the ingredients/appliances/utensils keywords
+   * (lists of advanced search options)
    * */
-  // Filter on recipe ingredients
-  if (category === 'ingredients') {
-    const ingredients = getTags('ingredients');
-    const filteredIngredients = [];
-    for (let i = 0; i < ingredients.length; i++) {
-      if (ingredients[i].toLowerCase().includes(filter.toLowerCase())) {
-        filteredIngredients.push(ingredients[i]);
+  console.log(`User input: ${filter}`);
+  console.group('BEFORE advanced filtering');
+  console.log(initialKeywords);
+  console.groupEnd();
+  // If filter is an empty string, return all tags
+  if (filter.length === 0) {
+    keywords = initialKeywords; // WRONG when removing characters!
+    // debugger;
+    console.group('AFTER advanced filtering (EMPTY input)');
+    console.log(keywords);
+    console.groupEnd();
+  } else {
+    // If filter has at least one character
+    for (let i = 0; i < initialKeywords.length; i++) {
+      if (initialKeywords[i].toLowerCase().includes(filter.toLowerCase())) {
+        filteredKeywords.push(initialKeywords[i]);
       }
     }
-    filteredIngredients.sort();
-    console.log(filteredIngredients);
-    updateDataList(category, filteredIngredients);
-  } else if (category === 'appliances') {
+    keywords = filteredKeywords.sort(); // WRONG when removing characters!
+    // debugger;
+    console.group('AFTER advanced filtering');
+    console.log(keywords);
+    console.groupEnd();
+  }
+  /*
+  else if (category === 'appliances') {
     const appliances = getTags('appliances');
     const filteredAppliances = [];
     for (let i = 0; i < appliances.length; i++) {
@@ -115,6 +148,10 @@ const filterTags = (filter, category) => {
     console.log(filteredUtensils);
     updateDataList(category, filteredUtensils);
   }
+  */
+  // updateKeywordsOnAdvancedSearchInput(category, keywords);
+  // debugger;
+  // updateDataList(category, keywords);
 };
 
-export { filterRecipes, filterTags };
+export { filterRecipes, filterKeywords };

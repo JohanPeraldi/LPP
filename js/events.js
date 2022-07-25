@@ -1,5 +1,5 @@
-import { getTags, updateTags, filteredRecipes } from './index.js';
-import { filterRecipes, filterTags } from './filter.js';
+import { updateKeywords, filteredRecipes } from './index.js';
+import { filterRecipes, filterKeywords } from './filter.js';
 import { createDataList, removeDataList, displayRecipes, createTag } from './display.js';
 
 // A variable indicating whether user input has more than 2 characters
@@ -21,7 +21,7 @@ const handleMainSearchInputEvents = (e) => {
       // On every input change, compare that input with any matching word in the recipes
       recipesToDisplay = filterRecipes(userInput, filteredRecipes);
       displayRecipes(recipesToDisplay);
-      updateTags(recipesToDisplay);
+      updateKeywords(recipesToDisplay);
     }
     /* If user deletes or modifies input leaving less
      * than 3 characters, all recipes should be displayed
@@ -30,7 +30,7 @@ const handleMainSearchInputEvents = (e) => {
       hasOverTwoChars = false;
       recipesToDisplay = filterRecipes(null, filteredRecipes);
       displayRecipes(recipesToDisplay);
-      updateTags(recipesToDisplay);
+      updateKeywords(recipesToDisplay);
     }
   }
 
@@ -80,27 +80,30 @@ const handleAdvancedSearchInputsEvents = (e) => {
 
   // FOCUS EVENTS
   if (e.type === 'focus') {
-    /* First check whether another data list is open:
+    /* First check whether another datalist is open:
      * if another <form> element has the 'datalist-visible' class, remove it
      * */
     closeOpenMenus(e);
 
-    // When input has focus, add 'datalist-visible' class to parent <form> element
-    e.target.parentElement.classList.add('datalist-visible');
-    // Change input placeholder text
-    const placeholder = getInputPlaceholder(e.target.id);
-    e.target.placeholder = `Rechercher un ${placeholder}`;
-    // Add datalist
-    createDataList(e.target.id);
+    /* When input receives focus, check whether a datalist
+     * already exists and only create one if there is none
+     * */
+    if (!e.target.parentElement.classList.contains('datalist-visible')) {
+      e.target.parentElement.classList.add('datalist-visible');
+      // Change input placeholder text
+      const placeholder = getInputPlaceholder(e.target.id);
+      e.target.placeholder = `Rechercher un ${placeholder}`;
+      // Add datalist
+      createDataList(e.target.id);
+    }
   }
 
   // INPUT EVENTS
   if (e.type === 'input') {
-    // Compare input with keywords in data list and remove those that don't match
+    // Compare input with keywords in datalist and remove those that don't match
     const userInput = e.target.value;
     const category = e.target.id;
-    console.log(userInput, category);
-    filterTags(userInput, category);
+    filterKeywords(userInput, category);
   }
 };
 

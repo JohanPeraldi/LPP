@@ -1,4 +1,4 @@
-import { ingredientTags, applianceTags, utensilTags } from './index.js';
+import { ingredientKeywords, applianceKeywords, utensilKeywords } from './index.js';
 import { getInputPlaceholder } from './events.js';
 
 // DOM elements
@@ -115,17 +115,16 @@ const createDataList = (category) => {
   // Tags are imported from the global variables in index.js
   switch (category) {
     case 'ingredients':
-      tags = ingredientTags;
+      tags = ingredientKeywords;
       break;
     case 'appliances':
-      tags = applianceTags;
+      tags = applianceKeywords;
       break;
     case 'utensils':
-      tags = utensilTags;
+      tags = utensilKeywords;
   }
   dataListElement.id = `datalist-${category}`;
   dataListElement.classList.add('datalist', `datalist--${category}`);
-  console.log(tags);
   tags.forEach((tag) => {
     const optionElement = document.createElement('option');
     optionElement.innerHTML = tag;
@@ -146,24 +145,28 @@ const removeDataList = (category) => {
   dataListElement.parentElement.removeChild(dataListElement);
 };
 
-// Update data list after filtering
+// Update datalist after filtering
 const updateDataList = (category, options) => {
+  const dataList = document.getElementById(`datalist-${category}`);
+  console.log(dataList);
   // Remove existing datalist
-  if (document.getElementById(`datalist-${category}`)) {
-    removeDataList(category);
-  }
+  // if () {
+  //   removeDataList(category);
+  // }
   // Create new list
-  const formElement = document.getElementById(`search-form-${category}`);
-  const dataListElement = document.createElement('datalist');
-  dataListElement.id = `datalist-${category}`;
-  dataListElement.classList.add('datalist', `datalist--${category}`);
-  options.forEach((option) => {
-    const optionElement = document.createElement('option');
-    optionElement.innerHTML = option;
-    optionElement.value = option;
-    dataListElement.appendChild(optionElement);
-  });
-  formElement.appendChild(dataListElement);
+  // const formElement = document.getElementById(`search-form-${category}`);
+  // const dataListElement = document.createElement('datalist');
+  // formElement.classList.add('datalist-visible');
+  // formElement.firstElementChild.focus();
+  // dataListElement.id = `datalist-${category}`;
+  // dataListElement.classList.add('datalist', `datalist--${category}`);
+  // options.forEach((option) => {
+  //   const optionElement = document.createElement('option');
+  //   optionElement.innerHTML = option;
+  //   optionElement.value = option;
+  //   dataListElement.appendChild(optionElement);
+  // });
+  // formElement.appendChild(dataListElement);
 };
 
 // Create tag

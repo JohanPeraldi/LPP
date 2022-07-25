@@ -9,48 +9,48 @@ const mainInputElement = document.getElementById('searchbar');
 const searchTagsElement = document.querySelector('.search__tags');
 const advancedSearchInputsElement = document.querySelector('.search__inputs');
 
-// A function to get tags by category
-const getTags = (category, recipes) => {
-  // We need temporary arrays to store tags
-  const tempIngTags = [];
-  const tempAppTags = [];
-  const tempUteTags = [];
+// A function to get keywords by category
+const getKeywords = (category, recipes) => {
+  // We need temporary arrays to store keywords
+  const tempIngKeywords = [];
+  const tempAppKeywords = [];
+  const tempUteKeywords = [];
   // If there are recipes, loop over recipes array to create lists of category tags
   if (recipes) {
     recipes.forEach((recipe) => {
       recipe.ingredients.forEach((ingredient) => {
-        if (tempIngTags.indexOf(ingredient.ingredient) === -1) {
-          tempIngTags.push(ingredient.ingredient);
+        if (tempIngKeywords.indexOf(ingredient.ingredient) === -1) {
+          tempIngKeywords.push(ingredient.ingredient);
         }
       });
     });
     recipes.forEach((recipe) => {
-      if (tempAppTags.indexOf(recipe.appliance) === -1) {
-        tempAppTags.push(recipe.appliance);
+      if (tempAppKeywords.indexOf(recipe.appliance) === -1) {
+        tempAppKeywords.push(recipe.appliance);
       }
     });
     recipes.forEach((recipe) => {
       recipe.utensils.forEach((utensil) => {
-        if (tempUteTags.indexOf(utensil) === -1) {
-          tempUteTags.push(utensil);
+        if (tempUteKeywords.indexOf(utensil) === -1) {
+          tempUteKeywords.push(utensil);
         }
       });
     });
     // Sort all tags by ascending order
-    tempIngTags.sort();
-    tempAppTags.sort();
-    tempUteTags.sort();
+    tempIngKeywords.sort();
+    tempAppKeywords.sort();
+    tempUteKeywords.sort();
 
     switch (category) {
       case 'ingredients':
-        return tempIngTags;
+        return tempIngKeywords;
       case 'appliances':
-        return tempAppTags;
+        return tempAppKeywords;
       case 'utensils':
-        return tempUteTags;
+        return tempUteKeywords;
     }
 
-    return { tempIngTags, tempAppTags, tempUteTags };
+    return { tempIngKeywords, tempAppKeywords, tempUteKeywords };
   } else {
     return [];
   }
@@ -61,21 +61,21 @@ const getTags = (category, recipes) => {
  * */
 // Filtered recipes (default to all recipes)
 let filteredRecipes = recipes;
-// Tags by category (default to all tags)
-let ingredientTags = getTags('ingredients', filteredRecipes);
-let applianceTags = getTags('appliances', filteredRecipes);
-let utensilTags = getTags('utensils', filteredRecipes);
+// Keywords by category (default to all keywords)
+let ingredientKeywords = getKeywords('ingredients', filteredRecipes);
+let applianceKeywords = getKeywords('appliances', filteredRecipes);
+let utensilKeywords = getKeywords('utensils', filteredRecipes);
 
-// A function to update tags after recipes have been filtered using main search input
-const updateTags = (recipes) => {
-  // Empty tags arrays
-  ingredientTags = [];
-  applianceTags = [];
-  utensilTags = [];
-  // Fill tags arrays using filtered recipes list
-  ingredientTags = getTags('ingredients', recipes);
-  applianceTags = getTags('appliances', recipes);
-  utensilTags = getTags('utensils', recipes);
+// A function to update keywords after recipes have been filtered using main search input
+const updateKeywords = (recipes) => {
+  // Empty keywords arrays
+  ingredientKeywords = [];
+  applianceKeywords = [];
+  utensilKeywords = [];
+  // Fill keywords arrays using filtered recipes list
+  ingredientKeywords = getKeywords('ingredients', recipes);
+  applianceKeywords = getKeywords('appliances', recipes);
+  utensilKeywords = getKeywords('utensils', recipes);
 };
 
 /* A function to reset filtered recipes back to initial (unfiltered)
@@ -109,7 +109,7 @@ advancedSearchInputsElement.addEventListener('click', handleAdvancedSearchInputs
  * */
 advancedSearchInputsElement.addEventListener('focus', handleAdvancedSearchInputsEvents, true);
 
-// Handle input event on input elements
+// Handle input event on advanced search input elements
 advancedSearchInputsElement.addEventListener('input', handleAdvancedSearchInputsEvents);
 
 // Handle click on tag close icons to remove tag
@@ -121,4 +121,4 @@ const init = () => {
 
 init();
 
-export { getTags, updateTags, filteredRecipes, ingredientTags, applianceTags, utensilTags };
+export { getKeywords, updateKeywords, filteredRecipes, ingredientKeywords, applianceKeywords, utensilKeywords };
