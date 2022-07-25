@@ -60,7 +60,7 @@ const getKeywords = (category, recipes) => {
  * GLOBAL VARIABLES
  * */
 // Filtered recipes (default to all recipes)
-let filteredRecipes = recipes;
+const filteredRecipes = recipes;
 // Keywords by category (default to all keywords)
 let ingredientKeywords = getKeywords('ingredients', filteredRecipes);
 let applianceKeywords = getKeywords('appliances', filteredRecipes);
