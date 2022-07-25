@@ -65,6 +65,10 @@ const filteredRecipes = recipes;
 let ingredientKeywords = getKeywords('ingredients', filteredRecipes);
 let applianceKeywords = getKeywords('appliances', filteredRecipes);
 let utensilKeywords = getKeywords('utensils', filteredRecipes);
+// Tags by category (default to empty arrays)
+const ingredientTags = [];
+const applianceTags = [];
+const utensilTags = [];
 
 // A function to update keywords after recipes have been filtered using main search input
 const updateKeywords = (recipes) => {
@@ -121,4 +125,4 @@ const init = () => {
 
 init();
 
-export { getKeywords, updateKeywords, filteredRecipes, ingredientKeywords, applianceKeywords, utensilKeywords };
+export { getKeywords, updateKeywords, filteredRecipes, ingredientKeywords, applianceKeywords, utensilKeywords, ingredientTags, applianceTags, utensilTags };

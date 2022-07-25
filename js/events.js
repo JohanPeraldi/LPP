@@ -1,4 +1,4 @@
-import { updateKeywords, filteredRecipes } from './index.js';
+import { updateKeywords, filteredRecipes, ingredientKeywords, applianceKeywords, utensilKeywords, ingredientTags, applianceTags, utensilTags } from './index.js';
 import { filterRecipes, filterKeywords } from './filter.js';
 import { createDataList, removeDataList, displayRecipes, createTag } from './display.js';
 
@@ -69,9 +69,55 @@ const handleAdvancedSearchInputsEvents = (e) => {
       }
       // Click events on <option> elements:
       if (e.target.localName === 'option') {
-        // We want to create a tag with the value of the option
+        // Create a tag with the value of the option
         const optionCategory = e.target.parentElement.parentElement.firstElementChild.id;
         createTag(e.target.value, optionCategory);
+        /*
+         * We want to remove the option from the datalist.
+         * This means removing the datalist entirely and creating
+         * a new one from which the option will have been removed.
+         * */
+        // Remove datalist
+        removeDataList(optionCategory);
+        // Determine which category is currently targeted
+        let currentKeywordsArray;
+        let currentTagsArray;
+        console.log(`Option to be removed from ${optionCategory} category`);
+        switch (optionCategory) {
+          case 'ingredients':
+            currentKeywordsArray = ingredientKeywords;
+            currentTagsArray = ingredientTags;
+            break;
+          case 'appliances':
+            currentKeywordsArray = applianceKeywords;
+            currentTagsArray = applianceTags;
+            break;
+          case 'utensils':
+            currentKeywordsArray = utensilKeywords;
+            currentTagsArray = utensilTags;
+        }
+        // Get option value
+        const optionValue = e.target.textContent;
+        console.log(optionValue);
+        // Find option index in keywords array
+        const optionIndex = currentKeywordsArray.indexOf(optionValue);
+        console.log(optionIndex);
+        // Remove option from keywords array
+        const selectedOption = currentKeywordsArray.splice(optionIndex, 1);
+        console.log(`${selectedOption} has been removed from ${optionCategory} keywords array`);
+        console.log(`${optionCategory} keywords array now contains: ${currentKeywordsArray}`);
+        // Add option to tags array
+        currentTagsArray.push(selectedOption);
+        console.log(`${optionCategory} tags array now contains: ${currentTagsArray}`);
+        // Check whether a datalist already exists
+        const datalist = document.querySelector('datalist');
+        if (!datalist) {
+          // If no datalist already exists, create new datalist with updated keywords array
+          createDataList(optionCategory);
+        }
+        // Add 'datalist-visible' class to current form
+        const currentForm = document.getElementById(`search-form-${optionCategory}`);
+        currentForm.classList.add('datalist-visible');
       }
     }
 
@@ -113,7 +159,9 @@ const handleTagEvents = (e) => {
     if (e.target !== e.currentTarget) {
       if (e.target.localName === 'i') {
         const tag = e.target.parentElement;
+        // Remove tag on click on 'x' icon
         tag.parentElement.removeChild(tag);
+        // Put related option back in datalist
       }
     }
   }
