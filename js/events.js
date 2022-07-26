@@ -103,11 +103,19 @@ const handleAdvancedSearchInputsEvents = (e) => {
         const optionIndex = currentKeywordsArray.indexOf(optionValue);
         console.log(optionIndex);
         // Remove option from keywords array
-        const selectedOption = currentKeywordsArray.splice(optionIndex, 1);
+        const selectedOption = currentKeywordsArray.splice(optionIndex, 1)[0];
+
+        console.log(currentKeywordsArray);
+        console.log(currentTagsArray);
+        console.log(selectedOption);
+
         console.log(`${selectedOption} has been removed from ${optionCategory} keywords array`);
         console.log(`${optionCategory} keywords array now contains: ${currentKeywordsArray}`);
         // Add option to tags array
         currentTagsArray.push(selectedOption);
+
+        console.log(currentTagsArray);
+
         console.log(`${optionCategory} tags array now contains: ${currentTagsArray}`);
         // Check whether a datalist already exists
         const datalist = document.querySelector('datalist');
@@ -162,6 +170,71 @@ const handleTagEvents = (e) => {
         // Remove tag on click on 'x' icon
         tag.parentElement.removeChild(tag);
         // Put related option back in datalist
+        // Determine which category is currently targeted
+        const tagCategoryClass = e.target.parentElement.classList[1];
+        let tagCategory;
+        let currentKeywordsArray;
+        let currentTagsArray;
+        switch (tagCategoryClass) {
+          case 'tag--blue':
+            tagCategory = 'ingredients';
+            currentKeywordsArray = ingredientKeywords;
+            currentTagsArray = ingredientTags;
+            break;
+          case 'tag--green':
+            tagCategory = 'appliances';
+            currentKeywordsArray = applianceKeywords;
+            currentTagsArray = applianceTags;
+            break;
+          case 'tag--red':
+            tagCategory = 'utensils';
+            currentKeywordsArray = utensilKeywords;
+            currentTagsArray = utensilTags;
+        }
+        // Find tag value
+        const tagValue = e.target.parentElement.textContent.trim();
+        console.log(tagValue);
+        // Find tag index in tags array
+        const tagIndex = currentTagsArray.indexOf(tagValue);
+
+        console.log(currentTagsArray);
+        console.log(tagIndex);
+
+        // Remove tag from tags array
+        const selectedTag = currentTagsArray.splice(tagIndex, 1)[0];
+        console.log(selectedTag);
+        // Add tag to keywords array
+        /* PROBLEM: if tag was selected and user filters recipe with main search input,
+         * this could lead to adding an option to a datalist that should not have such
+         * an option, for example when selecting "Ail", typing "cum" in the main search bar
+         * and then removing the "Ail" tag. In such a scenario, "Ail" will be added to
+         * the list of ingredients although it isn't an ingredient for the only remaining
+         * recipe!
+         * */
+        currentKeywordsArray.push(selectedTag);
+        // Sort array in alphabetical order
+        currentKeywordsArray.sort();
+        console.log(currentKeywordsArray);
+        console.log(ingredientKeywords);
+        console.log(ingredientTags);
+
+        /* Check whether a datalist already exists.
+         * When removing a tag, any datalist might be visible, not necessarily
+         * the datalist of the same category as the tag that is removed.
+         * */
+        const datalistElement = document.querySelector('datalist');
+        if (datalistElement) {
+          const formElement = datalistElement.parentElement;
+          // If a datalist is visible, remove it
+          formElement.removeChild(datalistElement);
+          // Remove 'datalist-visible' class from parent <form> element
+          formElement.classList.remove('datalist-visible');
+        }
+        // Create new datalist with updated keywords array
+        createDataList(tagCategory);
+        // Add 'datalist-visible' class to current form
+        const currentForm = document.getElementById(`search-form-${tagCategory}`);
+        currentForm.classList.add('datalist-visible');
       }
     }
   }

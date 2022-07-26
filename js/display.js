@@ -111,24 +111,24 @@ const createInfobox = () => {
 const createDataList = (category) => {
   const formElement = document.getElementById(`search-form-${category}`);
   const dataListElement = document.createElement('datalist');
-  let tags;
+  let options;
   // Tags are imported from the global variables in index.js
   switch (category) {
     case 'ingredients':
-      tags = ingredientKeywords;
+      options = ingredientKeywords;
       break;
     case 'appliances':
-      tags = applianceKeywords;
+      options = applianceKeywords;
       break;
     case 'utensils':
-      tags = utensilKeywords;
+      options = utensilKeywords;
   }
   dataListElement.id = `datalist-${category}`;
   dataListElement.classList.add('datalist', `datalist--${category}`);
-  tags.forEach((tag) => {
+  options.forEach((option) => {
     const optionElement = document.createElement('option');
-    optionElement.innerHTML = tag;
-    optionElement.value = tag;
+    optionElement.innerHTML = option;
+    optionElement.value = option;
     dataListElement.appendChild(optionElement);
   });
   formElement.appendChild(dataListElement);
