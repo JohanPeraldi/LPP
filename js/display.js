@@ -195,11 +195,7 @@ const createTag = (option, category) => {
       case 'utensils':
         tagsList = utensilTags;
     }
-    const match = tagsList.find(element => element === option);
-    console.log(match);
-    if (!match) {
-      tagAlreadyExists = false;
-    }
+    tagAlreadyExists = tagsList.find(element => element === option);
   }
   if (!tagAlreadyExists) {
     console.log(`Tag already exists? Should be false: ${tagAlreadyExists}`);
