@@ -61,6 +61,8 @@ const getKeywords = (category, recipes) => {
  * */
 // Filtered recipes (default to all recipes)
 const filteredRecipes = recipes;
+// An array to store the ids of all filtered recipes
+const filteredRecipesIds = [];
 // Keywords by category (default to all keywords)
 let ingredientKeywords = getKeywords('ingredients', filteredRecipes);
 let applianceKeywords = getKeywords('appliances', filteredRecipes);
@@ -81,21 +83,6 @@ const updateKeywords = (recipes) => {
   applianceKeywords = getKeywords('appliances', recipes);
   utensilKeywords = getKeywords('utensils', recipes);
 };
-
-/* A function to reset filtered recipes back to initial (unfiltered)
- * recipes and update user interface with all recipes
- * */
-// const resetRecipes = () => {
-//   displayRecipes(filteredRecipes);
-// };
-
-// A function to update filtered recipes
-// const updateRecipes = (filter) => {
-//   console.log('Recipes should now be updated!');
-//   filteredRecipes = filterRecipes(filter, filteredRecipes); // WRONG!!!
-//   console.log(filteredRecipes);
-//   displayRecipes(filteredRecipes);
-// };
 
 // Display matching recipes if user input has at least 3 characters
 mainInputElement.addEventListener('input', handleMainSearchInputEvents);
@@ -125,4 +112,4 @@ const init = () => {
 
 init();
 
-export { getKeywords, updateKeywords, filteredRecipes, ingredientKeywords, applianceKeywords, utensilKeywords, ingredientTags, applianceTags, utensilTags };
+export { getKeywords, updateKeywords, filteredRecipes, filteredRecipesIds, ingredientKeywords, applianceKeywords, utensilKeywords, ingredientTags, applianceTags, utensilTags };

@@ -1,9 +1,9 @@
-import { ingredientKeywords, applianceKeywords, utensilKeywords } from './index.js';
+import { filteredRecipesIds, ingredientKeywords, applianceKeywords, utensilKeywords } from './index.js';
 import { updateDataList } from './display.js';
 
 const filterRecipes = (filter, recipes) => {
-  // An array to store the ids of all filtered recipes
-  const filteredRecipesIds = [];
+  // Empty array to store the ids of filtered recipes
+  filteredRecipesIds.length = 0;
   // If there is no filter, display all recipes
   if (!filter) {
     return recipes;

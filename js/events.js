@@ -1,6 +1,16 @@
-import { updateKeywords, filteredRecipes, ingredientKeywords, applianceKeywords, utensilKeywords, ingredientTags, applianceTags, utensilTags } from './index.js';
-import { filterRecipes, filterKeywords } from './filter.js';
-import { createDataList, removeDataList, displayRecipes, createTag } from './display.js';
+import {
+  updateKeywords,
+  filteredRecipes,
+  filteredRecipesIds,
+  ingredientKeywords,
+  applianceKeywords,
+  utensilKeywords,
+  ingredientTags,
+  applianceTags,
+  utensilTags
+} from './index.js';
+import {filterRecipes, filterKeywords} from './filter.js';
+import {createDataList, removeDataList, displayRecipes, createTag} from './display.js';
 
 // A variable indicating whether user input has more than 2 characters
 let hasOverTwoChars = false;
@@ -82,7 +92,6 @@ const handleAdvancedSearchInputsEvents = (e) => {
         // Determine which category is currently targeted
         let currentKeywordsArray;
         let currentTagsArray;
-        console.log(`Option to be removed from ${optionCategory} category`);
         switch (optionCategory) {
           case 'ingredients':
             currentKeywordsArray = ingredientKeywords;
@@ -98,25 +107,12 @@ const handleAdvancedSearchInputsEvents = (e) => {
         }
         // Get option value
         const optionValue = e.target.textContent;
-        console.log(optionValue);
         // Find option index in keywords array
         const optionIndex = currentKeywordsArray.indexOf(optionValue);
-        console.log(optionIndex);
         // Remove option from keywords array
         const selectedOption = currentKeywordsArray.splice(optionIndex, 1)[0];
-
-        console.log(currentKeywordsArray);
-        console.log(currentTagsArray);
-        console.log(selectedOption);
-
-        console.log(`${selectedOption} has been removed from ${optionCategory} keywords array`);
-        console.log(`${optionCategory} keywords array now contains: ${currentKeywordsArray}`);
         // Add option to tags array
         currentTagsArray.push(selectedOption);
-
-        console.log(currentTagsArray);
-
-        console.log(`${optionCategory} tags array now contains: ${currentTagsArray}`);
         // Check whether a datalist already exists
         const datalist = document.querySelector('datalist');
         if (!datalist) {
@@ -193,48 +189,85 @@ const handleTagEvents = (e) => {
         }
         // Find tag value
         const tagValue = e.target.parentElement.textContent.trim();
-        console.log(tagValue);
         // Find tag index in tags array
         const tagIndex = currentTagsArray.indexOf(tagValue);
-
-        console.log(currentTagsArray);
-        console.log(tagIndex);
-
         // Remove tag from tags array
         const selectedTag = currentTagsArray.splice(tagIndex, 1)[0];
-        console.log(selectedTag);
         // Add tag to keywords array
         /* PROBLEM: if tag was selected and user filters recipe with main search input,
          * this could lead to adding an option to a datalist that should not have such
          * an option, for example when selecting "Ail", typing "cum" in the main search bar
          * and then removing the "Ail" tag. In such a scenario, "Ail" will be added to
-         * the list of ingredients although it isn't an ingredient for the only remaining
-         * recipe!
+         * the list of ingredients, although it isn't an ingredient for the only remaining
+         * recipe! Also, the same tag can be added multiple times with no limit!
          * */
-        currentKeywordsArray.push(selectedTag);
-        // Sort array in alphabetical order
-        currentKeywordsArray.sort();
-        console.log(currentKeywordsArray);
-        console.log(ingredientKeywords);
-        console.log(ingredientTags);
 
-        /* Check whether a datalist already exists.
-         * When removing a tag, any datalist might be visible, not necessarily
-         * the datalist of the same category as the tag that is removed.
+        // Let's see if we can look for the keyword in the filtered recipes in order
+        // to determine whether to add it to the keywords list or not. Here, we get the
+        // ids of the filtered recipes.
+        console.log(filteredRecipesIds);
+        // Check if the selected tag matches a keyword in the filtered recipes,
+        // whose ids have just been fetched
+        // We need to loop through the filteredRecipesIds and look at the relevant
+        // keywords in each of the corresponding recipes to find a match with the selected tag
+        // A variable to store a boolean indicating if there is a match (defaults to false)
+        let match = false;
+        /* If main search input is empty, match must be true otherwise removed
+         * tags will not be added as options when all recipes are displayed
          * */
-        const datalistElement = document.querySelector('datalist');
-        if (datalistElement) {
-          const formElement = datalistElement.parentElement;
-          // If a datalist is visible, remove it
-          formElement.removeChild(datalistElement);
-          // Remove 'datalist-visible' class from parent <form> element
-          formElement.classList.remove('datalist-visible');
+        const mainInputElement = document.getElementById('searchbar');
+        if (mainInputElement.value.length === 0) {
+          match = true;
         }
-        // Create new datalist with updated keywords array
-        createDataList(tagCategory);
-        // Add 'datalist-visible' class to current form
-        const currentForm = document.getElementById(`search-form-${tagCategory}`);
-        currentForm.classList.add('datalist-visible');
+        filteredRecipesIds.forEach((id) => {
+          filteredRecipes.forEach((recipe) => {
+            if (recipe.id === id) {
+              switch (tagCategory) {
+                case 'ingredients':
+                  recipe.ingredients.forEach((ingredient) => {
+                    if (ingredient.ingredient.includes(selectedTag)) {
+                      match = true;
+                    }
+                  });
+                  break;
+                case 'appliances':
+                  if (recipe.appliance.includes(selectedTag)) {
+                    match = true;
+                  }
+                  break;
+                case 'utensils':
+                  recipe.utensils.forEach((utensil) => {
+                    if (utensil.includes(selectedTag)) {
+                      match = true;
+                    }
+                  });
+              }
+            }
+          });
+        });
+
+        if (match) {
+          currentKeywordsArray.push(selectedTag);
+          // Sort array in alphabetical order
+          currentKeywordsArray.sort();
+          /* Check whether a datalist already exists.
+           * When removing a tag, any datalist might be visible, not necessarily
+           * the datalist of the same category as the tag that is removed.
+           * */
+          const datalistElement = document.querySelector('datalist');
+          if (datalistElement) {
+            const formElement = datalistElement.parentElement;
+            // If a datalist is visible, remove it
+            formElement.removeChild(datalistElement);
+            // Remove 'datalist-visible' class from parent <form> element
+            formElement.classList.remove('datalist-visible');
+          }
+          // Create new datalist with updated keywords array
+          createDataList(tagCategory);
+          // Add 'datalist-visible' class to current form
+          const currentForm = document.getElementById(`search-form-${tagCategory}`);
+          currentForm.classList.add('datalist-visible');
+        }
       }
     }
   }
@@ -272,4 +305,4 @@ const closeOpenMenus = (e) => {
   }
 };
 
-export { handleMainSearchInputEvents, handleAdvancedSearchInputsEvents, handleTagEvents, getInputPlaceholder };
+export {handleMainSearchInputEvents, handleAdvancedSearchInputsEvents, handleTagEvents, getInputPlaceholder};

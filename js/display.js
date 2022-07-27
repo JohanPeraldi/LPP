@@ -1,4 +1,4 @@
-import { ingredientKeywords, applianceKeywords, utensilKeywords } from './index.js';
+import { ingredientKeywords, applianceKeywords, utensilKeywords, ingredientTags, applianceTags, utensilTags } from './index.js';
 import { getInputPlaceholder } from './events.js';
 
 // DOM elements
@@ -171,26 +171,58 @@ const updateDataList = (category, keywords) => {
 
 // Create tag
 const createTag = (option, category) => {
+  /* Only create a tag if tagsListElement is empty or if
+   * a tag with the same value does not already exist!
+   * */
   const tagsListElement = document.querySelector('.search__tags');
-  const tag = document.createElement('li');
-  // Add the corresponding classes
-  let tagClassModifier;
-  switch (category) {
-    case 'ingredients':
-      tagClassModifier = 'blue';
-      break;
-    case 'appliances':
-      tagClassModifier = 'green';
-      break;
-    case 'utensils':
-      tagClassModifier = 'red';
+  let tagAlreadyExists = true;
+  console.log(`Please create the '${option}' tag, in the '${category}' category`);
+  // Check whether there are any tags
+  if (tagsListElement.childNodes.length === 0) {
+    tagAlreadyExists = false;
+    console.log('There should be no tags');
+  } else {
+    console.log('There is at least one tag already');
+    // Check whether tag to be created already exists
+    let tagsList;
+    switch (category) {
+      case 'ingredients':
+        tagsList = ingredientTags;
+        break;
+      case 'appliances':
+        tagsList = applianceTags;
+        break;
+      case 'utensils':
+        tagsList = utensilTags;
+    }
+    const match = tagsList.find(element => element === option);
+    console.log(match);
+    if (!match) {
+      tagAlreadyExists = false;
+    }
   }
-  tag.classList.add('tag', `tag--${tagClassModifier}`);
-  tag.innerHTML = `
-    ${option}
-    <i class="fa-regular fa-circle-xmark fa-lg tag__remove-icon"></i>
-  `;
-  tagsListElement.appendChild(tag);
+  if (!tagAlreadyExists) {
+    console.log(`Tag already exists? Should be false: ${tagAlreadyExists}`);
+    const tag = document.createElement('li');
+    // Add the corresponding classes
+    let tagClassModifier;
+    switch (category) {
+      case 'ingredients':
+        tagClassModifier = 'blue';
+        break;
+      case 'appliances':
+        tagClassModifier = 'green';
+        break;
+      case 'utensils':
+        tagClassModifier = 'red';
+    }
+    tag.classList.add('tag', `tag--${tagClassModifier}`);
+    tag.innerHTML = `
+      ${option}
+      <i class="fa-regular fa-circle-xmark fa-lg tag__remove-icon"></i>
+    `;
+    tagsListElement.appendChild(tag);
+  }
 };
 
 export { displayRecipes, createDataList, removeDataList, updateDataList, createTag };
