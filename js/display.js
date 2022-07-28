@@ -1,5 +1,12 @@
-import { ingredientKeywords, applianceKeywords, utensilKeywords, ingredientTags, applianceTags, utensilTags } from './index.js';
-import { getInputPlaceholder } from './events.js';
+import {
+  applianceKeywords,
+  applianceTags,
+  ingredientKeywords,
+  ingredientTags,
+  utensilKeywords,
+  utensilTags
+} from './index.js';
+import {getInputPlaceholder} from './events.js';
 
 // DOM elements
 const recipeSectionElement = document.querySelector('.recipe');
@@ -107,22 +114,56 @@ const createInfobox = () => {
   recipeSectionElement.appendChild(card);
 };
 
+/* A function that returns a set representing a list from which
+ * elements also present in another list have been removed (used
+ * in createDataList below to remove from the options list the
+ * items that are already displayed as tags (in existingTags).
+ * It is to be noted that the function takes two arguments which
+ * are meant to be sets, but it seems that passing arrays instead
+ * will also work.
+ * */
+const difference = (setA, setB) => {
+  const _difference = new Set(setA);
+  for (const elem of setB) {
+    _difference.delete(elem);
+  }
+  return _difference;
+}
+
 // Create category datalist
 const createDataList = (category) => {
+  /* Because we don't want an option to appear in the datalist if it is
+   * already selected as a tag, there needs to be a comparison between any
+   * existing tags and the keywords to display in the datalist to be created.
+   * This is done by creating sets from the options and tags arrays and
+   * removing items from the options array when they are present in the tags
+   * array, using the 'difference' function above.
+   * */
   const formElement = document.getElementById(`search-form-${category}`);
   const dataListElement = document.createElement('datalist');
+  // A variable to store the keywords from the relevant category
   let options;
-  // Tags are imported from the global variables in index.js
+  // A variable to store the existing tags in the relevant category
+  let existingTags;
+  // Keywords are imported from the global variables in index.js
   switch (category) {
     case 'ingredients':
       options = ingredientKeywords;
+      existingTags = ingredientTags;
       break;
     case 'appliances':
       options = applianceKeywords;
+      existingTags = applianceTags;
       break;
     case 'utensils':
       options = utensilKeywords;
+      existingTags = utensilTags;
   }
+  options = [...new Set(options)];
+  existingTags = [...new Set(existingTags)];
+  options = difference(options, existingTags);
+  console.log(existingTags);
+  console.log(options);
   dataListElement.id = `datalist-${category}`;
   dataListElement.classList.add('datalist', `datalist--${category}`);
   options.forEach((option) => {
@@ -195,10 +236,16 @@ const createTag = (option, category) => {
       case 'utensils':
         tagsList = utensilTags;
     }
-    tagAlreadyExists = tagsList.find(element => element === option);
+    const found = tagsList.find(element => element === option);
+    console.log(found);
+    console.log(tagsList);
+    console.log(option);
+    if (!found) {
+      tagAlreadyExists = false;
+    }
   }
   if (!tagAlreadyExists) {
-    console.log(`Tag already exists? Should be false: ${tagAlreadyExists}`);
+    console.log(`Tag already exists? Should be false: ${tagAlreadyExists}`); // undefined after 1st tag
     const tag = document.createElement('li');
     // Add the corresponding classes
     let tagClassModifier;
