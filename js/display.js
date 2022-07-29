@@ -197,6 +197,9 @@ const updateDataList = (category, keywords) => {
   const dataListElement = document.createElement('datalist');
   formElement.classList.add('datalist-visible');
   formElement.firstElementChild.focus();
+  // Update placeholder
+  const placeholder = getInputPlaceholder(category);
+  formElement.firstElementChild.placeholder = `Rechercher un ${placeholder}`;
   dataListElement.id = `datalist-${category}`;
   dataListElement.classList.add('datalist', `datalist--${category}`);
   keywords.forEach((keyword) => {
