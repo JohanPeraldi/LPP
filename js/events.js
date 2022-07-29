@@ -31,7 +31,13 @@ const handleMainSearchInputEvents = (e) => {
       // On every input change, compare that input with any matching word in the recipes
       recipesToDisplay = filterRecipes(userInput, filteredRecipes);
       displayRecipes(recipesToDisplay);
+      console.group('BEFORE updateKeywords function call');
+      console.log(ingredientKeywords, applianceKeywords, utensilKeywords);
+      console.groupEnd();
       updateKeywords(recipesToDisplay);
+      console.group('AFTER updateKeywords function call');
+      console.log(ingredientKeywords, applianceKeywords, utensilKeywords);
+      console.groupEnd();
     }
     /* If user deletes or modifies input leaving less
      * than 3 characters, all recipes should be displayed
@@ -79,8 +85,12 @@ const handleAdvancedSearchInputsEvents = (e) => {
       }
       // Click events on <option> elements:
       if (e.target.localName === 'option') {
+        // Check whether user input has any value in order to filter options accordingly
+        const inputElement = e.target.parentElement.parentElement.firstElementChild;
+        const userInput = inputElement.value;
+        const optionCategory = inputElement.id;
+        console.log(`${userInput ? 'User input: ' + userInput : 'No user input'}`);
         // Create a tag with the value of the option
-        const optionCategory = e.target.parentElement.parentElement.firstElementChild.id;
         createTag(e.target.value, optionCategory);
         /*
          * We want to remove the option from the datalist.
@@ -118,6 +128,10 @@ const handleAdvancedSearchInputsEvents = (e) => {
         if (!datalist) {
           // If no datalist already exists, create new datalist with updated keywords array
           createDataList(optionCategory);
+        }
+        // If user input has a value, filter options accordingly
+        if (userInput) {
+          filterKeywords(userInput, optionCategory);
         }
         // Add 'datalist-visible' class to current form
         const currentForm = document.getElementById(`search-form-${optionCategory}`);

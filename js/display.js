@@ -187,7 +187,6 @@ const removeDataList = (category) => {
 // Update datalist after filtering
 const updateDataList = (category, keywords) => {
   const dataList = document.getElementById(`datalist-${category}`);
-  console.log(dataList);
   // Remove existing datalist
   if (dataList) {
     removeDataList(category);
