@@ -9,8 +9,8 @@ import {
   applianceTags,
   utensilTags
 } from './index.js';
-import {filterRecipes, filterKeywords} from './filter.js';
-import {createDataList, removeDataList, displayRecipes, createTag} from './display.js';
+import { filterRecipes, filterKeywords } from './filter.js';
+import { createDataList, removeDataList, displayRecipes, createTag } from './display.js';
 
 // A variable indicating whether user input has more than 2 characters
 let hasOverTwoChars = false;
@@ -122,6 +122,9 @@ const handleAdvancedSearchInputsEvents = (e) => {
         // Add 'datalist-visible' class to current form
         const currentForm = document.getElementById(`search-form-${optionCategory}`);
         currentForm.classList.add('datalist-visible');
+        // Update input placeholder (should be set to its "long" version)
+        const placeholder = getInputPlaceholder(optionCategory);
+        currentForm.firstElementChild.placeholder = `Rechercher un ${placeholder}`;
       }
     }
 
@@ -193,23 +196,6 @@ const handleTagEvents = (e) => {
         const tagIndex = currentTagsArray.indexOf(tagValue);
         // Remove tag from tags array
         const selectedTag = currentTagsArray.splice(tagIndex, 1)[0];
-        // Add tag to keywords array
-        /* PROBLEM: if tag was selected and user filters recipe with main search input,
-         * this could lead to adding an option to a datalist that should not have such
-         * an option, for example when selecting "Ail", typing "cum" in the main search bar
-         * and then removing the "Ail" tag. In such a scenario, "Ail" will be added to
-         * the list of ingredients, although it isn't an ingredient for the only remaining
-         * recipe! Also, the same tag can be added multiple times with no limit!
-         * */
-
-        // Let's see if we can look for the keyword in the filtered recipes in order
-        // to determine whether to add it to the keywords list or not. Here, we get the
-        // ids of the filtered recipes.
-        console.log(filteredRecipesIds);
-        // Check if the selected tag matches a keyword in the filtered recipes,
-        // whose ids have just been fetched
-        // We need to loop through the filteredRecipesIds and look at the relevant
-        // keywords in each of the corresponding recipes to find a match with the selected tag
         // A variable to store a boolean indicating if there is a match (defaults to false)
         let match = false;
         /* If main search input is empty, match must be true otherwise removed
@@ -219,6 +205,9 @@ const handleTagEvents = (e) => {
         if (mainInputElement.value.length === 0) {
           match = true;
         }
+        /* Loop through the filteredRecipesIds and look at the relevant keywords
+         * in each of the corresponding recipes to find a match with the selected tag
+         * */
         filteredRecipesIds.forEach((id) => {
           filteredRecipes.forEach((recipe) => {
             if (recipe.id === id) {
@@ -246,6 +235,7 @@ const handleTagEvents = (e) => {
           });
         });
 
+        // Add tag to keywords array
         if (match) {
           currentKeywordsArray.push(selectedTag);
           // Sort array in alphabetical order
@@ -257,6 +247,11 @@ const handleTagEvents = (e) => {
           const datalistElement = document.querySelector('datalist');
           if (datalistElement) {
             const formElement = datalistElement.parentElement;
+            const category = formElement.firstElementChild.id;
+            // Update placeholder
+            const placeholder = getInputPlaceholder(category);
+            formElement.firstElementChild.placeholder = placeholder.charAt(0).toUpperCase() +
+              placeholder.slice(1) + 's';
             // If a datalist is visible, remove it
             formElement.removeChild(datalistElement);
             // Remove 'datalist-visible' class from parent <form> element
@@ -267,6 +262,9 @@ const handleTagEvents = (e) => {
           // Add 'datalist-visible' class to current form
           const currentForm = document.getElementById(`search-form-${tagCategory}`);
           currentForm.classList.add('datalist-visible');
+          // Update placeholder
+          const placeholder = getInputPlaceholder(tagCategory);
+          currentForm.firstElementChild.placeholder = `Rechercher un ${placeholder}`;
         }
       }
     }
@@ -305,4 +303,4 @@ const closeOpenMenus = (e) => {
   }
 };
 
-export {handleMainSearchInputEvents, handleAdvancedSearchInputsEvents, handleTagEvents, getInputPlaceholder};
+export { handleMainSearchInputEvents, handleAdvancedSearchInputsEvents, handleTagEvents, getInputPlaceholder };

@@ -6,7 +6,7 @@ import {
   utensilKeywords,
   utensilTags
 } from './index.js';
-import {getInputPlaceholder} from './events.js';
+import { getInputPlaceholder } from './events.js';
 
 // DOM elements
 const recipeSectionElement = document.querySelector('.recipe');
@@ -128,7 +128,7 @@ const difference = (setA, setB) => {
     _difference.delete(elem);
   }
   return _difference;
-}
+};
 
 // Create category datalist
 const createDataList = (category) => {
@@ -162,8 +162,6 @@ const createDataList = (category) => {
   options = [...new Set(options)];
   existingTags = [...new Set(existingTags)];
   options = difference(options, existingTags);
-  console.log(existingTags);
-  console.log(options);
   dataListElement.id = `datalist-${category}`;
   dataListElement.classList.add('datalist', `datalist--${category}`);
   options.forEach((option) => {
@@ -217,13 +215,10 @@ const createTag = (option, category) => {
    * */
   const tagsListElement = document.querySelector('.search__tags');
   let tagAlreadyExists = true;
-  console.log(`Please create the '${option}' tag, in the '${category}' category`);
   // Check whether there are any tags
   if (tagsListElement.childNodes.length === 0) {
     tagAlreadyExists = false;
-    console.log('There should be no tags');
   } else {
-    console.log('There is at least one tag already');
     // Check whether tag to be created already exists
     let tagsList;
     switch (category) {
@@ -237,15 +232,11 @@ const createTag = (option, category) => {
         tagsList = utensilTags;
     }
     const found = tagsList.find(element => element === option);
-    console.log(found);
-    console.log(tagsList);
-    console.log(option);
     if (!found) {
       tagAlreadyExists = false;
     }
   }
   if (!tagAlreadyExists) {
-    console.log(`Tag already exists? Should be false: ${tagAlreadyExists}`); // undefined after 1st tag
     const tag = document.createElement('li');
     // Add the corresponding classes
     let tagClassModifier;
