@@ -112,4 +112,15 @@ const init = () => {
 
 init();
 
-export { getKeywords, updateKeywords, filteredRecipes, filteredRecipesIds, ingredientKeywords, applianceKeywords, utensilKeywords, ingredientTags, applianceTags, utensilTags };
+export {
+  getKeywords,
+  updateKeywords,
+  filteredRecipes,
+  filteredRecipesIds,
+  ingredientKeywords,
+  applianceKeywords,
+  utensilKeywords,
+  ingredientTags,
+  applianceTags,
+  utensilTags
+};

@@ -152,16 +152,25 @@ const handleAdvancedSearchInputsEvents = (e) => {
      * */
     closeOpenMenus(e);
 
+    // Check whether user input has a value in order to update keywords list accordingly
+    const userInput = e.target.value;
+    const category = e.target.id;
+    console.log(`${userInput ? 'User input: ' + userInput : 'No user input'}`);
+
     /* When input receives focus, check whether a datalist
      * already exists and only create one if there is none
      * */
     if (!e.target.parentElement.classList.contains('datalist-visible')) {
       e.target.parentElement.classList.add('datalist-visible');
       // Change input placeholder text
-      const placeholder = getInputPlaceholder(e.target.id);
+      const placeholder = getInputPlaceholder(category);
       e.target.placeholder = `Rechercher un ${placeholder}`;
       // Add datalist
-      createDataList(e.target.id);
+      createDataList(category);
+      // If user input has a value, filter options accordingly
+      if (userInput) {
+        filterKeywords(userInput, category);
+      }
     }
   }
 
@@ -204,6 +213,13 @@ const handleTagEvents = (e) => {
             currentKeywordsArray = utensilKeywords;
             currentTagsArray = utensilTags;
         }
+
+        // Check for user input in order to filter keywords accordingly
+        // We need to find the input from the same category as the targeted tag
+        const inputElement = document.getElementById(tagCategory);
+        const userInput = inputElement.value;
+        console.log(`${userInput ? 'User input: ' + userInput : 'No user input'}`);
+
         // Find tag value
         const tagValue = e.target.parentElement.textContent.trim();
         // Find tag index in tags array
@@ -271,8 +287,15 @@ const handleTagEvents = (e) => {
             // Remove 'datalist-visible' class from parent <form> element
             formElement.classList.remove('datalist-visible');
           }
+
           // Create new datalist with updated keywords array
           createDataList(tagCategory);
+
+          // If user input has a value, filter options accordingly
+          if (userInput) {
+            filterKeywords(userInput, tagCategory);
+          }
+
           // Add 'datalist-visible' class to current form
           const currentForm = document.getElementById(`search-form-${tagCategory}`);
           currentForm.classList.add('datalist-visible');
