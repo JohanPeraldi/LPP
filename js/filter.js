@@ -1,4 +1,4 @@
-import { filteredRecipesIds, ingredientKeywords, applianceKeywords, utensilKeywords } from './index.js';
+import { filteredRecipes, filteredRecipesIds, ingredientKeywords, applianceKeywords, utensilKeywords } from './index.js';
 import { updateDataList } from './display.js';
 
 const filterRecipes = (filter, recipes) => {
@@ -77,6 +77,45 @@ const filterRecipes = (filter, recipes) => {
   }
 };
 
+// A function that takes a tag and the category to which
+// it belongs as arguments and returns the recipes that
+// match the tag
+const filterRecipesByTag = (tag, category) => {
+  /* We need to look for a match between the tag passed
+   * to the function as an argument and the corresponding
+   * keyword in the recipes ingredients, appliances or
+   * utensils
+   * */
+  let recipesFilteredByTag = [];
+  switch (category) {
+    case 'ingredients':
+      filteredRecipes.forEach((recipe) => {
+        recipe.ingredients.forEach((element) => {
+          if (element.ingredient.toLowerCase() === tag.toLowerCase()) {
+            recipesFilteredByTag.push(recipe);
+          }
+        });
+      });
+      break;
+    case 'appliances':
+      filteredRecipes.forEach((recipe) => {
+        if (recipe.appliance.toLowerCase() === tag.toLowerCase()) {
+          recipesFilteredByTag.push(recipe);
+        }
+      });
+      break;
+    case 'utensils':
+      filteredRecipes.forEach((recipe) => {
+        const utensils = recipe.utensils.map(utensil => utensil.toLowerCase());
+        if (utensils.includes(tag.toLowerCase())) {
+          recipesFilteredByTag.push(recipe);
+        }
+      });
+  }
+
+  return recipesFilteredByTag;
+};
+
 const filterKeywords = (filter, category) => {
   const filteredKeywords = [];
   let initialKeywords;
@@ -122,4 +161,4 @@ const filterKeywords = (filter, category) => {
   updateDataList(category, keywords);
 };
 
-export { filterRecipes, filterKeywords };
+export { filterRecipes, filterRecipesByTag, filterKeywords };

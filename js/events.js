@@ -1,4 +1,5 @@
 import {
+  updateRecipes,
   updateKeywords,
   filteredRecipes,
   filteredRecipesIds,
@@ -9,7 +10,7 @@ import {
   applianceTags,
   utensilTags
 } from './index.js';
-import { filterRecipes, filterKeywords } from './filter.js';
+import { filterRecipes, filterRecipesByTag, filterKeywords } from './filter.js';
 import { createDataList, removeDataList, displayRecipes, createTag } from './display.js';
 
 // A variable indicating whether user input has more than 2 characters
@@ -139,6 +140,12 @@ const handleAdvancedSearchInputsEvents = (e) => {
         // Update input placeholder (should be set to its "long" version)
         const placeholder = getInputPlaceholder(optionCategory);
         currentForm.firstElementChild.placeholder = `Rechercher un ${placeholder}`;
+
+        /* Adding a tag must also update the recipes to display
+         * with the result of calling the filterRecipesByTag function
+         * */
+        updateRecipes(filterRecipesByTag(optionValue, optionCategory));
+        displayRecipes(filteredRecipes);
       }
     }
 

@@ -56,11 +56,16 @@ const getKeywords = (category, recipes) => {
   }
 };
 
+// A function to update the filteredRecipes variable after filtering
+const updateRecipes = (updatedRecipes) => {
+  filteredRecipes = updatedRecipes;
+};
+
 /*
  * GLOBAL VARIABLES
  * */
 // Filtered recipes (default to all recipes)
-const filteredRecipes = recipes;
+let filteredRecipes = [...recipes];
 // An array to store the ids of all filtered recipes
 const filteredRecipesIds = [];
 // Keywords by category (default to all keywords)
@@ -114,6 +119,7 @@ init();
 
 export {
   getKeywords,
+  updateRecipes,
   updateKeywords,
   filteredRecipes,
   filteredRecipesIds,
