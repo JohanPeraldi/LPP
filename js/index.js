@@ -15,7 +15,9 @@ const getKeywords = (category, recipes) => {
   const tempIngKeywords = [];
   const tempAppKeywords = [];
   const tempUteKeywords = [];
-  // If there are recipes, loop over recipes array to create lists of category tags
+  /* If there are recipes, loop over recipes array
+   * to create lists of category tags
+   * */
   if (recipes) {
     recipes.forEach((recipe) => {
       recipe.ingredients.forEach((ingredient) => {
@@ -77,7 +79,9 @@ const ingredientTags = [];
 const applianceTags = [];
 const utensilTags = [];
 
-// A function to update keywords after recipes have been filtered using main search input
+/* A function to update keywords after recipes
+ * have been filtered using main search input
+ * */
 const updateKeywords = (recipes) => {
   // Empty keywords arrays
   ingredientKeywords = [];

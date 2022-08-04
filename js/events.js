@@ -1,3 +1,4 @@
+import { recipes } from './recipes.js';
 import {
   updateRecipes,
   updateKeywords,
@@ -23,19 +24,19 @@ const handleMainSearchInputEvents = (e) => {
   // INPUT EVENTS
   if (e.type === 'input') {
     const userInput = e.target.value.toLowerCase();
-    let recipesToDisplay;
     if (userInput.length > 2) {
-      console.log(`User input: ${userInput}`);
       if (!hasOverTwoChars) {
         hasOverTwoChars = true;
       }
-      // On every input change, compare that input with any matching word in the recipes
-      recipesToDisplay = filterRecipes(userInput, filteredRecipes);
-      displayRecipes(recipesToDisplay);
+      /* On every input change, compare that input
+       * with any matching word in the recipes
+       * */
+      updateRecipes(filterRecipes(userInput, recipes));
+      displayRecipes(filteredRecipes);
       console.group('BEFORE updateKeywords function call');
       console.log(ingredientKeywords, applianceKeywords, utensilKeywords);
       console.groupEnd();
-      updateKeywords(recipesToDisplay);
+      updateKeywords(filteredRecipes);
       console.group('AFTER updateKeywords function call');
       console.log(ingredientKeywords, applianceKeywords, utensilKeywords);
       console.groupEnd();
@@ -45,9 +46,9 @@ const handleMainSearchInputEvents = (e) => {
      * */
     if (hasOverTwoChars && userInput.length < 3) {
       hasOverTwoChars = false;
-      recipesToDisplay = filterRecipes(null, filteredRecipes);
-      displayRecipes(recipesToDisplay);
-      updateKeywords(recipesToDisplay);
+      updateRecipes(recipes);
+      displayRecipes(filteredRecipes);
+      updateKeywords(filteredRecipes);
     }
   }
 
