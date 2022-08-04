@@ -32,14 +32,6 @@ const handleMainSearchInputEvents = (e) => {
        * with any matching word in the recipes
        * */
       updateRecipes(filterRecipes(userInput, recipes));
-      displayRecipes(filteredRecipes);
-      console.group('BEFORE updateKeywords function call');
-      console.log(ingredientKeywords, applianceKeywords, utensilKeywords);
-      console.groupEnd();
-      updateKeywords(filteredRecipes);
-      console.group('AFTER updateKeywords function call');
-      console.log(ingredientKeywords, applianceKeywords, utensilKeywords);
-      console.groupEnd();
     }
     /* If user deletes or modifies input leaving less
      * than 3 characters, all recipes should be displayed
@@ -47,9 +39,9 @@ const handleMainSearchInputEvents = (e) => {
     if (hasOverTwoChars && userInput.length < 3) {
       hasOverTwoChars = false;
       updateRecipes(recipes);
-      displayRecipes(filteredRecipes);
-      updateKeywords(filteredRecipes);
     }
+    displayRecipes(filteredRecipes);
+    updateKeywords(filteredRecipes);
   }
 
   // FOCUS EVENTS
@@ -91,7 +83,6 @@ const handleAdvancedSearchInputsEvents = (e) => {
         const inputElement = e.target.parentElement.parentElement.firstElementChild;
         const userInput = inputElement.value;
         const optionCategory = inputElement.id;
-        console.log(`${userInput ? 'User input: ' + userInput : 'No user input'}`);
         // Create a tag with the value of the option
         createTag(e.target.value, optionCategory);
         /*
@@ -163,7 +154,6 @@ const handleAdvancedSearchInputsEvents = (e) => {
     // Check whether user input has a value in order to update keywords list accordingly
     const userInput = e.target.value;
     const category = e.target.id;
-    console.log(`${userInput ? 'User input: ' + userInput : 'No user input'}`);
 
     /* When input receives focus, check whether a datalist
      * already exists and only create one if there is none
