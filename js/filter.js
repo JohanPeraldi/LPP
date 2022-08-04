@@ -4,20 +4,38 @@ import { updateDataList } from './display.js';
 const filterRecipes = (filter, recipes) => {
   // Empty array to store the ids of filtered recipes
   filteredRecipesIds.length = 0;
-  // If there is no filter, display all recipes
+  // If there is no filter (no user input), display all recipes
   if (!filter) {
     return recipes;
   }
   /* We look for a match between the user input and a word (or part of
    * a word) in the recipe names, lists of ingredients or descriptions
    * */
-  // Filter on recipe names
+  // Filter by recipe names
+  filterRecipesByName(filter, recipes);
+  // Filter by recipe ingredients
+  filterRecipesByIngredient(filter, recipes);
+  // Filter by recipe descriptions
+  filterRecipesByDescription(filter, recipes);
+  /* We check that filteredRecipesIds has at least one element. If it does,
+   * we return an array containing the filtered recipes.
+   * */
+  if (filteredRecipesIds.length > 0) {
+    filteredRecipesIds.sort((a, b) => a - b);
+    console.log(filteredRecipesIds);
+    return recipes.filter(recipe => filteredRecipesIds.includes(recipe.id));
+  }
+};
+
+/* A function that filters recipes by searching for a match
+ * between a substring (user input) and the recipes names
+ * */
+const filterRecipesByName = (filter, recipes) => {
   for (let i = 0; i < recipes.length; i++) {
     for (let j = 0; j < recipes[i].name.length; j++) {
       for (let k = 0; k < filter.length; k++) {
         if (filter[k] !== recipes[i].name.toLowerCase()[j + k]) break;
         if (k === filter.length - 1) {
-          // console.log(`Recipe name: ${recipes[i].name} - recipe id: ${recipes[i].id}`);
           /* We get the index of the current recipe and push its id
            * to the filteredRecipesIds array if it is not already in the array
            * */
@@ -29,7 +47,12 @@ const filterRecipes = (filter, recipes) => {
       }
     }
   }
-  // Filter on recipe ingredients
+};
+
+/* A function that filters recipes by searching for a match
+ * between a substring (user input) and the recipes ingredients
+ * */
+const filterRecipesByIngredient = (filter, recipes) => {
   for (let i = 0; i < recipes.length; i++) {
     for (let j = 0; j < recipes[i].ingredients.length; j++) {
       for (let k = 0; k < recipes[i].ingredients[j].ingredient.length; k++) {
@@ -49,7 +72,12 @@ const filterRecipes = (filter, recipes) => {
       }
     }
   }
-  // Filter on recipe descriptions
+};
+
+/* A function that filters recipes by searching for a match
+ * between a substring (user input) and the recipes descriptions
+ * */
+const filterRecipesByDescription = (filter, recipes) => {
   for (let i = 0; i < recipes.length; i++) {
     for (let j = 0; j < recipes[i].description.length; j++) {
       for (let k = 0; k < filter.length; k++) {
@@ -67,19 +95,12 @@ const filterRecipes = (filter, recipes) => {
       }
     }
   }
-  /* We check that filteredRecipesIds has at least one element. If it does,
-   * we return an array containing the filtered recipes.
-   * */
-  if (filteredRecipesIds.length > 0) {
-    filteredRecipesIds.sort((a, b) => a - b);
-    console.log(filteredRecipesIds);
-    return recipes.filter(recipe => filteredRecipesIds.includes(recipe.id));
-  }
 };
 
-// A function that takes a tag and the category to which
-// it belongs as arguments and returns the recipes that
-// match the tag
+/* A function that takes a tag and the category to which
+ * it belongs as arguments and returns the recipes that
+ * match the tag
+ * */
 const filterRecipesByTag = (tag, category) => {
   /* We need to look for a match between the tag passed
    * to the function as an argument and the corresponding

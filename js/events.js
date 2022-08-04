@@ -216,7 +216,6 @@ const handleTagEvents = (e) => {
         // We need to find the input from the same category as the targeted tag
         const inputElement = document.getElementById(tagCategory);
         const userInput = inputElement.value;
-        console.log(`${userInput ? 'User input: ' + userInput : 'No user input'}`);
 
         // Find tag value
         const tagValue = e.target.parentElement.textContent.trim();
@@ -241,8 +240,8 @@ const handleTagEvents = (e) => {
             if (recipe.id === id) {
               switch (tagCategory) {
                 case 'ingredients':
-                  recipe.ingredients.forEach((ingredient) => {
-                    if (ingredient.ingredient.includes(selectedTag)) {
+                  recipe.ingredients.forEach((element) => {
+                    if (element.ingredient.includes(selectedTag)) {
                       match = true;
                     }
                   });
