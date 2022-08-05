@@ -1,3 +1,5 @@
+/** @module filter */
+
 import { filteredRecipes, filteredRecipesIds, ingredientKeywords, applianceKeywords, utensilKeywords } from './index.js';
 import { updateDataList } from './display.js';
 
@@ -107,7 +109,7 @@ const filterRecipesByTag = (tag, category) => {
    * keyword in the recipes ingredients, appliances or
    * utensils
    * */
-  let recipesFilteredByTag = [];
+  const recipesFilteredByTag = [];
   switch (category) {
     case 'ingredients':
       filteredRecipes.forEach((recipe) => {
@@ -157,16 +159,9 @@ const filterKeywords = (filter, category) => {
    * characters in the ingredients/appliances/utensils keywords
    * (lists of advanced search options)
    * */
-  console.log(`User input: ${filter}`);
-  console.group('BEFORE advanced filtering');
-  console.log(initialKeywords);
-  console.groupEnd();
   // If filter is an empty string, return all tags
   if (filter.length === 0) {
     keywords = initialKeywords;
-    console.group('AFTER advanced filtering (EMPTY input)');
-    console.log(keywords);
-    console.groupEnd();
   } else {
     // If filter has at least one character
     for (let i = 0; i < initialKeywords.length; i++) {
@@ -175,9 +170,6 @@ const filterKeywords = (filter, category) => {
       }
     }
     keywords = filteredKeywords.sort();
-    console.group('AFTER advanced filtering');
-    console.log(keywords);
-    console.groupEnd();
   }
   updateDataList(category, keywords);
 };

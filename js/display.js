@@ -1,3 +1,5 @@
+/** @module display */
+
 import {
   applianceKeywords,
   applianceTags,

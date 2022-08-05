@@ -1,98 +1,209 @@
+/** @module index */
+
 import { recipes } from './recipes.js';
 import { displayRecipes } from './display.js';
 import { handleMainSearchInputEvents, handleAdvancedSearchInputsEvents, handleTagEvents } from './events.js';
 
-/*
- * DOM ELEMENTS
- * */
+// DOM ELEMENTS
 const mainInputElement = document.getElementById('searchbar');
 const searchTagsElement = document.querySelector('.search__tags');
 const advancedSearchInputsElement = document.querySelector('.search__inputs');
 
-// A function to get keywords by category
+// FUNCTIONS TO GET KEYWORDS AND UPDATE RECIPES
+/** @function getKeywords
+ * A function that returns the keywords found in the specified category.
+ * @param {string} category - The category the keyword belongs to (either 'ingredients', 'appliances' or 'utensils').
+ * @param {Array} recipes - An array containing the recipes (if any) from which the keywords will be taken.
+ * @returns {Array} - An array containing the keywords found in the specified category.
+ * */
 const getKeywords = (category, recipes) => {
-  // We need temporary arrays to store keywords
-  const tempIngKeywords = [];
-  const tempAppKeywords = [];
-  const tempUteKeywords = [];
-  /* If there are recipes, loop over recipes array
-   * to create lists of category tags
+  /**
+   * An array to store keywords from the specified category.
+   * @type {Array}
    * */
+  let keywords = [];
+  // If there are recipes, loop over recipes array to create list of keywords in the specified category
   if (recipes) {
-    recipes.forEach((recipe) => {
-      recipe.ingredients.forEach((ingredient) => {
-        if (tempIngKeywords.indexOf(ingredient.ingredient) === -1) {
-          tempIngKeywords.push(ingredient.ingredient);
-        }
-      });
-    });
-    recipes.forEach((recipe) => {
-      if (tempAppKeywords.indexOf(recipe.appliance) === -1) {
-        tempAppKeywords.push(recipe.appliance);
-      }
-    });
-    recipes.forEach((recipe) => {
-      recipe.utensils.forEach((utensil) => {
-        if (tempUteKeywords.indexOf(utensil) === -1) {
-          tempUteKeywords.push(utensil);
-        }
-      });
-    });
-    // Sort all tags by ascending order
-    tempIngKeywords.sort();
-    tempAppKeywords.sort();
-    tempUteKeywords.sort();
-
     switch (category) {
       case 'ingredients':
-        return tempIngKeywords;
+        keywords = getIngredientKeywords(recipes);
+        break;
       case 'appliances':
-        return tempAppKeywords;
+        keywords = getApplianceKeywords(recipes);
+        break;
       case 'utensils':
-        return tempUteKeywords;
+        keywords = getUtensilKeywords(recipes);
     }
-
-    return { tempIngKeywords, tempAppKeywords, tempUteKeywords };
-  } else {
-    return [];
   }
+  // If there are no recipes, an empty array will be returned
+
+  return keywords;
 };
 
-// A function to update the filteredRecipes variable after filtering
+/** @function getIngredientKeywords
+ * A function that returns the keywords found in the "ingredients" category.
+ * @param {Array} recipes - An array containing the recipes (if any) from which the keywords will be taken.
+ * @returns {Array} - An array containing the keywords found in the "ingredients" category.
+ * */
+const getIngredientKeywords = (recipes) => {
+  /**
+   * An array to store keywords from the "ingredients" category.
+   * @constant
+   * @type {Array}
+   * */
+  const keywords = [];
+  if (recipes) {
+    recipes.forEach((recipe) => {
+      recipe.ingredients.forEach((element) => {
+        if (keywords.indexOf(element.ingredient) === -1) {
+          keywords.push(element.ingredient);
+        }
+      });
+    });
+    // Sort keywords alphabetically
+    keywords.sort();
+  }
+
+  return keywords;
+};
+
+/** @function getApplianceKeywords
+ * A function that returns the keywords found in the "appliances" category.
+ * @param {Array} recipes - An array containing the recipes (if any) from which the keywords will be taken.
+ * @returns {Array} - An array containing the keywords found in the "appliances" category.
+ * */
+const getApplianceKeywords = (recipes) => {
+  /**
+   * An array to store keywords from the "appliances" category.
+   * @constant
+   * @type {Array}
+   * */
+  const keywords = [];
+  if (recipes) {
+    recipes.forEach((recipe) => {
+      if (keywords.indexOf(recipe.appliance) === -1) {
+        keywords.push(recipe.appliance);
+      }
+    });
+    // Sort keywords alphabetically
+    keywords.sort();
+  }
+
+  return keywords;
+};
+
+/** @function getUtensilKeywords
+ * A function that returns the keywords found in the "utensils" category.
+ * @param {Array} recipes - An array containing the recipes (if any) from which the keywords will be taken.
+ * @returns {Array} - An array containing the keywords found in the "utensils" category.
+ * */
+const getUtensilKeywords = (recipes) => {
+  /**
+   * An array to store keywords from the "utensils" category.
+   * @constant
+   * @type {Array}
+   * */
+  const keywords = [];
+  if (recipes) {
+    recipes.forEach((recipe) => {
+      recipe.utensils.forEach((utensil) => {
+        if (keywords.indexOf(utensil) === -1) {
+          keywords.push(utensil);
+        }
+      });
+    });
+    // Sort keywords alphabetically
+    keywords.sort();
+  }
+
+  return keywords;
+};
+
+/** @function updateRecipes
+ * A function that updates the filteredRecipes variable after filtering
+ * @param {Array} updatedRecipes - An array containing the filtered recipes
+ * */
 const updateRecipes = (updatedRecipes) => {
   filteredRecipes = updatedRecipes;
 };
 
-/*
- * GLOBAL VARIABLES
+// GLOBAL VARIABLES
+/**
+ * An array to store the ids of all filtered recipes.
+ * @constant
+ * @type {Array}
  * */
+const filteredRecipesIds = [];
+/**
+ * An array to store tags from the "ingredients" category.
+ * @constant
+ * @type {Array}
+ * */
+const ingredientTags = [];
+/**
+ * An array to store tags from the "appliances" category.
+ * @constant
+ * @type {Array}
+ * */
+const applianceTags = [];
+/**
+ * An array to store tags from the "utensils" category.
+ * @constant
+ * @type {Array}
+ * */
+const utensilTags = [];
 // Filtered recipes (default to all recipes)
 let filteredRecipes = [...recipes];
-// An array to store the ids of all filtered recipes
-const filteredRecipesIds = [];
 // Keywords by category (default to all keywords)
-let ingredientKeywords = getKeywords('ingredients', filteredRecipes);
-let applianceKeywords = getKeywords('appliances', filteredRecipes);
-let utensilKeywords = getKeywords('utensils', filteredRecipes);
-// Tags by category (default to empty arrays)
-const ingredientTags = [];
-const applianceTags = [];
-const utensilTags = [];
+let ingredientKeywords = getIngredientKeywords(filteredRecipes);
+let applianceKeywords = getApplianceKeywords(filteredRecipes);
+let utensilKeywords = getUtensilKeywords(filteredRecipes);
 
-/* A function to update keywords after recipes
- * have been filtered using main search input
+// FUNCTIONS TO UPDATE KEYWORDS
+/** @function updateKeywords
+ * A function that updates the keywords in each category after recipes have been filtered.
+ * @param {Array} recipes - An array containing the recipes (if any) from which the keywords will be taken.
  * */
 const updateKeywords = (recipes) => {
-  // Empty keywords arrays
-  ingredientKeywords = [];
-  applianceKeywords = [];
-  utensilKeywords = [];
-  // Fill keywords arrays using filtered recipes list
-  ingredientKeywords = getKeywords('ingredients', recipes);
-  applianceKeywords = getKeywords('appliances', recipes);
-  utensilKeywords = getKeywords('utensils', recipes);
+  updateIngredientKeywords(recipes);
+  updateApplianceKeywords(recipes);
+  updateUtensilKeywords(recipes);
 };
 
+/** @function updateIngredientKeywords
+ * A function that updates the keywords in the "ingredients" category.
+ * @param {Array} recipes - An array containing the recipes (if any) from which the keywords will be taken.
+ * */
+const updateIngredientKeywords = (recipes) => {
+  // Empty ingredientKeywords array
+  ingredientKeywords = [];
+  // Fill ingredientKeywords array
+  ingredientKeywords = getIngredientKeywords(recipes);
+};
+
+/** @function updateApplianceKeywords
+ * A function that updates the keywords in the "appliances" category.
+ * @param {Array} recipes - An array containing the recipes (if any) from which the keywords will be taken.
+ * */
+const updateApplianceKeywords = (recipes) => {
+  // Empty applianceKeywords array
+  applianceKeywords = [];
+  // Fill applianceKeywords array
+  applianceKeywords = getApplianceKeywords(recipes);
+};
+
+/** @function updateUtensilKeywords
+ * A function that updates the keywords in the "utensils" category.
+ * @param {Array} recipes - An array containing the recipes (if any) from which the keywords will be taken.
+ * */
+const updateUtensilKeywords = (recipes) => {
+  // Empty utensilKeywords array
+  utensilKeywords = [];
+  // Fill utensilKeywords array
+  utensilKeywords = getUtensilKeywords(recipes);
+};
+
+// EVENT LISTENERS
 // Display matching recipes if user input has at least 3 characters
 mainInputElement.addEventListener('input', handleMainSearchInputEvents);
 

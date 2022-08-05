@@ -1,3 +1,5 @@
+/** @module events */
+
 import { recipes } from './recipes.js';
 import {
   updateRecipes,
