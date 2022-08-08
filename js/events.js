@@ -19,9 +19,11 @@ import { createDataList, removeDataList, displayRecipes, createTag } from './dis
 // A variable indicating whether user input has more than 2 characters
 let hasOverTwoChars = false;
 
-/*
-* EVENT HANDLER FUNCTIONS
-* */
+// EVENT HANDLER FUNCTIONS
+/** @function handleMainSearchInputEvents
+ * An event handler function that handles events from the main searchbar.
+ * @param {Object} e - The event object.
+ * */
 const handleMainSearchInputEvents = (e) => {
   // INPUT EVENTS
   if (e.type === 'input') {
@@ -48,6 +50,7 @@ const handleMainSearchInputEvents = (e) => {
 
   // FOCUS EVENTS
   if (e.type === 'focus') {
+    // When focus is given to main search input, any open advanced search drop-down lists should close
     closeOpenMenus(e);
   }
 };

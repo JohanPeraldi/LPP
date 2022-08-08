@@ -9,7 +9,7 @@ const mainInputElement = document.getElementById('searchbar');
 const searchTagsElement = document.querySelector('.search__tags');
 const advancedSearchInputsElement = document.querySelector('.search__inputs');
 
-// FUNCTIONS TO GET KEYWORDS AND UPDATE RECIPES
+// FUNCTIONS
 /** @function getKeywords
  * A function that returns the keywords found in the specified category.
  * @param {string} category - The category the keyword belongs to (either 'ingredients', 'appliances' or 'utensils').
@@ -127,39 +127,6 @@ const updateRecipes = (updatedRecipes) => {
   filteredRecipes = updatedRecipes;
 };
 
-// GLOBAL VARIABLES
-/**
- * An array to store the ids of all filtered recipes.
- * @constant
- * @type {Array}
- * */
-const filteredRecipesIds = [];
-/**
- * An array to store tags from the "ingredients" category.
- * @constant
- * @type {Array}
- * */
-const ingredientTags = [];
-/**
- * An array to store tags from the "appliances" category.
- * @constant
- * @type {Array}
- * */
-const applianceTags = [];
-/**
- * An array to store tags from the "utensils" category.
- * @constant
- * @type {Array}
- * */
-const utensilTags = [];
-// Filtered recipes (default to all recipes)
-let filteredRecipes = [...recipes];
-// Keywords by category (default to all keywords)
-let ingredientKeywords = getIngredientKeywords(filteredRecipes);
-let applianceKeywords = getApplianceKeywords(filteredRecipes);
-let utensilKeywords = getUtensilKeywords(filteredRecipes);
-
-// FUNCTIONS TO UPDATE KEYWORDS
 /** @function updateKeywords
  * A function that updates the keywords in each category after recipes have been filtered.
  * @param {Array} recipes - An array containing the recipes (if any) from which the keywords will be taken.
@@ -202,6 +169,38 @@ const updateUtensilKeywords = (recipes) => {
   // Fill utensilKeywords array
   utensilKeywords = getUtensilKeywords(recipes);
 };
+
+// GLOBAL VARIABLES
+/**
+ * An array to store the ids of all filtered recipes.
+ * @constant
+ * @type {Array}
+ * */
+const filteredRecipesIds = [];
+/**
+ * An array to store tags from the "ingredients" category.
+ * @constant
+ * @type {Array}
+ * */
+const ingredientTags = [];
+/**
+ * An array to store tags from the "appliances" category.
+ * @constant
+ * @type {Array}
+ * */
+const applianceTags = [];
+/**
+ * An array to store tags from the "utensils" category.
+ * @constant
+ * @type {Array}
+ * */
+const utensilTags = [];
+// Filtered recipes (default to all recipes)
+let filteredRecipes = [...recipes];
+// Keywords by category (default to all keywords)
+let ingredientKeywords = getIngredientKeywords(filteredRecipes);
+let applianceKeywords = getApplianceKeywords(filteredRecipes);
+let utensilKeywords = getUtensilKeywords(filteredRecipes);
 
 // EVENT LISTENERS
 // Display matching recipes if user input has at least 3 characters
