@@ -3,6 +3,15 @@
 import { filteredRecipes, filteredRecipesIds, ingredientKeywords, applianceKeywords, utensilKeywords } from './index.js';
 import { updateDataList } from './display.js';
 
+/**
+ * A function that takes the user input as first argument (filter) and
+ * the list of recipes as second argument and returns the list of
+ * recipes that match the user input.
+ * @function filterRecipes
+ * @param {string} filter - The user input.
+ * @param {Array} recipes - The list of recipes.
+ * @returns {Array} - The list of recipes that match the user input.
+ */
 const filterRecipes = (filter, recipes) => {
   // Empty array to store the ids of filtered recipes
   filteredRecipesIds.length = 0;
@@ -12,7 +21,7 @@ const filterRecipes = (filter, recipes) => {
   }
   /* We look for a match between the user input and a word (or part of
    * a word) in the recipe names, lists of ingredients or descriptions
-   * */
+   */
   // Filter by recipe names
   filterRecipesByName(filter, recipes);
   // Filter by recipe ingredients
@@ -21,7 +30,7 @@ const filterRecipes = (filter, recipes) => {
   filterRecipesByDescription(filter, recipes);
   /* We check that filteredRecipesIds has at least one element. If it does,
    * we return an array containing the filtered recipes.
-   * */
+   */
   if (filteredRecipesIds.length > 0) {
     filteredRecipesIds.sort((a, b) => a - b);
     console.log(filteredRecipesIds);
@@ -29,9 +38,13 @@ const filterRecipes = (filter, recipes) => {
   }
 };
 
-/* A function that filters recipes by searching for a match
- * between a substring (user input) and the recipes names
- * */
+/**
+ * A function that filters recipes by searching for a match
+ * between a substring (user input) and the recipes names.
+ * @function filterRecipesByName
+ * @param {string} filter - The user input.
+ * @param {Array} recipes - The list of recipes.
+ */
 const filterRecipesByName = (filter, recipes) => {
   for (let i = 0; i < recipes.length; i++) {
     for (let j = 0; j < recipes[i].name.length; j++) {
@@ -40,7 +53,7 @@ const filterRecipesByName = (filter, recipes) => {
         if (k === filter.length - 1) {
           /* We get the index of the current recipe and push its id
            * to the filteredRecipesIds array if it is not already in the array
-           * */
+           */
           const recipeId = recipes[i].id;
           if (filteredRecipesIds.indexOf(recipeId) === -1) {
             filteredRecipesIds.push(recipeId);
@@ -51,9 +64,13 @@ const filterRecipesByName = (filter, recipes) => {
   }
 };
 
-/* A function that filters recipes by searching for a match
- * between a substring (user input) and the recipes ingredients
- * */
+/**
+ * A function that filters recipes by searching for a match
+ * between a substring (user input) and the recipes ingredients.
+ * @function filterRecipesByIngredient
+ * @param {string} filter - The user input.
+ * @param {Array} recipes - The list of recipes.
+ */
 const filterRecipesByIngredient = (filter, recipes) => {
   for (let i = 0; i < recipes.length; i++) {
     for (let j = 0; j < recipes[i].ingredients.length; j++) {
@@ -64,7 +81,7 @@ const filterRecipesByIngredient = (filter, recipes) => {
             // console.log(`Recipe ingredient: ${recipes[i].ingredients[j].ingredient} - recipe id: ${recipes[i].id}`);
             /* We get the index of the current recipe and push its id
              * to the filteredRecipesIds array if it is not already in the array
-             * */
+             */
             const recipeId = recipes[i].id;
             if (filteredRecipesIds.indexOf(recipeId) === -1) {
               filteredRecipesIds.push(recipeId);
@@ -76,9 +93,13 @@ const filterRecipesByIngredient = (filter, recipes) => {
   }
 };
 
-/* A function that filters recipes by searching for a match
- * between a substring (user input) and the recipes descriptions
- * */
+/**
+ * A function that filters recipes by searching for a match
+ * between a substring (user input) and the recipes descriptions.
+ * @function filterRecipesByDescription
+ * @param {string} filter - The user input.
+ * @param {Array} recipes - The list of recipes.
+ */
 const filterRecipesByDescription = (filter, recipes) => {
   for (let i = 0; i < recipes.length; i++) {
     for (let j = 0; j < recipes[i].description.length; j++) {
@@ -88,7 +109,7 @@ const filterRecipesByDescription = (filter, recipes) => {
           // console.log(`Recipe description: ${recipes[i].description} - recipe id: ${recipes[i].id}`);
           /* We get the index of the current recipe and push its id
            * to the filteredRecipesIds array if it is not already in the array
-           * */
+           */
           const recipeId = recipes[i].id;
           if (filteredRecipesIds.indexOf(recipeId) === -1) {
             filteredRecipesIds.push(recipeId);
@@ -99,16 +120,21 @@ const filterRecipesByDescription = (filter, recipes) => {
   }
 };
 
-/* A function that takes a tag and the category to which
- * it belongs as arguments and returns the recipes that
- * match the tag
- * */
+/**
+ * A function that takes a tag and the category to which it belongs
+ * as arguments and returns the recipes that match the tag.
+ * @function filterRecipesByDescription
+ * @param {string} tag - The current tag.
+ * @param {string} category - The category the tag belongs to.
+ * @returns {Array} - The list of recipes that match the current tag.
+ */
 const filterRecipesByTag = (tag, category) => {
-  /* We need to look for a match between the tag passed
-   * to the function as an argument and the corresponding
-   * keyword in the recipes ingredients, appliances or
-   * utensils
-   * */
+  /**
+   * An array that will contain the list of recipes,
+   * if any, that match the current tag.
+   * @constant
+   * @type {Array}
+   */
   const recipesFilteredByTag = [];
   switch (category) {
     case 'ingredients':
@@ -139,11 +165,17 @@ const filterRecipesByTag = (tag, category) => {
   return recipesFilteredByTag;
 };
 
+/**
+ * A function that takes the user input and the user input category
+ * as arguments and that filters keywords accordingly.
+ * @function filterKeywords
+ * @param filter - The user input.
+ * @param category - The user input category.
+ */
 const filterKeywords = (filter, category) => {
   const filteredKeywords = [];
   let initialKeywords;
   let keywords;
-
   // Determine which options category to process
   switch (category) {
     case 'ingredients':
@@ -158,7 +190,7 @@ const filterKeywords = (filter, category) => {
   /* We look for a match between the user input (filter) and the
    * characters in the ingredients/appliances/utensils keywords
    * (lists of advanced search options)
-   * */
+   */
   // If filter is an empty string, return all tags
   if (filter.length === 0) {
     keywords = initialKeywords;

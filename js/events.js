@@ -20,10 +20,11 @@ import { createDataList, removeDataList, displayRecipes, createTag } from './dis
 let hasOverTwoChars = false;
 
 // EVENT HANDLER FUNCTIONS
-/** @function handleMainSearchInputEvents
+/**
  * An event handler function that handles events from the main searchbar.
+ * @function handleMainSearchInputEvents
  * @param {Object} e - The event object.
- * */
+ */
 const handleMainSearchInputEvents = (e) => {
   // INPUT EVENTS
   if (e.type === 'input') {
@@ -34,12 +35,12 @@ const handleMainSearchInputEvents = (e) => {
       }
       /* On every input change, compare that input
        * with any matching word in the recipes
-       * */
+       */
       updateRecipes(filterRecipes(userInput, recipes));
     }
     /* If user deletes or modifies input leaving less
      * than 3 characters, all recipes should be displayed
-     * */
+     */
     if (hasOverTwoChars && userInput.length < 3) {
       hasOverTwoChars = false;
       updateRecipes(recipes);
@@ -55,12 +56,17 @@ const handleMainSearchInputEvents = (e) => {
   }
 };
 
-const handleAdvancedSearchInputsEvents = (e) => {
+/**
+ * An event handler function that handles events associated with the advanced search inputs.
+ * @function handleAdvancedSearchInputEvents
+ * @param {Object} e - The event object.
+ */
+const handleAdvancedSearchInputEvents = (e) => {
   // CLICK EVENTS
   if (e.type === 'click') {
     /* We only want to listen for click events when e.target (the element clicked)
      * !== e.currentTarget (the div.search__inputs on which the event listener is placed)
-     * */
+     */
     if (e.target !== e.currentTarget) {
       /* Click events on <i> elements:
        * 1) if the parent <form> element doesn't have the 'datalist-visible' class,
@@ -68,84 +74,15 @@ const handleAdvancedSearchInputsEvents = (e) => {
        * 2) otherwise it should lose focus, the <form> element should lose the
        * 'datalist-visible' class, the datalist should be removed and the input's
        * placeholder text be set to its initial value
-       * */
+       */
       if (e.target.localName === 'i') {
-        if (!e.target.parentElement.classList.contains('datalist-visible')) {
-          e.target.previousElementSibling.focus();
-          // If another <form> element has the 'datalist-visible' class, remove it
-          closeOpenMenus(e);
-        } else {
-          const placeholder = getInputPlaceholder(e.target.previousElementSibling.id);
-          e.target.parentElement.classList.remove('datalist-visible');
-          e.target.previousElementSibling.blur();
-          e.target.previousElementSibling.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1) + 's';
-          removeDataList(e.target.previousElementSibling.id);
-        }
+        handleClickOnAdvancedSearchIcon(e);
       }
       // Click events on <option> elements:
       if (e.target.localName === 'option') {
-        // Check whether user input has any value in order to filter options accordingly
-        const inputElement = e.target.parentElement.parentElement.firstElementChild;
-        const userInput = inputElement.value;
-        const optionCategory = inputElement.id;
-        // Create a tag with the value of the option
-        createTag(e.target.value, optionCategory);
-        /*
-         * We want to remove the option from the datalist.
-         * This means removing the datalist entirely and creating
-         * a new one from which the option will have been removed.
-         * */
-        // Remove datalist
-        removeDataList(optionCategory);
-        // Determine which category is currently targeted
-        let currentKeywordsArray;
-        let currentTagsArray;
-        switch (optionCategory) {
-          case 'ingredients':
-            currentKeywordsArray = ingredientKeywords;
-            currentTagsArray = ingredientTags;
-            break;
-          case 'appliances':
-            currentKeywordsArray = applianceKeywords;
-            currentTagsArray = applianceTags;
-            break;
-          case 'utensils':
-            currentKeywordsArray = utensilKeywords;
-            currentTagsArray = utensilTags;
-        }
-        // Get option value
-        const optionValue = e.target.textContent;
-        // Find option index in keywords array
-        const optionIndex = currentKeywordsArray.indexOf(optionValue);
-        // Remove option from keywords array
-        const selectedOption = currentKeywordsArray.splice(optionIndex, 1)[0];
-        // Add option to tags array
-        currentTagsArray.push(selectedOption);
-        // Check whether a datalist already exists
-        const datalist = document.querySelector('datalist');
-        if (!datalist) {
-          // If no datalist already exists, create new datalist with updated keywords array
-          createDataList(optionCategory);
-        }
-        // If user input has a value, filter options accordingly
-        if (userInput) {
-          filterKeywords(userInput, optionCategory);
-        }
-        // Add 'datalist-visible' class to current form
-        const currentForm = document.getElementById(`search-form-${optionCategory}`);
-        currentForm.classList.add('datalist-visible');
-        // Update input placeholder (should be set to its "long" version)
-        const placeholder = getInputPlaceholder(optionCategory);
-        currentForm.firstElementChild.placeholder = `Rechercher un ${placeholder}`;
-
-        /* Adding a tag must also update the recipes to display
-         * with the result of calling the filterRecipesByTag function
-         * */
-        updateRecipes(filterRecipesByTag(optionValue, optionCategory));
-        displayRecipes(filteredRecipes);
+        handleClickOnOptionElement(e);
       }
     }
-
     e.stopPropagation();
   }
 
@@ -153,16 +90,14 @@ const handleAdvancedSearchInputsEvents = (e) => {
   if (e.type === 'focus') {
     /* First check whether another datalist is open:
      * if another <form> element has the 'datalist-visible' class, remove it
-     * */
+     */
     closeOpenMenus(e);
-
     // Check whether user input has a value in order to update keywords list accordingly
     const userInput = e.target.value;
     const category = e.target.id;
-
     /* When input receives focus, check whether a datalist
      * already exists and only create one if there is none
-     * */
+     */
     if (!e.target.parentElement.classList.contains('datalist-visible')) {
       e.target.parentElement.classList.add('datalist-visible');
       // Change input placeholder text
@@ -186,6 +121,100 @@ const handleAdvancedSearchInputsEvents = (e) => {
   }
 };
 
+/**
+ * An event handler function that handles click events on the "open or close"
+ * chevron icon associated with the advanced search input.
+ * @function handleClickOnAdvancedSearchIcon
+ * @param {Object} e - The event object.
+ */
+const handleClickOnAdvancedSearchIcon = (e) => {
+  if (!e.target.parentElement.classList.contains('datalist-visible')) {
+    e.target.previousElementSibling.focus();
+    // If another <form> element has the 'datalist-visible' class, remove it
+    closeOpenMenus(e);
+  } else {
+    const placeholder = getInputPlaceholder(e.target.previousElementSibling.id);
+    e.target.parentElement.classList.remove('datalist-visible');
+    e.target.previousElementSibling.blur();
+    e.target.previousElementSibling.placeholder = placeholder.charAt(0).toUpperCase() + placeholder.slice(1) + 's';
+    removeDataList(e.target.previousElementSibling.id);
+  }
+};
+
+/**
+ * An event handler function that handles click events on
+ * the option elements inside the advanced search datalists.
+ * @function handleClickOnOptionElement
+ * @param {Object} e - The event object.
+ */
+const handleClickOnOptionElement = (e) => {
+  // Check whether user input has any value in order to filter options accordingly
+  const inputElement = e.target.parentElement.parentElement.firstElementChild;
+  const userInput = inputElement.value;
+  const optionCategory = inputElement.id;
+  // Create a tag with the value of the option
+  createTag(e.target.value, optionCategory);
+  /*
+   * We want to remove the option from the datalist.
+   * This means removing the datalist entirely and creating
+   * a new one from which the option will have been removed.
+   */
+  // Remove datalist
+  removeDataList(optionCategory);
+  // Determine which category is currently targeted
+  let currentKeywordsArray;
+  let currentTagsArray;
+  switch (optionCategory) {
+    case 'ingredients':
+      currentKeywordsArray = ingredientKeywords;
+      currentTagsArray = ingredientTags;
+      break;
+    case 'appliances':
+      currentKeywordsArray = applianceKeywords;
+      currentTagsArray = applianceTags;
+      break;
+    case 'utensils':
+      currentKeywordsArray = utensilKeywords;
+      currentTagsArray = utensilTags;
+  }
+  // Get option value
+  const optionValue = e.target.textContent;
+  // Find option index in keywords array
+  const optionIndex = currentKeywordsArray.indexOf(optionValue);
+  // Remove option from keywords array
+  const selectedOption = currentKeywordsArray.splice(optionIndex, 1)[0];
+  // Add option to tags array
+  currentTagsArray.push(selectedOption);
+  // Check whether a datalist already exists
+  const datalist = document.querySelector('datalist');
+  if (!datalist) {
+    // If no datalist already exists, create new datalist with updated keywords array
+    createDataList(optionCategory);
+  }
+  // If user input has a value, filter options accordingly
+  if (userInput) {
+    filterKeywords(userInput, optionCategory);
+  }
+  // Add 'datalist-visible' class to current form
+  const currentForm = document.getElementById(`search-form-${optionCategory}`);
+  currentForm.classList.add('datalist-visible');
+  // Update input placeholder (should be set to its "long" version)
+  const placeholder = getInputPlaceholder(optionCategory);
+  currentForm.firstElementChild.placeholder = `Rechercher un ${placeholder}`;
+  /* Adding a tag must also update the recipes to display
+   * with the result of calling the filterRecipesByTag function
+   */
+  updateRecipes(filterRecipesByTag(optionValue, optionCategory));
+  displayRecipes(filteredRecipes);
+};
+
+/**
+ * An event handler function that handles click events on "close tag" icon.
+ * Closing a tag has many effects: removing the tag from the list of tags,
+ * adding the tag to the list of keywords, updating displayed recipes.
+ * @function handleTagEvents
+ * @param {Object} e - The event object.
+ */
 const handleTagEvents = (e) => {
   // CLICK EVENTS
   if (e.type === 'click') {
@@ -216,12 +245,10 @@ const handleTagEvents = (e) => {
             currentKeywordsArray = utensilKeywords;
             currentTagsArray = utensilTags;
         }
-
         // Check for user input in order to filter keywords accordingly
         // We need to find the input from the same category as the targeted tag
         const inputElement = document.getElementById(tagCategory);
         const userInput = inputElement.value;
-
         // Find tag value
         const tagValue = e.target.parentElement.textContent.trim();
         // Find tag index in tags array
@@ -266,7 +293,6 @@ const handleTagEvents = (e) => {
             }
           });
         });
-
         // Add tag to keywords array
         if (match) {
           currentKeywordsArray.push(selectedTag);
@@ -289,15 +315,12 @@ const handleTagEvents = (e) => {
             // Remove 'datalist-visible' class from parent <form> element
             formElement.classList.remove('datalist-visible');
           }
-
           // Create new datalist with updated keywords array
           createDataList(tagCategory);
-
           // If user input has a value, filter options accordingly
           if (userInput) {
             filterKeywords(userInput, tagCategory);
           }
-
           // Add 'datalist-visible' class to current form
           const currentForm = document.getElementById(`search-form-${tagCategory}`);
           currentForm.classList.add('datalist-visible');
@@ -310,9 +333,14 @@ const handleTagEvents = (e) => {
   }
 };
 
-/* A function that returns the category passed as argument
- * in the required format to be used as placeholder text
- * */
+// OTHER FUNCTIONS
+/**
+ * A function that takes the current category as only argument and
+ * that returns the relevant advanced search input placeholder text.
+ * @function getInputPlaceholder
+ * @param {string} category - One of the three categories: ingredients, appliances or utensils.
+ * @returns {string} - The French singular name of the current category.
+ */
 const getInputPlaceholder = (category) => {
   switch (category) {
     case 'ingredients':
@@ -324,7 +352,11 @@ const getInputPlaceholder = (category) => {
   }
 };
 
-// A function that closes any open advanced search menus
+/**
+ * A function that closes any open advanced search menus.
+ * @function closeOpenMenus
+ * @param {Object} e - The event object.
+ */
 const closeOpenMenus = (e) => {
   if (document.querySelector('.datalist-visible')) {
     const form = document.querySelector('.datalist-visible');
@@ -342,4 +374,4 @@ const closeOpenMenus = (e) => {
   }
 };
 
-export { handleMainSearchInputEvents, handleAdvancedSearchInputsEvents, handleTagEvents, getInputPlaceholder };
+export { handleMainSearchInputEvents, handleAdvancedSearchInputEvents, handleTagEvents, getInputPlaceholder };
