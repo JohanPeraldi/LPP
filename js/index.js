@@ -1,8 +1,8 @@
 /** @module index */
 
-import { recipes } from './recipes.js';
-import { displayRecipes } from './display.js';
-import { handleMainSearchInputEvents, handleAdvancedSearchInputEvents, handleTagEvents } from './events.js';
+import {recipes} from './recipes.js';
+import {displayRecipes} from './display.js';
+import {handleMainSearchInputEvents, handleAdvancedSearchInputEvents, handleTagEvents} from './events.js';
 
 // DOM ELEMENTS
 const mainInputElement = document.getElementById('searchbar');

@@ -1,7 +1,7 @@
 /** @module filter */
 
-import { filteredRecipes, filteredRecipesIds, ingredientKeywords, applianceKeywords, utensilKeywords } from './index.js';
-import { updateDataList } from './display.js';
+import {filteredRecipes, filteredRecipesIds, ingredientKeywords, applianceKeywords, utensilKeywords} from './index.js';
+import {updateDataList} from './display.js';
 
 /**
  * A function that takes the user input as first argument (filter) and
@@ -206,4 +206,4 @@ const filterKeywords = (filter, category) => {
   updateDataList(category, keywords);
 };
 
-export { filterRecipes, filterRecipesByTag, filterKeywords };
+export {filterRecipes, filterRecipesByTag, filterKeywords};

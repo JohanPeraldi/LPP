@@ -1,6 +1,6 @@
 /** @module events */
 
-import { recipes } from './recipes.js';
+import {recipes} from './recipes.js';
 import {
   updateRecipes,
   updateKeywords,
@@ -13,8 +13,8 @@ import {
   applianceTags,
   utensilTags
 } from './index.js';
-import { filterRecipes, filterRecipesByTag, filterKeywords } from './filter.js';
-import { createDataList, removeDataList, displayRecipes, createTag } from './display.js';
+import {filterRecipes, filterRecipesByTag, filterKeywords} from './filter.js';
+import {createDataList, removeDataList, displayRecipes, createTag} from './display.js';
 
 // A variable indicating whether user input has more than 2 characters
 let hasOverTwoChars = false;
@@ -374,4 +374,4 @@ const closeOpenMenus = (e) => {
   }
 };
 
-export { handleMainSearchInputEvents, handleAdvancedSearchInputEvents, handleTagEvents, getInputPlaceholder };
+export {handleMainSearchInputEvents, handleAdvancedSearchInputEvents, handleTagEvents, getInputPlaceholder};

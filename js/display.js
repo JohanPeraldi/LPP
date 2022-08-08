@@ -8,7 +8,7 @@ import {
   utensilKeywords,
   utensilTags
 } from './index.js';
-import { getInputPlaceholder } from './events.js';
+import {getInputPlaceholder} from './events.js';
 
 // DOM elements
 const recipeSectionElement = document.querySelector('.recipe');
@@ -271,22 +271,27 @@ const createTag = (option, category) => {
    */
   const tagsListElement = document.querySelector('.search__tags');
   let tagAlreadyExists = true;
+  // Select current category tags list and the relevant CSS modifier class
+  let tagsList;
+  let tagClassModifier;
+  switch (category) {
+    case 'ingredients':
+      tagsList = ingredientTags;
+      tagClassModifier = 'blue';
+      break;
+    case 'appliances':
+      tagsList = applianceTags;
+      tagClassModifier = 'green';
+      break;
+    case 'utensils':
+      tagsList = utensilTags;
+      tagClassModifier = 'red';
+  }
   // Check whether there are any tags
   if (tagsListElement.childNodes.length === 0) {
     tagAlreadyExists = false;
   } else {
     // Check whether tag to be created already exists
-    let tagsList;
-    switch (category) {
-      case 'ingredients':
-        tagsList = ingredientTags;
-        break;
-      case 'appliances':
-        tagsList = applianceTags;
-        break;
-      case 'utensils':
-        tagsList = utensilTags;
-    }
     const found = tagsList.find(element => element === option);
     if (!found) {
       tagAlreadyExists = false;
@@ -295,17 +300,6 @@ const createTag = (option, category) => {
   if (!tagAlreadyExists) {
     const tag = document.createElement('li');
     // Add the corresponding classes
-    let tagClassModifier;
-    switch (category) {
-      case 'ingredients':
-        tagClassModifier = 'blue';
-        break;
-      case 'appliances':
-        tagClassModifier = 'green';
-        break;
-      case 'utensils':
-        tagClassModifier = 'red';
-    }
     tag.classList.add('tag', `tag--${tagClassModifier}`);
     tag.innerHTML = `
       ${option}
@@ -315,4 +309,4 @@ const createTag = (option, category) => {
   }
 };
 
-export { displayRecipes, createDataList, removeDataList, updateDataList, createTag };
+export {displayRecipes, createDataList, removeDataList, updateDataList, createTag};
