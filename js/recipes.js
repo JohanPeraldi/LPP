@@ -1423,7 +1423,7 @@ export const recipes = [
   },
   {
     id: 42,
-    name: 'Charlotte au poires',
+    name: 'Charlotte aux poires',
     servings: 3,
     ingredients: [
       {
@@ -1446,7 +1446,7 @@ export const recipes = [
       }
     ],
     time: 60,
-    description: 'Commencez par préparer la mousse au chocolat au moins 2 heures avant. Quand la mousse est prête et a reposée. Alors mouiller les boudoirs dans le jus des poires. Disposer. Alterner : mousse au chocolat, boudoirs et poires. Mettre au frais.',
+    description: 'Commencez par préparer la mousse au chocolat au moins 2 heures avant. Quand la mousse est prête et a reposé, mouillez les boudoirs dans le jus des poires. Disposer. Alterner : mousse au chocolat, boudoirs et poires. Mettre au frais.',
     appliance: 'Moule à charlotte',
     utensils: ['Saladier', 'Couteau', 'Fouet']
   },
@@ -1485,7 +1485,7 @@ export const recipes = [
   },
   {
     id: 44,
-    name: 'Crème déssert au chocolat',
+    name: 'Crème dessert au chocolat',
     servings: 6,
     ingredients: [
       {

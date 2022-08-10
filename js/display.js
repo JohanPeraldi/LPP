@@ -8,7 +8,7 @@ import {
   utensilKeywords,
   utensilTags
 } from './index.js';
-import {getInputPlaceholder} from './events.js';
+import { getInputPlaceholder } from './events.js';
 
 // DOM elements
 const recipeSectionElement = document.querySelector('.recipe');
@@ -177,35 +177,42 @@ const createDataList = (category) => {
    */
   const formElement = document.getElementById(`search-form-${category}`);
   const dataListElement = document.createElement('datalist');
-  // A variable to store the keywords from the relevant category
-  let options;
-  // A variable to store the existing tags in the relevant category
-  let existingTags;
-  // Keywords are imported from the global variables in index.js
+  /* Variables to store the keywords and existing tags in the current category
+   * as well as the category placeholder text
+   */
+  let keywords, tags, categoryPlaceholder;
+  // Keywords and tags are imported from the global variables in index.js
   switch (category) {
     case 'ingredients':
-      options = ingredientKeywords;
-      existingTags = ingredientTags;
+      keywords = ingredientKeywords;
+      tags = ingredientTags;
+      categoryPlaceholder = 'ingrédient';
       break;
     case 'appliances':
-      options = applianceKeywords;
-      existingTags = applianceTags;
+      keywords = applianceKeywords;
+      tags = applianceTags;
+      categoryPlaceholder = 'appareil';
       break;
     case 'utensils':
-      options = utensilKeywords;
-      existingTags = utensilTags;
+      keywords = utensilKeywords;
+      tags = utensilTags;
+      categoryPlaceholder = 'ustensile';
   }
-  options = [...new Set(options)];
-  existingTags = [...new Set(existingTags)];
-  options = difference(options, existingTags);
+  keywords = [...new Set(keywords)];
+  tags = [...new Set(tags)];
+  keywords = [...difference(keywords, tags)];
   dataListElement.id = `datalist-${category}`;
   dataListElement.classList.add('datalist', `datalist--${category}`);
-  options.forEach((option) => {
-    const optionElement = document.createElement('option');
-    optionElement.innerHTML = option;
-    optionElement.value = option;
-    dataListElement.appendChild(optionElement);
-  });
+  if (keywords.length === 0) {
+    displayNoKeywordMessage(dataListElement, categoryPlaceholder);
+  } else {
+    keywords.forEach((keyword) => {
+      const optionElement = document.createElement('option');
+      optionElement.innerHTML = keyword;
+      optionElement.value = keyword;
+      dataListElement.appendChild(optionElement);
+    });
+  }
   formElement.appendChild(dataListElement);
 };
 
@@ -248,13 +255,49 @@ const updateDataList = (category, keywords) => {
   formElement.firstElementChild.placeholder = `Rechercher un ${placeholder}`;
   dataListElement.id = `datalist-${category}`;
   dataListElement.classList.add('datalist', `datalist--${category}`);
-  keywords.forEach((keyword) => {
-    const optionElement = document.createElement('option');
-    optionElement.innerHTML = keyword;
-    optionElement.value = keyword;
-    dataListElement.appendChild(optionElement);
-  });
+  // Remove options that are selected as tags
+  keywords = [...new Set(keywords)];
+  let tags, categoryPlaceholder;
+  switch (category) {
+    case 'ingredients':
+      tags = ingredientTags;
+      categoryPlaceholder = 'ingrédient';
+      break;
+    case 'appliances':
+      tags = applianceTags;
+      categoryPlaceholder = 'appareil';
+      break;
+    case 'utensils':
+      tags = utensilTags;
+      categoryPlaceholder = 'ustensile';
+  }
+  tags = [...new Set(tags)];
+  keywords = [...difference(new Set(keywords), tags)];
+  if (keywords.length === 0) {
+    displayNoKeywordMessage(dataListElement, categoryPlaceholder);
+  } else {
+    keywords.forEach((keyword) => {
+      const optionElement = document.createElement('option');
+      optionElement.innerHTML = keyword;
+      optionElement.value = keyword;
+      dataListElement.appendChild(optionElement);
+    });
+  }
   formElement.appendChild(dataListElement);
+};
+
+/**
+ * A function that displays a message beneath advanced search inputs
+ * indicating that no keyword was found.
+ * @function displayNoKeywordMessage
+ * @param {Object} parentElement - The DOM element to which the message element will be appended.
+ * @param {('ingrédient'|'appareil'|'ustensile')} categoryPlaceholder - The category in which no keywords were found.
+ */
+const displayNoKeywordMessage = (parentElement, categoryPlaceholder) => {
+  const noKeywordMessageElement = document.createElement('option');
+  noKeywordMessageElement.textContent = `Aucun ${categoryPlaceholder} trouvé`;
+  noKeywordMessageElement.classList.add('non-clickable');
+  parentElement.appendChild(noKeywordMessageElement);
 };
 
 /**
@@ -270,9 +313,18 @@ const createTag = (option, category) => {
    * a tag with the same value does not already exist!
    */
   const tagsListElement = document.querySelector('.search__tags');
+  /**
+   * @type {boolean}
+   */
   let tagAlreadyExists = true;
   // Select current category tags list and the relevant CSS modifier class
+  /**
+   * @type {Array}
+   */
   let tagsList;
+  /**
+   * @type {('blue'|'green'|'red')} - tagClassModifier can only hold one of those three values.
+   */
   let tagClassModifier;
   switch (category) {
     case 'ingredients':
@@ -309,4 +361,4 @@ const createTag = (option, category) => {
   }
 };
 
-export {displayRecipes, createDataList, removeDataList, updateDataList, createTag};
+export { displayRecipes, difference, createDataList, removeDataList, updateDataList, displayNoKeywordMessage, createTag };

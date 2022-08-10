@@ -1,7 +1,7 @@
 /** @module filter */
 
-import {filteredRecipes, filteredRecipesIds, ingredientKeywords, applianceKeywords, utensilKeywords} from './index.js';
-import {updateDataList} from './display.js';
+import { filteredRecipes, filteredRecipesIds, ingredientKeywords, applianceKeywords, utensilKeywords } from './index.js';
+import { updateDataList } from './display.js';
 
 /**
  * A function that takes the user input as first argument (filter) and
@@ -169,13 +169,12 @@ const filterRecipesByTag = (tag, category) => {
  * A function that takes the user input and the user input category
  * as arguments and that filters keywords accordingly.
  * @function filterKeywords
- * @param filter - The user input.
- * @param category - The user input category.
+ * @param {string} filter - The user input.
+ * @param {string} category - The user input category.
  */
 const filterKeywords = (filter, category) => {
   const filteredKeywords = [];
-  let initialKeywords;
-  let keywords;
+  let initialKeywords, keywords;
   // Determine which options category to process
   switch (category) {
     case 'ingredients':
@@ -206,4 +205,4 @@ const filterKeywords = (filter, category) => {
   updateDataList(category, keywords);
 };
 
-export {filterRecipes, filterRecipesByTag, filterKeywords};
+export { filterRecipes, filterRecipesByTag, filterKeywords };

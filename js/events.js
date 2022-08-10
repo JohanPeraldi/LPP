@@ -1,9 +1,10 @@
 /** @module events */
 
-import {recipes} from './recipes.js';
+import { recipes } from './recipes.js';
 import {
   updateRecipes,
   updateKeywords,
+  replaceKeywordsList,
   filteredRecipes,
   filteredRecipesIds,
   ingredientKeywords,
@@ -13,8 +14,14 @@ import {
   applianceTags,
   utensilTags
 } from './index.js';
-import {filterRecipes, filterRecipesByTag, filterKeywords} from './filter.js';
-import {createDataList, removeDataList, displayRecipes, createTag} from './display.js';
+import { filterRecipes, filterRecipesByTag, filterKeywords } from './filter.js';
+import {
+  difference,
+  createDataList,
+  removeDataList,
+  displayRecipes,
+  createTag
+} from './display.js';
 
 // A variable indicating whether user input has more than 2 characters
 let hasOverTwoChars = false;
@@ -95,6 +102,31 @@ const handleAdvancedSearchInputEvents = (e) => {
     // Check whether user input has a value in order to update keywords list accordingly
     const userInput = e.target.value;
     const category = e.target.id;
+    /* Check whether one or several tags have been selected
+     * to make sure the datalist that will be created does not
+     * contain an option which is already among the current tags
+     */
+    let tags, options;
+    switch (category) {
+      case 'ingredients':
+        tags = [...new Set(ingredientTags)];
+        options = [...new Set(ingredientKeywords)];
+        break;
+      case 'appliances':
+        tags = [...new Set(applianceTags)];
+        options = [...new Set(applianceKeywords)];
+        break;
+      case 'utensils':
+        tags = [...new Set(utensilTags)];
+        options = [...new Set(utensilKeywords)];
+    }
+    /* If there are tags, search for a match with keywords to be displayed
+     * and do not allow a keyword to be in datalist if it is selected as a tag
+     */
+    const optionSet = new Set(options);
+    const tagSet = new Set(tags);
+    options = [...difference(optionSet, tagSet)];
+    replaceKeywordsList(options, category);
     /* When input receives focus, check whether a datalist
      * already exists and only create one if there is none
      */
@@ -150,7 +182,15 @@ const handleClickOnAdvancedSearchIcon = (e) => {
 const handleClickOnOptionElement = (e) => {
   // Check whether user input has any value in order to filter options accordingly
   const inputElement = e.target.parentElement.parentElement.firstElementChild;
+  /**
+   * @constant userInput
+   * @type {string}
+   */
   const userInput = inputElement.value;
+  /**
+   * @constant optionCategory
+   * @type {('ingredients'|'appliances'|'utensils')} - optionCategory can only hold one of those three values.
+   */
   const optionCategory = inputElement.id;
   // Create a tag with the value of the option
   createTag(e.target.value, optionCategory);
@@ -162,8 +202,7 @@ const handleClickOnOptionElement = (e) => {
   // Remove datalist
   removeDataList(optionCategory);
   // Determine which category is currently targeted
-  let currentKeywordsArray;
-  let currentTagsArray;
+  let currentKeywordsArray, currentTagsArray;
   switch (optionCategory) {
     case 'ingredients':
       currentKeywordsArray = ingredientKeywords;
@@ -206,6 +245,12 @@ const handleClickOnOptionElement = (e) => {
    */
   updateRecipes(filterRecipesByTag(optionValue, optionCategory));
   displayRecipes(filteredRecipes);
+  // Keywords must be updated to remove those which are not related to the displayed recipes
+  updateKeywords(filteredRecipes);
+  // After keywords have been updated, current datalist should be updated as well.
+  // Currently, keywords correspond to the recipes displayed before selecting the tag.
+  // However, after closing and reopening the datalist, the only option that remains
+  // is the one corresponding to the selected tag!!!
 };
 
 /**
@@ -226,9 +271,7 @@ const handleTagEvents = (e) => {
         // Put related option back in datalist
         // Determine which category is currently targeted
         const tagCategoryClass = e.target.parentElement.classList[1];
-        let tagCategory;
-        let currentKeywordsArray;
-        let currentTagsArray;
+        let tagCategory, currentKeywordsArray, currentTagsArray;
         switch (tagCategoryClass) {
           case 'tag--blue':
             tagCategory = 'ingredients';
@@ -245,8 +288,9 @@ const handleTagEvents = (e) => {
             currentKeywordsArray = utensilKeywords;
             currentTagsArray = utensilTags;
         }
-        // Check for user input in order to filter keywords accordingly
-        // We need to find the input from the same category as the targeted tag
+        /* Check for user input in order to filter keywords accordingly.
+         * We need to find the input from the same category as the targeted tag.
+         */
         const inputElement = document.getElementById(tagCategory);
         const userInput = inputElement.value;
         // Find tag value
@@ -266,7 +310,7 @@ const handleTagEvents = (e) => {
         }
         /* Loop through the filteredRecipesIds and look at the relevant keywords
          * in each of the corresponding recipes to find a match with the selected tag
-         * */
+         */
         filteredRecipesIds.forEach((id) => {
           filteredRecipes.forEach((recipe) => {
             if (recipe.id === id) {
@@ -293,9 +337,11 @@ const handleTagEvents = (e) => {
             }
           });
         });
-        // Add tag to keywords array
         if (match) {
-          currentKeywordsArray.push(selectedTag);
+          // Add tag to keywords array if not already there
+          if (!currentKeywordsArray.includes(selectedTag)) {
+            currentKeywordsArray.push(selectedTag);
+          }
           // Sort array in alphabetical order
           currentKeywordsArray.sort();
           /* Check whether a datalist already exists.
@@ -374,4 +420,4 @@ const closeOpenMenus = (e) => {
   }
 };
 
-export {handleMainSearchInputEvents, handleAdvancedSearchInputEvents, handleTagEvents, getInputPlaceholder};
+export { handleMainSearchInputEvents, handleAdvancedSearchInputEvents, handleTagEvents, getInputPlaceholder };

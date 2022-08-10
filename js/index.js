@@ -1,8 +1,8 @@
 /** @module index */
 
-import {recipes} from './recipes.js';
-import {displayRecipes} from './display.js';
-import {handleMainSearchInputEvents, handleAdvancedSearchInputEvents, handleTagEvents} from './events.js';
+import { recipes } from './recipes.js';
+import { displayRecipes } from './display.js';
+import { handleMainSearchInputEvents, handleAdvancedSearchInputEvents, handleTagEvents } from './events.js';
 
 // DOM ELEMENTS
 const mainInputElement = document.getElementById('searchbar');
@@ -152,7 +152,7 @@ const updateIngredientKeywords = (recipes) => {
   // Empty ingredientKeywords array
   ingredientKeywords = [];
   // Fill ingredientKeywords array
-  ingredientKeywords = getIngredientKeywords(recipes);
+  ingredientKeywords = [...new Set(getIngredientKeywords(recipes))];
 };
 
 /**
@@ -164,7 +164,7 @@ const updateApplianceKeywords = (recipes) => {
   // Empty applianceKeywords array
   applianceKeywords = [];
   // Fill applianceKeywords array
-  applianceKeywords = getApplianceKeywords(recipes);
+  applianceKeywords = [...new Set(getApplianceKeywords(recipes))];
 };
 
 /**
@@ -176,7 +176,27 @@ const updateUtensilKeywords = (recipes) => {
   // Empty utensilKeywords array
   utensilKeywords = [];
   // Fill utensilKeywords array
-  utensilKeywords = getUtensilKeywords(recipes);
+  utensilKeywords = [...new Set(getUtensilKeywords(recipes))];
+};
+
+/**
+ * A function that replaces the current list of keywords
+ * (in any category) with a new list of keywords.
+ * @function replaceKeywordsList
+ * @param {Array} keywords - The updated keywords list.
+ * @param {('ingredients'|'appliances'|'utensils')} category - The category the keywords belong to.
+ */
+const replaceKeywordsList = (keywords, category) => {
+  switch (category) {
+    case 'ingredients':
+      ingredientKeywords = keywords;
+      break;
+    case 'appliances':
+      applianceKeywords = keywords;
+      break;
+    case 'utensils':
+      utensilKeywords = keywords;
+  }
 };
 
 // GLOBAL VARIABLES
@@ -206,10 +226,10 @@ const applianceTags = [];
 const utensilTags = [];
 // Filtered recipes (default to all recipes)
 let filteredRecipes = [...recipes];
-// Keywords by category (default to all keywords)
-let ingredientKeywords = getIngredientKeywords(filteredRecipes);
-let applianceKeywords = getApplianceKeywords(filteredRecipes);
-let utensilKeywords = getUtensilKeywords(filteredRecipes);
+// Keywords by category (default to all keywords, remove any duplicates)
+let ingredientKeywords = [...new Set(getIngredientKeywords(filteredRecipes))];
+let applianceKeywords = [...new Set(getApplianceKeywords(filteredRecipes))];
+let utensilKeywords = [...new Set(getUtensilKeywords(filteredRecipes))];
 
 // EVENT LISTENERS
 // Display matching recipes if user input has at least 3 characters
@@ -244,6 +264,7 @@ export {
   getKeywords,
   updateRecipes,
   updateKeywords,
+  replaceKeywordsList,
   filteredRecipes,
   filteredRecipesIds,
   ingredientKeywords,

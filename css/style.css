@@ -212,6 +212,10 @@ input[type=search]::-webkit-search-results-decoration {
 .datalist--utensils {
   background: #ed6454;
 }
+.datalist option.non-clickable {
+  pointer-events: none;
+}
+
 .search__tags {
   display: flex;
   flex-wrap: wrap;
