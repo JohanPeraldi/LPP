@@ -203,17 +203,7 @@ const createDataList = (category) => {
   keywords = [...difference(keywords, tags)];
   dataListElement.id = `datalist-${category}`;
   dataListElement.classList.add('datalist', `datalist--${category}`);
-  if (keywords.length === 0) {
-    displayNoKeywordMessage(dataListElement, categoryPlaceholder);
-  } else {
-    keywords.forEach((keyword) => {
-      const optionElement = document.createElement('option');
-      optionElement.innerHTML = keyword;
-      optionElement.value = keyword;
-      dataListElement.appendChild(optionElement);
-    });
-  }
-  formElement.appendChild(dataListElement);
+  addDataListContent(keywords, formElement, dataListElement, categoryPlaceholder);
 };
 
 /**
@@ -273,6 +263,21 @@ const updateDataList = (category, keywords) => {
   }
   tags = [...new Set(tags)];
   keywords = [...difference(new Set(keywords), tags)];
+  addDataListContent(keywords, formElement, dataListElement, categoryPlaceholder);
+};
+
+/**
+ * A function that adds the datalist option elements if there are any,
+ * or adds a message indicating that no options have been found if there
+ * are no options available.
+ * @function addDataListContent
+ * @param {Array} keywords - The list of options to be inserted in the datalist.
+ * @param {Object} formElement - The datalist parent element.
+ * @param {Object} dataListElement - The datalist element.
+ * @param {('ingrédient'|'appareil'|'ustensile')} categoryPlaceholder - The placeholder text
+ * for the datalist category.
+ */
+const addDataListContent = (keywords, formElement, dataListElement, categoryPlaceholder) => {
   if (keywords.length === 0) {
     displayNoKeywordMessage(dataListElement, categoryPlaceholder);
   } else {
