@@ -11,37 +11,6 @@ const advancedSearchInputsElement = document.querySelector('.search__inputs');
 
 // FUNCTIONS
 /**
- * A function that returns the keywords found in the specified category.
- * @function getKeywords
- * @param {string} category - The category the keyword belongs to (either 'ingredients', 'appliances' or 'utensils').
- * @param {Array} recipes - An array containing the recipes (if any) from which the keywords will be taken.
- * @returns {Array} - An array containing the keywords found in the specified category.
- */
-const getKeywords = (category, recipes) => {
-  /**
-   * An array to store keywords from the specified category.
-   * @type {Array}
-   */
-  let keywords = [];
-  // If there are recipes, loop over recipes array to create list of keywords in the specified category
-  if (recipes) {
-    switch (category) {
-      case 'ingredients':
-        keywords = getIngredientKeywords(recipes);
-        break;
-      case 'appliances':
-        keywords = getApplianceKeywords(recipes);
-        break;
-      case 'utensils':
-        keywords = getUtensilKeywords(recipes);
-    }
-  }
-  // If there are no recipes, an empty array will be returned
-
-  return keywords;
-};
-
-/**
  * A function that returns the keywords found in the "ingredients" category.
  * @function getIngredientKeywords
  * @param {Array} recipes - An array containing the recipes (if any) from which the keywords will be taken.
@@ -261,7 +230,6 @@ const init = () => {
 init();
 
 export {
-  getKeywords,
   updateRecipes,
   updateKeywords,
   replaceKeywordsList,

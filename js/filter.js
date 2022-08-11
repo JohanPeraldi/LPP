@@ -125,7 +125,7 @@ const filterRecipesByDescription = (filter, recipes) => {
  * as arguments and returns the recipes that match the tag.
  * @function filterRecipesByDescription
  * @param {string} tag - The current tag.
- * @param {string} category - The category the tag belongs to.
+ * @param {('ingredients'|'appliances'|'utensils')} category - The category the tag belongs to.
  * @returns {Array} - The list of recipes that match the current tag.
  */
 const filterRecipesByTag = (tag, category) => {
@@ -136,30 +136,33 @@ const filterRecipesByTag = (tag, category) => {
    * @type {Array}
    */
   const recipesFilteredByTag = [];
-  switch (category) {
-    case 'ingredients':
-      filteredRecipes.forEach((recipe) => {
-        recipe.ingredients.forEach((element) => {
-          if (element.ingredient.toLowerCase() === tag.toLowerCase()) {
+  // Check that filteredRecipes is not undefined
+  if (filteredRecipes) {
+    switch (category) {
+      case 'ingredients':
+        filteredRecipes.forEach((recipe) => {
+          recipe.ingredients.forEach((element) => {
+            if (element.ingredient.toLowerCase() === tag.toLowerCase()) {
+              recipesFilteredByTag.push(recipe);
+            }
+          });
+        });
+        break;
+      case 'appliances':
+        filteredRecipes.forEach((recipe) => {
+          if (recipe.appliance.toLowerCase() === tag.toLowerCase()) {
             recipesFilteredByTag.push(recipe);
           }
         });
-      });
-      break;
-    case 'appliances':
-      filteredRecipes.forEach((recipe) => {
-        if (recipe.appliance.toLowerCase() === tag.toLowerCase()) {
-          recipesFilteredByTag.push(recipe);
-        }
-      });
-      break;
-    case 'utensils':
-      filteredRecipes.forEach((recipe) => {
-        const utensils = recipe.utensils.map(utensil => utensil.toLowerCase());
-        if (utensils.includes(tag.toLowerCase())) {
-          recipesFilteredByTag.push(recipe);
-        }
-      });
+        break;
+      case 'utensils':
+        filteredRecipes.forEach((recipe) => {
+          const utensils = recipe.utensils.map(utensil => utensil.toLowerCase());
+          if (utensils.includes(tag.toLowerCase())) {
+            recipesFilteredByTag.push(recipe);
+          }
+        });
+    }
   }
 
   return recipesFilteredByTag;
