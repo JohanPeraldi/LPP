@@ -251,7 +251,7 @@ advancedSearchInputsElement.addEventListener('focus', handleAdvancedSearchInputE
 // Handle input event on advanced search input elements
 advancedSearchInputsElement.addEventListener('input', handleAdvancedSearchInputEvents);
 
-// Handle click on tag close icons to remove tag
+// Handle click on tag close icon to remove tag
 searchTagsElement.addEventListener('click', handleTagEvents);
 
 const init = () => {

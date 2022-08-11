@@ -20,7 +20,7 @@ import {
   createDataList,
   removeDataList,
   displayRecipes,
-  createTag
+  createTag, updateDataList
 } from './display.js';
 
 // A variable indicating whether user input has more than 2 characters
@@ -247,10 +247,23 @@ const handleClickOnOptionElement = (e) => {
   displayRecipes(filteredRecipes);
   // Keywords must be updated to remove those which are not related to the displayed recipes
   updateKeywords(filteredRecipes);
-  // After keywords have been updated, current datalist should be updated as well.
-  // Currently, keywords correspond to the recipes displayed before selecting the tag.
-  // However, after closing and reopening the datalist, the only option that remains
-  // is the one corresponding to the selected tag!!!
+  // After keywords have been updated, current datalist should be updated as well
+  console.log(`Ingredient keywords: ${ingredientKeywords}`);
+  console.log(`Appliance keywords: ${applianceKeywords}`);
+  console.log(`Utensil keywords: ${utensilKeywords}`);
+  // A variable to hold the updated value of the current options array
+  let updatedOptions;
+  switch (optionCategory) {
+    case 'ingredients':
+      updatedOptions = ingredientKeywords;
+      break;
+    case 'appliances':
+      updatedOptions = applianceKeywords;
+      break;
+    case 'utensils':
+      updatedOptions = utensilKeywords;
+  }
+  updateDataList(optionCategory, updatedOptions);
 };
 
 /**
