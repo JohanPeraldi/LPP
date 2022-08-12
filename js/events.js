@@ -53,20 +53,20 @@ const handleMainSearchInputEvents = (e) => {
       updateRecipes(recipes);
     }
     // Search for existing tags and filter recipes accordingly
-    // ingredientTags.length > 0
-    //   ? console.log(`Ingredient tags: ${ingredientTags}`)
-    //   : console.log('No ingredient tag selected');
-    // applianceTags.length > 0
-    //   ? console.log(`Appliance tags: ${applianceTags}`)
-    //   : console.log('No appliance tag selected');
-    // utensilTags.length > 0
-    //   ? console.log(`Utensil tags: ${utensilTags}`)
-    //   : console.log('No utensil tag selected');
-    // if (ingredientTags.length > 0) {
-    //   ingredientTags.forEach(ingredient => {
-    //     updateRecipes(filterRecipesByTag(ingredient, 'ingredients'));
-    //   });
-    // }
+    ingredientTags.length > 0
+      ? console.log(`Ingredient tags: ${ingredientTags}`)
+      : console.log('No ingredient tag selected');
+    applianceTags.length > 0
+      ? console.log(`Appliance tags: ${applianceTags}`)
+      : console.log('No appliance tag selected');
+    utensilTags.length > 0
+      ? console.log(`Utensil tags: ${utensilTags}`)
+      : console.log('No utensil tag selected');
+    if (ingredientTags.length > 0) {
+      ingredientTags.forEach(ingredient => {
+        updateRecipes(filterRecipesByTag(ingredient, 'ingredients'));
+      });
+    }
     if (applianceTags.length > 0) {
       applianceTags.forEach(appliance => {
         updateRecipes(filterRecipesByTag(appliance, 'appliances'));
