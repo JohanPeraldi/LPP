@@ -33,7 +33,6 @@ const filterRecipes = (filter, recipes) => {
    */
   if (filteredRecipesIds.length > 0) {
     filteredRecipesIds.sort((a, b) => a - b);
-    console.log(filteredRecipesIds);
     return recipes.filter(recipe => filteredRecipesIds.includes(recipe.id));
   }
 };

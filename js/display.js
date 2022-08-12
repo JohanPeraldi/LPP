@@ -26,10 +26,12 @@ const displayRecipes = (recipes) => {
   // Remove all recipes from page
   recipeSectionElement.innerHTML = '';
   // By default, display all recipes, if any
-  if (recipes.length > 0) {
-    for (let i = 0; i < recipes.length; i++) {
-      // Create recipe cards
-      recipeSectionElement.appendChild(createRecipeCard(recipes[i]));
+  if (recipes) {
+    if (recipes.length > 0) {
+      for (let i = 0; i < recipes.length; i++) {
+        // Create recipe cards
+        recipeSectionElement.appendChild(createRecipeCard(recipes[i]));
+      }
     }
   } else {
     // If no recipe matches user input, display message to that effect

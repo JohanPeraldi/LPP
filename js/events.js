@@ -53,30 +53,7 @@ const handleMainSearchInputEvents = (e) => {
       updateRecipes(recipes);
     }
     // Search for existing tags and filter recipes accordingly
-    ingredientTags.length > 0
-      ? console.log(`Ingredient tags: ${ingredientTags}`)
-      : console.log('No ingredient tag selected');
-    applianceTags.length > 0
-      ? console.log(`Appliance tags: ${applianceTags}`)
-      : console.log('No appliance tag selected');
-    utensilTags.length > 0
-      ? console.log(`Utensil tags: ${utensilTags}`)
-      : console.log('No utensil tag selected');
-    if (ingredientTags.length > 0) {
-      ingredientTags.forEach(ingredient => {
-        updateRecipes(filterRecipesByTag(ingredient, 'ingredients'));
-      });
-    }
-    if (applianceTags.length > 0) {
-      applianceTags.forEach(appliance => {
-        updateRecipes(filterRecipesByTag(appliance, 'appliances'));
-      });
-    }
-    if (utensilTags.length > 0) {
-      utensilTags.forEach(utensil => {
-        updateRecipes(filterRecipesByTag(utensil, 'utensils'));
-      });
-    }
+    filterAndUpdateRecipesByTags();
     displayRecipes(filteredRecipes);
     updateKeywords(filteredRecipes);
   }
@@ -415,35 +392,15 @@ const handleTagEvents = (e) => {
         /* Reset filteredRecipes to include all recipes in order
          * to filter them again by user input and by tag, if any
          */
-        console.log(`1) Before resetting recipes:\n${filteredRecipes}`);
         updateRecipes([...recipes]);
-        console.log(`2) After resetting recipes:\n${filteredRecipes}`);
         const mainSearchInput = document.getElementById('searchbar');
         const mainUserInput = mainSearchInput.value;
-        console.log(`Main user input:\n${mainUserInput}`);
-        console.log(`Main user input length:\n${mainUserInput.length}`);
         // If user input has a value, filter recipes using that input
         if (mainUserInput.length > 2) {
           updateRecipes(filterRecipes(mainUserInput, filteredRecipes));
         }
-        console.log(`3) After filtering by main user input:\n${filteredRecipes}`);
         // Then filter recipes with remaining tags, if any
-        if (ingredientTags.length > 0) {
-          ingredientTags.forEach(ingredient => {
-            updateRecipes(filterRecipesByTag(ingredient, 'ingredients'));
-          });
-        }
-        if (applianceTags.length > 0) {
-          applianceTags.forEach(appliance => {
-            updateRecipes(filterRecipesByTag(appliance, 'appliances'));
-          });
-        }
-        if (utensilTags.length > 0) {
-          utensilTags.forEach(utensil => {
-            updateRecipes(filterRecipesByTag(utensil, 'utensils'));
-          });
-        }
-        console.log(`4) After filtering by tags:\n${filteredRecipes}`);
+        filterAndUpdateRecipesByTags();
         displayRecipes(filteredRecipes);
         // Update all keywords to match displayed recipes
         updateKeywords(filteredRecipes);
@@ -503,6 +460,30 @@ const closeOpenMenus = (e) => {
         removeDataList(form.firstElementChild.id);
       }
     }
+  }
+};
+
+/**
+ * A function that searches for tags in each category
+ * filters and updates recipes to only include those
+ * who match the existing tags.
+ * @function filterAndUpdateRecipesByTags
+ */
+const filterAndUpdateRecipesByTags = () => {
+  if (ingredientTags.length > 0) {
+    ingredientTags.forEach(ingredient => {
+      updateRecipes(filterRecipesByTag(ingredient, 'ingredients'));
+    });
+  }
+  if (applianceTags.length > 0) {
+    applianceTags.forEach(appliance => {
+      updateRecipes(filterRecipesByTag(appliance, 'appliances'));
+    });
+  }
+  if (utensilTags.length > 0) {
+    utensilTags.forEach(utensil => {
+      updateRecipes(filterRecipesByTag(utensil, 'utensils'));
+    });
   }
 };
 
