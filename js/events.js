@@ -232,10 +232,6 @@ const handleClickOnOptionElement = (e) => {
     // If no datalist already exists, create new datalist with updated keywords array
     createDataList(optionCategory);
   }
-  // If user input has a value, filter options accordingly
-  if (userInput) {
-    filterKeywords(userInput, optionCategory);
-  }
   // Add 'datalist-visible' class to current form
   const currentForm = document.getElementById(`search-form-${optionCategory}`);
   currentForm.classList.add('datalist-visible');
@@ -266,6 +262,10 @@ const handleClickOnOptionElement = (e) => {
       updatedOptions = utensilKeywords;
   }
   updateDataList(optionCategory, updatedOptions);
+  // If user input has a value, filter options accordingly
+  if (userInput) {
+    filterKeywords(userInput, optionCategory);
+  }
 };
 
 /**
