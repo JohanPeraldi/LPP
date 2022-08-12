@@ -53,20 +53,20 @@ const handleMainSearchInputEvents = (e) => {
       updateRecipes(recipes);
     }
     // Search for existing tags and filter recipes accordingly
-    ingredientTags.length > 0
-      ? console.log(`Ingredient tags: ${ingredientTags}`)
-      : console.log('No ingredient tag selected');
-    applianceTags.length > 0
-      ? console.log(`Appliance tags: ${applianceTags}`)
-      : console.log('No appliance tag selected');
-    utensilTags.length > 0
-      ? console.log(`Utensil tags: ${utensilTags}`)
-      : console.log('No utensil tag selected');
-    if (ingredientTags.length > 0) {
-      ingredientTags.forEach(ingredient => {
-        updateRecipes(filterRecipesByTag(ingredient, 'ingredients'));
-      });
-    }
+    // ingredientTags.length > 0
+    //   ? console.log(`Ingredient tags: ${ingredientTags}`)
+    //   : console.log('No ingredient tag selected');
+    // applianceTags.length > 0
+    //   ? console.log(`Appliance tags: ${applianceTags}`)
+    //   : console.log('No appliance tag selected');
+    // utensilTags.length > 0
+    //   ? console.log(`Utensil tags: ${utensilTags}`)
+    //   : console.log('No utensil tag selected');
+    // if (ingredientTags.length > 0) {
+    //   ingredientTags.forEach(ingredient => {
+    //     updateRecipes(filterRecipesByTag(ingredient, 'ingredients'));
+    //   });
+    // }
     if (applianceTags.length > 0) {
       applianceTags.forEach(appliance => {
         updateRecipes(filterRecipesByTag(appliance, 'appliances'));
@@ -341,7 +341,7 @@ const handleTagEvents = (e) => {
         let match = false;
         /* If main search input is empty, match must be true otherwise removed
          * tags will not be added as options when all recipes are displayed
-         * */
+         */
         const mainInputElement = document.getElementById('searchbar');
         if (mainInputElement.value.length === 0) {
           match = true;
@@ -385,7 +385,7 @@ const handleTagEvents = (e) => {
           /* Check whether a datalist already exists.
            * When removing a tag, any datalist might be visible, not necessarily
            * the datalist of the same category as the tag that is removed.
-           * */
+           */
           const datalistElement = document.querySelector('datalist');
           if (datalistElement) {
             const formElement = datalistElement.parentElement;
@@ -411,6 +411,54 @@ const handleTagEvents = (e) => {
           // Update placeholder
           const placeholder = getInputPlaceholder(tagCategory);
           currentForm.firstElementChild.placeholder = `Rechercher un ${placeholder}`;
+        }
+        /* Reset filteredRecipes to include all recipes in order
+         * to filter them again by user input and by tag, if any
+         */
+        console.log(`1) Before resetting recipes:\n${filteredRecipes}`);
+        updateRecipes([...recipes]);
+        console.log(`2) After resetting recipes:\n${filteredRecipes}`);
+        const mainSearchInput = document.getElementById('searchbar');
+        const mainUserInput = mainSearchInput.value;
+        console.log(`Main user input:\n${mainUserInput}`);
+        console.log(`Main user input length:\n${mainUserInput.length}`);
+        // If user input has a value, filter recipes using that input
+        if (mainUserInput.length > 2) {
+          updateRecipes(filterRecipes(mainUserInput, filteredRecipes));
+        }
+        console.log(`3) After filtering by main user input:\n${filteredRecipes}`);
+        // Then filter recipes with remaining tags, if any
+        if (ingredientTags.length > 0) {
+          ingredientTags.forEach(ingredient => {
+            updateRecipes(filterRecipesByTag(ingredient, 'ingredients'));
+          });
+        }
+        if (applianceTags.length > 0) {
+          applianceTags.forEach(appliance => {
+            updateRecipes(filterRecipesByTag(appliance, 'appliances'));
+          });
+        }
+        if (utensilTags.length > 0) {
+          utensilTags.forEach(utensil => {
+            updateRecipes(filterRecipesByTag(utensil, 'utensils'));
+          });
+        }
+        console.log(`4) After filtering by tags:\n${filteredRecipes}`);
+        displayRecipes(filteredRecipes);
+        // Update all keywords to match displayed recipes
+        updateKeywords(filteredRecipes);
+        /* Update datalist belonging to the same category
+         * as the tag that has been removed
+         */
+        switch (tagCategory) {
+          case 'ingredients':
+            updateDataList('ingredients', ingredientKeywords);
+            break;
+          case 'appliances':
+            updateDataList('appliances', applianceKeywords);
+            break;
+          default:
+            updateDataList('utensils', utensilKeywords);
         }
       }
     }
