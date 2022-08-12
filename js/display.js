@@ -32,6 +32,9 @@ const displayRecipes = (recipes) => {
         // Create recipe cards
         recipeSectionElement.appendChild(createRecipeCard(recipes[i]));
       }
+    } else {
+      // If no recipe matches user input, display message to that effect
+      createInfobox();
     }
   } else {
     // If no recipe matches user input, display message to that effect
