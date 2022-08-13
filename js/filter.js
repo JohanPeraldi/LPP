@@ -45,22 +45,13 @@ const filterRecipes = (filter, recipes) => {
  * @param {Array} recipes - The list of recipes.
  */
 const filterRecipesByName = (filter, recipes) => {
-  for (let i = 0; i < recipes.length; i++) {
-    for (let j = 0; j < recipes[i].name.length; j++) {
-      for (let k = 0; k < filter.length; k++) {
-        if (filter[k] !== recipes[i].name.toLowerCase()[j + k]) break;
-        if (k === filter.length - 1) {
-          /* We get the index of the current recipe and push its id
-           * to the filteredRecipesIds array if it is not already in the array
-           */
-          const recipeId = recipes[i].id;
-          if (filteredRecipesIds.indexOf(recipeId) === -1) {
-            filteredRecipesIds.push(recipeId);
-          }
-        }
-      }
+  const matchingRecipes = recipes.filter(recipe => recipe.name.toLowerCase()
+    .includes(filter.toLowerCase()));
+  matchingRecipes.forEach((recipe) => {
+    if (filteredRecipesIds.indexOf(recipe.id) === -1) {
+      filteredRecipesIds.push(recipe.id);
     }
-  }
+  });
 };
 
 /**
@@ -71,25 +62,15 @@ const filterRecipesByName = (filter, recipes) => {
  * @param {Array} recipes - The list of recipes.
  */
 const filterRecipesByIngredient = (filter, recipes) => {
-  for (let i = 0; i < recipes.length; i++) {
-    for (let j = 0; j < recipes[i].ingredients.length; j++) {
-      for (let k = 0; k < recipes[i].ingredients[j].ingredient.length; k++) {
-        for (let l = 0; l < filter.length; l++) {
-          if (filter[l] !== recipes[i].ingredients[j].ingredient.toLowerCase()[k + l]) break;
-          if (l === filter.length - 1) {
-            // console.log(`Recipe ingredient: ${recipes[i].ingredients[j].ingredient} - recipe id: ${recipes[i].id}`);
-            /* We get the index of the current recipe and push its id
-             * to the filteredRecipesIds array if it is not already in the array
-             */
-            const recipeId = recipes[i].id;
-            if (filteredRecipesIds.indexOf(recipeId) === -1) {
-              filteredRecipesIds.push(recipeId);
-            }
-          }
+  recipes.forEach((recipe) => {
+    recipe.ingredients.forEach((element) => {
+      if (element.ingredient.toLowerCase().includes(filter.toLowerCase())) {
+        if (filteredRecipesIds.indexOf(recipe.id) === -1) {
+          filteredRecipesIds.push(recipe.id);
         }
       }
-    }
-  }
+    });
+  });
 };
 
 /**
@@ -100,23 +81,13 @@ const filterRecipesByIngredient = (filter, recipes) => {
  * @param {Array} recipes - The list of recipes.
  */
 const filterRecipesByDescription = (filter, recipes) => {
-  for (let i = 0; i < recipes.length; i++) {
-    for (let j = 0; j < recipes[i].description.length; j++) {
-      for (let k = 0; k < filter.length; k++) {
-        if (filter[k] !== recipes[i].description.toLowerCase()[j + k]) break;
-        if (k === filter.length - 1) {
-          // console.log(`Recipe description: ${recipes[i].description} - recipe id: ${recipes[i].id}`);
-          /* We get the index of the current recipe and push its id
-           * to the filteredRecipesIds array if it is not already in the array
-           */
-          const recipeId = recipes[i].id;
-          if (filteredRecipesIds.indexOf(recipeId) === -1) {
-            filteredRecipesIds.push(recipeId);
-          }
-        }
-      }
+  const matchingRecipes = recipes.filter(recipe => recipe.description.toLowerCase()
+    .includes(filter.toLowerCase()));
+  matchingRecipes.forEach((recipe) => {
+    if (filteredRecipesIds.indexOf(recipe.id) === -1) {
+      filteredRecipesIds.push(recipe.id);
     }
-  }
+  });
 };
 
 /**
