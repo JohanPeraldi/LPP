@@ -266,6 +266,8 @@ const handleClickOnOptionElement = (e) => {
   if (userInput) {
     filterKeywords(userInput, optionCategory);
   }
+  // Remove datalist after selecting an option
+  removeDataList(optionCategory);
 };
 
 /**
@@ -422,6 +424,8 @@ const handleTagEvents = (e) => {
         if (userInput) {
           filterKeywords(userInput, tagCategory);
         }
+        // Remove datalist after removing a tag
+        removeDataList(tagCategory);
       }
     }
   }
