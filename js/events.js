@@ -266,6 +266,8 @@ const handleClickOnOptionElement = (e) => {
   if (userInput) {
     filterKeywords(userInput, optionCategory);
   }
+  // Remove datalist after selecting an option
+  removeDataList(optionCategory);
 };
 
 /**
@@ -378,11 +380,6 @@ const handleTagEvents = (e) => {
           }
           // Create new datalist with updated keywords array
           createDataList(tagCategory);
-          // If user input has a value, filter options accordingly
-          // if (userInput) {
-          //   console.log(`User input: ${userInput}`);
-          //   filterKeywords(userInput, tagCategory);
-          // }
           // Add 'datalist-visible' class to current form
           const currentForm = document.getElementById(`search-form-${tagCategory}`);
           currentForm.classList.add('datalist-visible');
@@ -422,6 +419,8 @@ const handleTagEvents = (e) => {
         if (userInput) {
           filterKeywords(userInput, tagCategory);
         }
+        // Remove datalist after removing a tag
+        removeDataList(tagCategory);
       }
     }
   }
